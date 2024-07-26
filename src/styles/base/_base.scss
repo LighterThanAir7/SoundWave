@@ -1,0 +1,35 @@
+@use "../abstract/typography" as *;
+@use "../abstract/colors" as *;
+@use "../abstract/sizes" as *;
+@use "../abstract/functions" as *;
+
+body {
+  font-family: $ff-primary;
+  font-weight: $fw-400;
+  font-optical-sizing: auto;
+  font-size: fs(300);
+  line-height: 1.5;
+  color: clr(generic, white);
+  background-color: clr(generic, black);
+}
+
+h1 {
+  font-size: fs(650);
+  font-weight: $fw-600;
+  line-height: 56px;
+  margin-bottom: size(40);
+}
+
+h2 {
+  font-size: fs(600);
+  font-weight: $fw-600;
+  line-height: 48px;
+  margin-bottom: size(36);
+}
+
+h3 {
+  font-size: fs(500);
+  font-weight: $fw-600;
+  line-height: 40px;
+  margin-bottom: size(32);
+}

@@ -1,0 +1,73 @@
+@use '../abstract/colors' as *;
+@use '../abstract/typography' as *;
+@use '../abstract/sizes' as*;
+@use "../abstract/mixins" as m;
+
+@each $color, $shades in $colors {
+  @each $shade, $value in $shades {
+    .text-#{$color}-#{$shade} {
+      color: var(--clr-#{$color}-#{$shade})
+    }
+    .bg-#{$color}-#{$shade} {
+      background-color: var(--clr-#{$color}-#{$shade})
+    }
+  }
+}
+
+@each $size-name, $size-value in $sizes {
+  .mb-#{$size-name} {
+    margin-bottom: $size-value;
+  }
+  .mt-#{$size-name} {
+    margin-top: $size-value;
+  }
+  .mr-#{$size-name} {
+    margin-right: $size-value;
+  }
+  .ml-#{$size-name} {
+    margin-left: $size-value;
+  }
+  .pb-#{$size-name} {
+    padding-bottom: $size-value;
+  }
+  .pt-#{$size-name} {
+    padding-top: $size-value;
+  }
+  .pr-#{$size-name} {
+    padding-right: $size-value;
+  }
+  .pl-#{$size-name} {
+    padding-left: $size-value;
+  }
+  .g-#{$size-name} {
+    gap: $size-value;
+  }
+}
+
+@each $font-size, $types in $font-sizes {
+  .text-#{$font-size} {
+    font-size: $font-size;
+  }
+}
+
+// My Custom Classes
+
+.bg-dots {
+  background-image:
+    url("../assets/backgrounds/bg_black_dots.png"),
+    linear-gradient(45deg, var(--clr-primary-900) , var(--clr-secondary-900));
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex-col {
+  @include m.d-flex($d: column);
+}
+
+.align-items-center {
+  align-items: center;
+}

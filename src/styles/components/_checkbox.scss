@@ -1,0 +1,9 @@
+@use '../abstract' as *;
+
+&__checkbox {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
+  border: 2px solid var(--clr-primary-500);
+}

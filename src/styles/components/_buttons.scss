@@ -1,0 +1,16 @@
+@use '../abstract' as *;
+
+.btn {
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: $fw-500;
+  &--primary {
+    padding: size(10) size(24);
+    text-transform: uppercase;
+    color: var(--clr-primary-500);
+    border: 2px solid var(--clr-primary-500);
+    transition: background-color 0.3s ease-out;
+  }
+}

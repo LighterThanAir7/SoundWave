@@ -1,0 +1,9 @@
+@use '../abstract' as *;
+
+.logo {
+  max-width: 16.25rem;
+  transition: 0.3s ease-in-out;
+  &:hover {
+    color: clr(primary, 500);
+  }
+}

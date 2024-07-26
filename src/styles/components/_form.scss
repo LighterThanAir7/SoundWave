@@ -1,0 +1,54 @@
+@use '../abstract' as *;
+
+.form {
+  width: 27.5rem;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(clr(neutral, 900), 70%);
+  padding: size(40);
+  border: 2px solid var(--clr-primary-500);
+  border-radius: 8px;
+  &__label {
+    display: block;
+    white-space: nowrap;
+    margin-bottom: size(24);
+    &--checkbox {
+      @include d-flex($ai: center);
+    }
+  }
+  &__input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 2px solid var(--clr-primary-500);
+    padding: size(12) size(8);
+    color: clr(generic, white);
+    &::placeholder {
+      color: inherit;
+    }
+    &--checkbox {
+      display: none;
+    }
+  }
+  &__checkbox {
+    position: relative;
+    font-size: fs(350);
+    font-family: "icomoon", serif;
+    margin-right: size(8);
+    color: var(--clr-primary-500);
+  }
+  &__socials {
+    @include d-flex($jc: center);
+    &-item {
+
+    }
+  }
+}
+
+.form__input--checkbox + .form__checkbox:before {
+  content: "\e92d";
+}
+
+.form__input--checkbox:checked + .form__checkbox:before {
+  content: "\e92e";
+}
