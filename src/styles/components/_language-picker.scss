@@ -1,0 +1,50 @@
+@use '../abstract' as *;
+
+.language-picker {
+  @include d-flex($ai: center, $g: size(8));
+  background-color: rgba(clr(neutral, 800), 0.25);
+  border: 1px solid var(--clr-neutral-400);
+  border-radius: 0.5rem;
+  padding: size(8) size(16);
+  position: relative;
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    border-color: var(--clr-secondary-400);
+    background-color: var(--clr-secondary-900);
+  }
+  &__list {
+    position: absolute;
+    bottom: 3.5rem;
+    right: -15rem;
+    width: 100%;
+    &--open {
+      display: block;
+      .language-picker__list {
+        border-color: var(--clr-secondary-400);
+        background-color: var(--clr-secondary-900);
+      }
+      .language-picker__item {
+        right: 15rem;
+      }
+    }
+  }
+  &__item {
+    position: relative;
+    display: flex;
+    background-color: rgba(clr(neutral, 800), 0.75);
+    padding: size(10) size(8) size(10) size(12);
+    cursor: pointer;
+    right: 0;
+    &:hover {
+      background-color: rgba(clr(neutral, 700), 0.75);
+      color: var(--clr-secondary-500);
+    }
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--clr-neutral-700);
+    }
+  }
+  .icon-language {
+    font-size: fs(350);
+  }
+}

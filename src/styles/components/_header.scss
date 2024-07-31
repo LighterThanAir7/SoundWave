@@ -1,7 +1,6 @@
 @use "../abstract" as *;
 
 .header {
-  margin-inline: size(40);
-  padding-top: size(24);
+  padding: size(24) size(40) 0;
   @include d-flex($jc: space-between, $ai: center);
 }

@@ -1,0 +1,37 @@
+@use '../abstract' as *;
+
+.section {
+  margin-bottom: size(80);
+  &__header {
+    @include d-flex($jc: space-between, $ai: center);
+    width: 100%;
+    margin-bottom: size(24);
+  }
+  &__title-container {
+    @include d-flex($ai: center, $g: size(16));
+    &:hover {
+      color: var(--clr-primary-500);
+      cursor: pointer;
+      i {
+        transform: translateX(1rem) rotate(180deg);
+      }
+    }
+    i {
+      transition: .4s ease-in-out;
+      font-size: fs(400);
+    }
+  }
+  &__arrows {
+    @include d-flex($ai: center, $g: size(16));
+    font-size: fs(400);
+    i {
+      padding: size(8);
+      border-radius: 50%;
+      transition: background-color .3s ease-in-out;
+      cursor: pointer;
+      &:hover {
+        background-color: var(--clr-primary-800);
+      }
+    }
+  }
+}

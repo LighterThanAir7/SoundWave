@@ -1,46 +1,146 @@
 @use '../abstract' as *;
 
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes form-animation {
+  0%   { --gradient-angle: 0deg; }
+  100% { --gradient-angle: 360deg; }
+}
+
 .form {
-  width: 27.5rem;
+  position: relative;
+  width: 27rem;
   display: flex;
   flex-direction: column;
-  background-color: rgba(clr(neutral, 900), 70%);
-  padding: size(40);
-  border: 2px solid var(--clr-primary-500);
-  border-radius: 8px;
+  background-color: clr(neutral, 900);
+  padding: size(36) size(32) size(28);
+  border-radius: 0.5rem;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -.25rem;
+    z-index: -1;
+    background: conic-gradient(
+      from var(--gradient-angle),
+      var(--clr-primary-500),
+      var(--clr-primary-700),
+      var(--clr-primary-800),
+      var(--clr-secondary-800),
+      var(--clr-secondary-700),
+      var(--clr-secondary-500),
+      var(--clr-primary-300));
+    border-radius: inherit;
+    animation: form-animation 15s infinite linear;
+  }
+  &::after {
+    filter: blur(3.5rem);
+  }
   &__label {
     display: block;
     white-space: nowrap;
     margin-bottom: size(24);
     &--checkbox {
       @include d-flex($ai: center);
+      user-select: none;
+      transition: .3s ease-out;
+      cursor: pointer;
+      &:hover {
+        color: var(--clr-primary-500);
+      }
     }
   }
   &__input {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    border-bottom: 2px solid var(--clr-primary-500);
-    padding: size(12) size(8);
+    border-top-right-radius: 1rem;
+    border-bottom: 1px solid var(--clr-primary-500);
+    padding: size(10) size(8);
     color: clr(generic, white);
+    margin-top: size(4);
+    transition: background .3s ease-out, scale .3s ease-out;
+    &:hover {
+      background: linear-gradient(
+        0deg,
+        var(--clr-primary-950) 0%,
+        clr(neutral, 900) 85%
+      );
+    }
     &::placeholder {
       color: inherit;
     }
     &--checkbox {
       display: none;
     }
+    &:focus {
+      outline: none;
+      background: linear-gradient(
+        0deg,
+        var(--clr-primary-900) 0%,
+        clr(neutral, 900) 85%
+      );
+    }
   }
   &__checkbox {
     position: relative;
-    font-size: fs(350);
+    font-size: fs(300);
     font-family: "icomoon", serif;
     margin-right: size(8);
     color: var(--clr-primary-500);
   }
   &__socials {
-    @include d-flex($jc: center);
+    @include d-flex($d: column, $jc: center, $g: size(8));
+    transition: .3s ease-out;
+    margin-bottom: size(24);
+    &:hover {
+      background-color: rgba(clr(neutral, 600), 0.5);
+    }
     &-item {
-
+      border-radius: 8px;
+      border: 2px solid var(--clr-neutral-400);
+      padding: size(10) size(16);
+      @include d-flex($jc: space-between, $ai: center);
+      i {
+        font-size: fs(400);
+      }
+    }
+    &-icons {
+      @include d-flex($g: size(16));
+      i {
+        font-size: fs(450);
+        cursor: pointer;
+        transition: color .3s ease-out;
+        scale: 1;
+        &:hover {
+          scale: 1.15;
+        }
+        &:first-child:hover {
+          color: red;
+        }
+        &:nth-child(2):hover {
+          color: dodgerblue;
+        }
+        &:nth-child(3):hover {
+          color: darkgray;
+        }
+      }
+    }
+  }
+  &__register {
+    @include d-flex($jc: center, $g: size(16));
+    font-size: fs(250);
+    &-link {
+      text-decoration: underline;
+      color: var(--clr-primary-400);
+      transition: .3s ease-out;
+      &:hover {
+        color: var(--clr-primary-700);
+      }
     }
   }
 }
@@ -51,4 +151,16 @@
 
 .form__input--checkbox:checked + .form__checkbox:before {
   content: "\e92e";
+}
+
+@keyframes pulse {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 2;
+  }
+  100% {
+    scale: 1;
+  }
 }

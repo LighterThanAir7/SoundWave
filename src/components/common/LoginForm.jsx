@@ -1,42 +1,36 @@
 import FormInput from "./FormInput.jsx";
+import FormSocials from "./FormSocials.jsx";
 
 export default function LoginForm () {
   return (
-    <form className="form" method="post">
+    <div className="z-1">
+      <form className="form" method="post">
+        <FormInput
+          label="Email or Username"
+          type="text"
+          placeholder="LighterThanAir"
+        />
 
-      <FormInput
-        label="Email or Username"
-        type="text"
-        placeholder="LighterThanAir"
-      />
+        <FormInput
+          label="Password"
+          type="password"
+          placeholder="●●●●●●●●"
+        />
 
-      <FormInput
-        label="Password"
-        type="password"
-        placeholder="Type here..."
-      />
+        <FormInput
+          label="Remember me"
+          type="checkbox"
+        />
 
-      <button type="submit" className="btn btn--primary mb-24">Continue</button>
+        <button type="submit" className="btn btn--primary mb-24">Continue</button>
+        <p className="text-center mb-24">or</p>
 
-      <FormInput
-        label="Remember me"
-        type="checkbox"
-      />
+        <FormSocials/>
 
-      <p className="text-center mb-600">or</p>
-
-      <h4>Join via social media</h4>
-
-      <div className="form__socials">
-        <div className="form__socials-item">
-          <p></p>
-          <i className="icon-facebook"></i>
-        </div>
-
-        <i className="icon-twitter"></i>
-        <i className="icon-instagram"></i>
-        <i className="icon-apple"></i>
-      </div>
-    </form>
+        <p className="form__register">Don&apos;t have an account? <a href="https://www.gooogle.com"
+                                                                     className="form__register-link">Register now</a>
+        </p>
+      </form>
+    </div>
   )
 }

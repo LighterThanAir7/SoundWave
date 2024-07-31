@@ -27,15 +27,10 @@ export default function NavItem({ item }) {
   }
 
   return (
-    <li
-      className="nav__item"
-      ref={navItemRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <li className="nav__item" ref={navItemRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <a href={item.href} className="nav__link">{item.label}</a>
       {item.dropdownLinks && item.dropdownLinks.length > 0 && (
-        <NavDropdown links={item.dropdownLinks} />
+        <NavDropdown links={item.dropdownLinks}/>
       )}
     </li>
   );

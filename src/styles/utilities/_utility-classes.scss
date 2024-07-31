@@ -39,14 +39,17 @@
   .pl-#{$size-name} {
     padding-left: $size-value;
   }
+  .px-#{$size-name} {
+    padding-inline: $size-value;
+  }
   .g-#{$size-name} {
     gap: $size-value;
   }
 }
 
-@each $font-size, $types in $font-sizes {
+@each $font-size, $font-value in $font-sizes {
   .text-#{$font-size} {
-    font-size: $font-size;
+    font-size: $font-value;
   }
 }
 
@@ -64,10 +67,34 @@
   text-align: center;
 }
 
+.flex {
+  display: flex;
+}
+
 .flex-col {
   @include m.d-flex($d: column);
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 .align-items-center {
   align-items: center;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.relative {
+  position: relative;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.mb-0 {
+  margin-bottom: 0;
 }

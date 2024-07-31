@@ -17,10 +17,6 @@ const navItems = [
       { href: '', label: 'Help' },
     ],
   },
-  {
-    label: 'Join now',
-    href: '',
-  },
 ];
 
 export default navItems;

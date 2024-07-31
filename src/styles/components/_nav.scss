@@ -1,13 +1,15 @@
-@use "../abstract" as *;
+@use "../abstract/index" as *;
 
 $nav__link-decoration-offset: 8px;
 $nav__dropdown-offset: $nav__link-decoration-offset + 32px;
 
 .nav {
+  @include d-flex($ai: center);
   &__list {
-    @include d-flex($g: size(28));
   }
   &__item {
+    display: inline-block;
+    margin-right: size(24);
     position: relative;
     &:has(.nav__dropdown) {
       &::after {
@@ -16,12 +18,11 @@ $nav__dropdown-offset: $nav__link-decoration-offset + 32px;
         bottom: -#{$nav__link-decoration-offset};
         left: 0;
         width: 0;
-        height: 0.25rem;
+        height: 0.125rem;
         transition: width 700ms ease;
         display: block;
         z-index: 9999;
         background-color: clr(primary, 500);
-
       }
       &:hover {
         &::after {
@@ -36,12 +37,6 @@ $nav__dropdown-offset: $nav__link-decoration-offset + 32px;
     font-weight: $fw-600;
     font-size: fs(350);
     text-shadow: 0 4px 4px var(--clr-neutral-950);
-    &:last-child {
-      padding: size(12) size(32);
-      color: clr(primary, 500);
-      border: 2px solid clr(primary, 500);
-      border-radius: 10px;
-    }
   }
   &__dropdown {
     display: block;
@@ -52,12 +47,12 @@ $nav__dropdown-offset: $nav__link-decoration-offset + 32px;
     height: 0;
     overflow: hidden;
     transition: height 0.5s ease-in-out;
-    background-color: rgba(55, 55, 55, 0.75);
+    background-color: rgba(clr(neutral, 800), 0.75);
     &-item {
       cursor: pointer;
       transition: background-color 0.3s ease-out;
       &:not(:last-child) {
-        border-bottom: 2px solid rgb(0, 0, 0, 0.25);
+        border-bottom: 2px solid clr(neutral, 700);
       }
       &:hover {
         background-color: clr(primary, 900);

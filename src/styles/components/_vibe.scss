@@ -1,0 +1,33 @@
+@use '../abstract' as *;
+
+.vibe {
+  &__list {
+    @include d-flex($jc: space-between);
+  }
+  &__item {
+    @include d-flex($d: column, $ai: center, $g: size(16));
+    cursor: pointer;
+    &:hover {
+      .vibe__icon {
+        background-color: var(--clr-primary-800);
+        color: clr(generic, white);
+      }
+      .vibe__name {
+        scale: 1.05;
+        color: var(--clr-primary-500);
+        transform: translateY(0.25rem);
+      }
+    }
+  }
+  &__icon {
+    font-size: fs(700);
+    padding: size(32);
+    border-radius: 50%;
+    background-color: var(--clr-neutral-800);
+    color: var(--clr-primary-500);
+    transition: all .25s ease-in-out;
+  }
+  &__name {
+    transition: all .25s ease-in-out;
+  }
+}

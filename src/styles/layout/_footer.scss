@@ -1,0 +1,20 @@
+@use '../abstract' as *;
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid clr(neutral, 600);
+  padding-inline: size(40);
+  @include d-flex($jc: space-between, $ai: center);
+  &__logo {
+    color: var(--clr-neutral-500);
+  }
+  &__nav {
+    @include d-flex($ai: center);
+  }
+  &__item {
+    display: inline-block;
+    padding: size(16) size(24);
+  }
+}
