@@ -1,0 +1,12 @@
+@use '../abstract' as *;
+
+.arrow-top {
+  font-size: fs(600);
+  cursor: pointer;
+  transition: .3s ease-in-out;
+  padding: size(6);
+  border-radius: 50%;
+  &:hover {
+    background-color: var(--clr-primary-800);
+  }
+}

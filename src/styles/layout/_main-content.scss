@@ -1,9 +1,7 @@
 @use '../abstract' as *;
 
 .main-content {
-  padding-top: size(48);
-  padding-inline: size(80);
   margin-top: 57px;
   margin-left: 300px;
-  box-shadow: inset 0 0 20rem 0.75rem var(--clr-primary-800);
+  overflow: hidden;
 }

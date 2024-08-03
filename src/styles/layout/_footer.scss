@@ -7,14 +7,134 @@
   border-top: 1px solid clr(neutral, 600);
   padding-inline: size(40);
   @include d-flex($jc: space-between, $ai: center);
+  &--adjust-for-sidebar {
+    position: relative;
+  }
   &__logo {
     color: var(--clr-neutral-500);
   }
   &__nav {
-    @include d-flex($ai: center);
+    @include d-flex($ai: center, $g: size(40));
+    padding-block: size(8);
   }
   &__item {
     display: inline-block;
-    padding: size(16) size(24);
+    padding-block: size(2);
+  }
+  &-large {
+    @include d-flex($d: column);
+    position: relative;
+  }
+  &__links {
+    @include d-flex($jc: space-between);
+    margin-bottom: size(96);
+  }
+  &__list {
+    @include d-flex($d: column, $g: size(20));
+    width: 180px;
+    & li:first-child .footer__link {
+      font-weight: $fw-600;
+      color: var(--clr-primary-500);
+    }
+  }
+  &__link {
+    position: relative;
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: var(--clr-primary-500);
+      &::before {
+        width: 100%;
+      }
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      background-color: var(--clr-primary-500);
+      transition: width 0.2s ease-in-out;
+    }
+  }
+  &__quote {
+    width: 25%;
+    &-decoration {
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        var(--clr-primary-500) 0%,
+        rgba(110, 255, 255, 0) 100%
+      );
+      margin-bottom: size(24);
+    }
+    &-text {
+      font-weight: $fw-500;
+      color: var(--clr-primary-500);
+      margin-bottom: size(16);
+    }
+    &-author {
+      font-size: fs(250);
+      font-weight: $fw-500;
+      text-align: right;
+      font-style: italic;
+      margin-bottom: size(32);
+    }
+  }
+  &__terms-of-use {
+    font-size: fs(250);
+    color: var(--clr-neutral-500);
+    margin-right: size(64);
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        rgba(110, 255, 255, 0) 0%,
+        var(--clr-primary-500) 50%,
+        rgba(110, 255, 255, 0) 100%
+      );
+      top: -#{size(32)};
+    }
+  }
+  &__socials {
+    @include d-flex($jc: center, $g: size(32));
+    i {
+      font-size: fs(450);
+      transition: color .3s ease;
+      cursor: pointer;
+    }
+    .icon-facebook {
+      &:hover {
+        color: #4267B2;
+      }
+    }
+    .icon-twitter {
+      &:hover {
+        color: #1DA1F2;
+      }
+    }
+    .icon-instagram {
+      &:hover {
+        color: #C13584;
+      }
+    }
+    .icon-youtube {
+      &:hover {
+        color: #FF0000;
+      }
+    }
+    .icon-tiktok {
+      &:hover {
+        color: #FF0050;
+      }
+    }
+    .icon-apple {
+      &:hover {
+        color: #c8c8c8;
+      }
+    }
   }
 }

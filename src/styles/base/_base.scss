@@ -23,20 +23,27 @@ h1 {
 h2 {
   font-size: fs(600);
   font-weight: $fw-600;
-  line-height: 48px;
+  line-height: size(48);
   margin-bottom: size(36);
 }
 
 h3 {
   font-size: fs(500);
   font-weight: $fw-600;
-  line-height: 40px;
+  line-height: size(40);
   margin-bottom: size(32);
 }
 
 h4 {
   font-size: fs(450);
   font-weight: $fw-600;
-  line-height: 36px;
+  line-height: size(36);
   margin-bottom: size(28);
+}
+
+h4 {
+  font-size: fs(400);
+  font-weight: $fw-600;
+  line-height: size(32);
+  margin-bottom: size(24);
 }

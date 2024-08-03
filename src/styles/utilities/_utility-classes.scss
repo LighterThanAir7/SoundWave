@@ -91,10 +91,22 @@
   position: relative;
 }
 
+.absolute {
+  position: absolute;
+}
+
 .z-1 {
   z-index: 1;
 }
 
 .mb-0 {
   margin-bottom: 0;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.ff-primary {
+  font-family: $ff-primary;
 }

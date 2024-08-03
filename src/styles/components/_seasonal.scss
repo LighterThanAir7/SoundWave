@@ -1,0 +1,9 @@
+@use '../abstract' as *;
+
+.seasonal {
+  @include d-flex($jc: space-between, $g: size(20));
+  &__img {
+    width: 50%;
+    border-radius: size(8);
+  }
+}

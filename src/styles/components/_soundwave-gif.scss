@@ -1,0 +1,28 @@
+@use '../abstract' as *;
+
+.soundwave__gif-container {
+  width: 100%;
+  height: calc(100vh - 57px);
+  z-index: -5;
+  position: fixed;
+  left: 300px; // sidebar width
+  top: 57px; // topbar height
+  box-shadow: inset 0 0 20rem 0.75rem var(--clr-primary-800);
+}
+
+.soundwave__gif {
+  display: none;
+  position: fixed;
+  top: 52px;
+  width: 2%;
+  height: inherit;
+}
+
+.soundwave__gif--left {
+  left: 300px;
+}
+
+.soundwave__gif--right {
+  right: 0;
+  transform: rotate(180deg);
+}

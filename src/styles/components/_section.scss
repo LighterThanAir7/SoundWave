@@ -2,13 +2,13 @@
 
 .section {
   margin-bottom: size(80);
+  position: relative;
   &__header {
-    @include d-flex($jc: space-between, $ai: center);
-    width: 100%;
     margin-bottom: size(24);
   }
-  &__title-container {
+  &__title {
     @include d-flex($ai: center, $g: size(16));
+    width: fit-content;
     &:hover {
       color: var(--clr-primary-500);
       cursor: pointer;
@@ -21,17 +21,7 @@
       font-size: fs(400);
     }
   }
-  &__arrows {
-    @include d-flex($ai: center, $g: size(16));
-    font-size: fs(400);
-    i {
-      padding: size(8);
-      border-radius: 50%;
-      transition: background-color .3s ease-in-out;
-      cursor: pointer;
-      &:hover {
-        background-color: var(--clr-primary-800);
-      }
-    }
+  &__desc {
+    color: var(--clr-neutral-200);
   }
 }

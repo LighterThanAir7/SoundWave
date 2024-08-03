@@ -124,16 +124,37 @@
   &__primary-controls,
   &__secondary-controls {
     i {
-      @include d-flex($jc: center, $ai: center);
+      padding: size(8);
       background-color: transparent;
       border-radius: 50%;
-      height: 2.5rem;
-      width: 2.5rem;
       cursor: pointer;
       transition: .2s ease-out;
       &:hover {
         background-color: var(--clr-primary-800);
       }
+    }
+  }
+}
+
+.icon-with-text {
+  @include d-flex($ai: center, $g: size(8));
+  cursor: pointer;
+  font-size: fs(350);
+  i {
+    padding: size(8);
+    background-color: transparent;
+    border: 2px solid var(--clr-primary-500);
+    color: var(--clr-primary-500);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: .2s ease-out;
+    font-size: fs(400);
+    margin-right: size(8);
+  }
+  &:hover {
+    color: var(--clr-primary-500);
+    i {
+      background-color: var(--clr-primary-900);
     }
   }
 }
