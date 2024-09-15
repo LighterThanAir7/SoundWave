@@ -1,0 +1,372 @@
+{
+  "🟢 Colors/Mode 1": {
+    "Primary": {
+      "primary-50": {
+        "$type": "color",
+        "$value": "#ccfff5"
+      },
+      "primary-100": {
+        "$type": "color",
+        "$value": "#b3fff0"
+      },
+      "primary-200": {
+        "$type": "color",
+        "$value": "#80ffe6"
+      },
+      "primary-300": {
+        "$type": "color",
+        "$value": "#4dffdb"
+      },
+      "primary-400": {
+        "$type": "color",
+        "$value": "#1affd1"
+      },
+      "primary-500": {
+        "$type": "color",
+        "$value": "#00ffcc"
+      },
+      "primary-600": {
+        "$type": "color",
+        "$value": "#00e6b8"
+      },
+      "primary-700": {
+        "$type": "color",
+        "$value": "#00b38f"
+      },
+      "primary-800": {
+        "$type": "color",
+        "$value": "#008066"
+      },
+      "primary-900": {
+        "$type": "color",
+        "$value": "#004d3d"
+      },
+      "primary-950": {
+        "$type": "color",
+        "$value": "#003329"
+      }
+    },
+    "Secondary": {
+      "secondary-50": {
+        "$type": "color",
+        "$value": "#ffe4cc"
+      },
+      "secondary-100": {
+        "$type": "color",
+        "$value": "#ffd6b3"
+      },
+      "secondary-200": {
+        "$type": "color",
+        "$value": "#ffbb80"
+      },
+      "secondary-300": {
+        "$type": "color",
+        "$value": "#ffa04d"
+      },
+      "secondary-400": {
+        "$type": "color",
+        "$value": "#ff851a"
+      },
+      "secondary-500": {
+        "$type": "color",
+        "$value": "#ff7700"
+      },
+      "secondary-600": {
+        "$type": "color",
+        "$value": "#e66b00"
+      },
+      "secondary-700": {
+        "$type": "color",
+        "$value": "#b35300"
+      },
+      "secondary-800": {
+        "$type": "color",
+        "$value": "#803c00"
+      },
+      "secondary-900": {
+        "$type": "color",
+        "$value": "#4d2400"
+      },
+      "secondary-950": {
+        "$type": "color",
+        "$value": "#331800"
+      }
+    },
+    "Neutral": {
+      "neutral-50": {
+        "$type": "color",
+        "$value": "#fafafa"
+      },
+      "neutral-100": {
+        "$type": "color",
+        "$value": "#f5f5f5"
+      },
+      "neutral-200": {
+        "$type": "color",
+        "$value": "#e5e5e5"
+      },
+      "neutral-300": {
+        "$type": "color",
+        "$value": "#d4d4d4"
+      },
+      "neutral-400": {
+        "$type": "color",
+        "$value": "#a3a3a3"
+      },
+      "neutral-500": {
+        "$type": "color",
+        "$value": "#737373"
+      },
+      "neutral-600": {
+        "$type": "color",
+        "$value": "#525252"
+      },
+      "neutral-700": {
+        "$type": "color",
+        "$value": "#404040"
+      },
+      "neutral-800": {
+        "$type": "color",
+        "$value": "#262626"
+      },
+      "neutral-900": {
+        "$type": "color",
+        "$value": "#171717"
+      },
+      "neutral-950": {
+        "$type": "color",
+        "$value": "#0a0a0a"
+      }
+    },
+    "Generic": {
+      "white": {
+        "$type": "color",
+        "$value": "#ffffff"
+      },
+      "black": {
+        "$type": "color",
+        "$value": "#000000"
+      }
+    }
+  },
+  "🅰 Typography/Mode 1": {
+    "👪 Font Family": {
+      "Montserrat": {
+        "$type": "text",
+        "$value": "Montserrat"
+      }
+    },
+    "⚖️ Font Weights": {
+      "regular": {
+        "$type": "text",
+        "$value": "Regular"
+      },
+      "medium": {
+        "$type": "text",
+        "$value": "Medium"
+      },
+      "semibold": {
+        "$type": "text",
+        "$value": "SemiBold"
+      },
+      "bold": {
+        "$type": "text",
+        "$value": "Bold"
+      }
+    },
+    "🗛  Font Sizes": {
+      "100": {
+        "$type": "dimension",
+        "$value": "0.5rem"
+      },
+      "150": {
+        "$type": "dimension",
+        "$value": "0.625rem"
+      },
+      "200": {
+        "$type": "dimension",
+        "$value": "0.75rem"
+      },
+      "250": {
+        "$type": "dimension",
+        "$value": "0.875rem"
+      },
+      "300": {
+        "$type": "dimension",
+        "$value": "1rem"
+      },
+      "350": {
+        "$type": "dimension",
+        "$value": "1.125rem"
+      },
+      "400": {
+        "$type": "dimension",
+        "$value": "1.25rem"
+      },
+      "450": {
+        "$type": "dimension",
+        "$value": "1.5rem"
+      },
+      "500": {
+        "$type": "dimension",
+        "$value": "1.75rem"
+      },
+      "550": {
+        "$type": "dimension",
+        "$value": "2rem"
+      },
+      "600": {
+        "$type": "dimension",
+        "$value": "2.25rem"
+      },
+      "650": {
+        "$type": "dimension",
+        "$value": "2.5rem"
+      },
+      "700": {
+        "$type": "dimension",
+        "$value": "2.75rem"
+      },
+      "750": {
+        "$type": "dimension",
+        "$value": "3rem"
+      },
+      "800": {
+        "$type": "dimension",
+        "$value": "3.5rem"
+      },
+      "850": {
+        "$type": "dimension",
+        "$value": "4rem"
+      },
+      "900": {
+        "$type": "dimension",
+        "$value": "4.5rem"
+      },
+      "950": {
+        "$type": "dimension",
+        "$value": "5rem"
+      }
+    },
+    "📏 Line Heights": {
+      "32": {
+        "$type": "dimension",
+        "$value": "{Sizes.32}"
+      },
+      "36": {
+        "$type": "dimension",
+        "$value": "{Sizes.36}"
+      },
+      "40": {
+        "$type": "dimension",
+        "$value": "{Sizes.40}"
+      },
+      "48": {
+        "$type": "dimension",
+        "$value": "{Sizes.48}"
+      },
+      "56": {
+        "$type": "dimension",
+        "$value": "{Sizes.56}"
+      }
+    }
+  },
+  "📐 Sizes/Mode 1": {
+    "Sizes": {
+      "2": {
+        "$type": "dimension",
+        "$value": "0.125rem"
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": "0.25rem"
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": "0.375rem"
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": "0.5rem"
+      },
+      "10": {
+        "$type": "dimension",
+        "$value": "0.625rem"
+      },
+      "12": {
+        "$type": "dimension",
+        "$value": "0.75rem"
+      },
+      "14": {
+        "$type": "dimension",
+        "$value": "0.875rem"
+      },
+      "16": {
+        "$type": "dimension",
+        "$value": "1rem"
+      },
+      "18": {
+        "$type": "dimension",
+        "$value": "1.125rem"
+      },
+      "20": {
+        "$type": "dimension",
+        "$value": "1.25rem"
+      },
+      "24": {
+        "$type": "dimension",
+        "$value": "1.5rem"
+      },
+      "28": {
+        "$type": "dimension",
+        "$value": "1.75rem"
+      },
+      "32": {
+        "$type": "dimension",
+        "$value": "2rem"
+      },
+      "36": {
+        "$type": "dimension",
+        "$value": "2.25rem"
+      },
+      "40": {
+        "$type": "dimension",
+        "$value": "2.5rem"
+      },
+      "48": {
+        "$type": "dimension",
+        "$value": "3rem"
+      },
+      "56": {
+        "$type": "dimension",
+        "$value": "3.5rem"
+      },
+      "64": {
+        "$type": "dimension",
+        "$value": "4rem"
+      },
+      "80": {
+        "$type": "dimension",
+        "$value": "5rem"
+      },
+      "96": {
+        "$type": "dimension",
+        "$value": "6rem"
+      }
+    },
+    "Other": {
+      "sidebar-width": {
+        "$type": "dimension",
+        "$value": "18.75rem"
+      }
+    }
+  },
+  "$themes": [],
+  "$metadata": {
+    "tokenSetOrder": [
+      "🟢 Colors/Mode 1",
+      "🅰 Typography/Mode 1",
+      "📐 Sizes/Mode 1"
+    ]
+  }
+}
