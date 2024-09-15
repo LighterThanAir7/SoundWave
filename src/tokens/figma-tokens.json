@@ -3,7 +3,7 @@
     "Primary": {
       "primary-50": {
         "$type": "color",
-        "$value": "#ccfff4"
+        "$value": "#ccfff5"
       },
       "primary-100": {
         "$type": "color",
