@@ -4,11 +4,16 @@ import { resolve } from 'path';
 // Destructure the necessary methods from fs-extra
 const { readJson, writeFile } = fsExtra;
 
-const inputJsonPath = resolve("src/tokens/colors.json");
-const outputScssPath = resolve("src/styles/abstract/_colors2.scss");
+// specify input JSON and output SCSS files
+const inputJsonPath = resolve("src/tokens/figma-tokens.json");
+const outputColorScssPath = resolve("src/styles/abstract/_colors2.scss");
+const outputTypographyScssPath = resolve("src/styles/abstract/_typography2.scss");
+const outputSizesScssPath = resolve("src/styles/abstract/_sizes2.scss");
 
-// Function to convert JSON to SCSS format
-function jsonToScss(json) {
+const baseFontSize = 16;
+const pxToRem = px => `${px / baseFontSize}rem`;
+
+function colorJsonToScss(json) {
   let scss = "$colors: (\n";
 
   for (const group in json) {
@@ -24,18 +29,124 @@ function jsonToScss(json) {
   }
 
   scss += ");";
+
   return scss;
 }
 
-// Read the JSON file, convert it, and write to SCSS file
+function typographyJsonToScss(json) {
+  let scss = "";
+
+  const baseFontSize = 16;
+  const pxToRem = px => `${px / baseFontSize}rem`;
+
+  for (const propertyKey in json) {
+    const property = json[propertyKey];
+
+    const convertToRem = /size|height/gi.test(propertyKey);
+
+    // Match the property key with the category
+    if (/family/gi.test(propertyKey)) {
+      // Font families
+      for (const key in property) {
+        scss += `$ff-${key.toLowerCase()}: "${property[key].$value}", sans-serif;\n`;
+      }
+    } else if (/size/gi.test(propertyKey)) {
+      // Font sizes
+      scss += `$font-sizes: (\n`;
+      for (const key in property) {
+        let value = property[key].$value;
+        if (convertToRem) {
+          value = pxToRem(parseFloat(value));
+        }
+        scss += `  ${key}: ${value},\n`;
+      }
+      scss += ');\n';
+    } else if (/weight/gi.test(propertyKey)) {
+      // Font weights
+      for (const key in property) {
+        let fontWeight = "";
+        switch (property[key].$value.toLowerCase()) {
+          case "thin": fontWeight = "100"; break;
+          case "extra light":
+          case "ultra light": fontWeight = "200"; break;
+          case "light": fontWeight = "300"; break;
+          case "normal": fontWeight = "400"; break;
+          case "medium": fontWeight = "500"; break;
+          case "semi bold":
+          case "demi bold": fontWeight = "600"; break;
+          case "bold": fontWeight = "700"; break;
+          case "extra bold":
+          case "ultra bold": fontWeight = "800"; break;
+          default: fontWeight = "400";
+        }
+        scss += `$fw-${key}: ${fontWeight};\n`;
+      }
+    } else if (/height/gi.test(propertyKey)) {
+      // Line heights
+      scss += `$line-heights: (\n`;
+      for (const key in property) {
+        let value = property[key].$value;
+        if (convertToRem) {
+          value = pxToRem(parseFloat(value));
+        }
+        scss += `  ${key}: ${value},\n`;
+      }
+      scss += ');\n';
+    }
+    scss += '\n';
+  }
+
+  return scss;
+}
+
+function sizesJsonToScss(json) {
+  let scss = '';
+  scss += '$sizes: (\n';
+  for (const key in json.Sizes) {
+    const value = pxToRem(parseFloat(json.Sizes[key].$value));
+    scss += `  ${key}: ${value},\n`;
+  }
+  scss += ');\n\n';
+
+  for (const key in json['Other']) {
+    const value = pxToRem(parseFloat(json.Other[key].$value));
+    scss += `$${key.replace('-', '')}: ${value};\n`;
+  }
+
+  return scss;
+}
+
+
+// Ordered array of handlers
+const handlers = [
+  {
+    converter: colorJsonToScss,
+    outputFilePath: outputColorScssPath,
+  },
+  {
+    converter: typographyJsonToScss,
+    outputFilePath: outputTypographyScssPath,
+  },
+  {
+    converter: sizesJsonToScss,
+    outputFilePath: outputSizesScssPath,
+  },
+];
+
+// Function to read the JSON file, convert it, and write to SCSS files based on type
 async function convertTokens() {
   try {
     const jsonData = await readJson(inputJsonPath);
-    const scssData = jsonToScss(jsonData);
+    const tokenSetOrder = jsonData["$metadata"]["tokenSetOrder"];
 
-    // Write the generated SCSS to the _colors.scss file
-    await writeFile(outputScssPath, scssData, 'utf8');
-    console.log(`SCSS file has been updated at ${outputScssPath}`);
+    for (let i = 0; i < tokenSetOrder.length; i++) {
+      const scssData = handlers[i].converter(jsonData[tokenSetOrder[i]]);
+      await writeFile(handlers[i].outputFilePath, scssData, 'utf8');
+      console.log(`Processed ${tokenSetOrder[i]}`);
+    }
+
+    console.log(`SCSS files have been updated.`);
+
   } catch (error) {
     console.error('Error reading or writing files', error);
   }

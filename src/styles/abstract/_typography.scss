@@ -1,5 +1,7 @@
+// Font Families
 $ff-primary: "Montserrat", sans-serif;
 
+// Font Sizes
 $font-sizes: (
   100: 0.5rem,    /* 8px */
   150: 0.625rem,  /* 10px */
@@ -20,6 +22,9 @@ $font-sizes: (
   900: 5rem       /* 80px */
 );
 
+// Line Heights (same style as font sizes)
+
+// Font Weights
 $fw-400: 400; // regular
 $fw-500: 500; // medium
 $fw-600: 600; // semibold
