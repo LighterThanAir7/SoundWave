@@ -150,13 +150,13 @@
     }
   },
   "🅰 Typography/Mode 1": {
-    "👪 Font Family": {
+    "Font Family": {
       "Montserrat": {
         "$type": "text",
         "$value": "Montserrat"
       }
     },
-    "⚖️ Font Weights": {
+    "Font Weights": {
       "regular": {
         "$type": "text",
         "$value": "Regular"
@@ -174,7 +174,7 @@
         "$value": "Bold"
       }
     },
-    "🗛  Font Sizes": {
+    "Font Sizes": {
       "100": {
         "$type": "number",
         "$value": 8
@@ -248,7 +248,7 @@
         "$value": 80
       }
     },
-    "📏 Line Heights": {
+    "Line Heights": {
       "32": {
         "$type": "number",
         "$value": 32
