@@ -12,7 +12,7 @@ export default function Explore () {
       <Sidebar/>
       <main className="flex-1">
         <Topbar/>
-        <div className="main-content">
+        <div className="content-wrapper">
           <div className="pt-64 px-80 relative">
             <div className="soundwave__gif-container">
               <img className="soundwave__gif soundwave__gif--left" src="/src/assets/soundwave.gif" alt=""/>

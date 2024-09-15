@@ -1,0 +1,11 @@
+@use '../abstract' as *;
+
+.content-wrapper {
+  margin-top: 57px;
+  margin-left: 300px;
+  overflow: hidden;
+  &__inner {
+    padding: size(64) size(80) 0;
+    position: relative;
+  }
+}

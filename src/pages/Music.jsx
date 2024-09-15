@@ -11,38 +11,34 @@ import Artists from "../components/sections/Artists.jsx";
 import Genres from "../components/sections/Genres.jsx";
 import Quote from "../components/sections/Quote.jsx";
 import Footer from "../components/layout/Footer.jsx";
+import SoundwaveContainer from "../components/common/SoundwaveContainer.jsx";
 
 export default function Music () {
   return (
     <div className="flex">
       <Sidebar />
-      <main className="flex-1">
-        <Topbar />
-        <div className="main-content">
-          <div className="pt-64 px-80 relative">
-            <div className="soundwave__gif-container">
-              <img className="soundwave__gif soundwave__gif--left" src="/src/assets/soundwave.gif" alt=""/>
-              <img className="soundwave__gif soundwave__gif--right" src="/src/assets/soundwave.gif" alt=""/>
-            </div>
-            <Vibe/>
-            <MadeForYou/>
-            <RecentlyPlayed/>
-            <PlaylistsYoullLove/>
-            <SummerIsHere/>
-            <NewReleasesForYou/>
-            <Categories/>
-            <Artists/>
-            <Genres/>
-            <Quote
-              mainText="Music is the universal language of mankind"
-              primaryWords={['Music']}
-              author="Henry Wadsworth Longfellow"
-            />
-            <Footer type="large" />
-          </div>
-          <Footer type="bottom" footerClass="footer--adjust"/>
-        </div>
-      </main>
+      <Topbar />
+      <div className="content-wrapper">
+        <main className="content-wrapper__inner">
+          <SoundwaveContainer/>
+          <Vibe/>
+          <MadeForYou/>
+          <RecentlyPlayed/>
+          <PlaylistsYoullLove/>
+          <SummerIsHere/>
+          <NewReleasesForYou/>
+          <Categories/>
+          <Artists/>
+          <Genres/>
+          <Quote
+            mainText="Music is the universal language of mankind"
+            primaryWords={['Music']}
+            author="Henry Wadsworth Longfellow"
+          />
+          <Footer type="large" />
+        </main>
+        <Footer type="bottom" footerClass="footer--adjust"/>
+      </div>
     </div>
   )
 }

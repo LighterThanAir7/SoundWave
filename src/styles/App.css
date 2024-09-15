@@ -74,7 +74,7 @@ h4 {
   margin-bottom: 1.75rem;
 }
 
-h4 {
+h5 {
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 2rem;
@@ -1267,10 +1267,15 @@ input::placeholder {
   box-shadow: 0 0 32px 1px var(--clr-primary-900);
 }
 
-.main-content {
+.content-wrapper {
   margin-top: 57px;
   margin-left: 300px;
   overflow: hidden;
+}
+
+.content-wrapper__inner {
+  padding: 4rem 5rem 0;
+  position: relative;
 }
 
 .text-primary-50 {
