@@ -18,7 +18,7 @@
   flex-direction: column;
   background-color: clr(neutral, 900);
   padding: size(36) size(32) size(28);
-  border-radius: 0.5rem;
+  border-radius: size(8);
   &::before,
   &::after {
     content: "";
@@ -38,7 +38,7 @@
     animation: form-animation 15s infinite linear;
   }
   &::after {
-    filter: blur(3.5rem);
+    filter: blur(1.5rem);
   }
   &__label {
     display: block;

@@ -32,16 +32,19 @@
   &__item {
     position: relative;
     display: flex;
-    background-color: rgba(clr(neutral, 800), 0.75);
+    background-color: var(--clr-neutral-900);
     padding: size(10) size(8) size(10) size(12);
     cursor: pointer;
     right: 0;
     &:hover {
-      background-color: rgba(clr(neutral, 700), 0.75);
-      color: var(--clr-secondary-500);
+      background-color: var(--clr-neutral-800);
+      color: var(--clr-secondary-400);
     }
     &:not(:last-child) {
       border-bottom: 1px solid var(--clr-neutral-700);
+      &:hover {
+        // border-color: var(--clr-secondary-600);
+      }
     }
   }
   .icon-language {

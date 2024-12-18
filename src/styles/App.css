@@ -213,7 +213,7 @@ input::placeholder {
   height: 0;
   overflow: hidden;
   transition: height 0.5s ease-in-out;
-  background-color: rgba(38, 38, 38, 0.75);
+  background-color: rgba(23, 23, 23, 0.75);
 }
 
 .nav__dropdown-item {
@@ -270,7 +270,7 @@ input::placeholder {
 }
 
 .form::after {
-  filter: blur(3.5rem);
+  filter: blur(1.5rem);
 }
 
 .form__label {
@@ -297,7 +297,7 @@ input::placeholder {
   box-sizing: border-box;
   border-top-right-radius: 1rem;
   border-bottom: 1px solid var(--clr-primary-500);
-  padding: 0.6125rem 0.5rem;
+  padding: 0.625rem 0.5rem;
   color: hsl(0, 0%, 100%);
   margin-top: 0.25rem;
   transition: background 0.3s ease-out, scale 0.3s ease-out;
@@ -344,7 +344,7 @@ input::placeholder {
 .form__socials-item {
   border-radius: 8px;
   border: 2px solid var(--clr-neutral-400);
-  padding: 0.6125rem 1rem;
+  padding: 0.625rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -428,7 +428,7 @@ input::placeholder {
 }
 
 .btn--primary {
-  padding: 0.6125rem 1.5rem;
+  padding: 0.625rem 1.5rem;
   text-transform: uppercase;
   color: var(--clr-primary-500);
   border: 2px solid var(--clr-primary-500);
@@ -480,15 +480,15 @@ input::placeholder {
 .language-picker__item {
   position: relative;
   display: flex;
-  background-color: rgba(38, 38, 38, 0.75);
-  padding: 0.6125rem 0.5rem 0.6125rem 0.75rem;
+  background-color: var(--clr-neutral-900);
+  padding: 0.625rem 0.5rem 0.625rem 0.75rem;
   cursor: pointer;
   right: 0;
 }
 
 .language-picker__item:hover {
-  background-color: rgba(64, 64, 64, 0.75);
-  color: var(--clr-secondary-500);
+  background-color: var(--clr-neutral-800);
+  color: var(--clr-secondary-400);
 }
 
 .language-picker__item:not(:last-child) {
@@ -781,7 +781,7 @@ input::placeholder {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.6125rem 2rem 0.6125rem 1.5rem;
+  padding: 0.625rem 2rem 0.625rem 1.5rem;
   cursor: pointer;
   color: hsl(0, 0%, 83%);
 }
@@ -1248,8 +1248,8 @@ input::placeholder {
   align-items: center;
   gap: 0.75rem;
   font-size: 1.25rem;
-  padding: 0.6125rem 1.25rem;
-  border-radius: 0.6125rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.625rem;
   transition: all 0.3s ease-out;
 }
 
@@ -1719,43 +1719,43 @@ input::placeholder {
 }
 
 .mb-10 {
-  margin-bottom: 0.6125rem;
+  margin-bottom: 0.625rem;
 }
 
 .mt-10 {
-  margin-top: 0.6125rem;
+  margin-top: 0.625rem;
 }
 
 .mr-10 {
-  margin-right: 0.6125rem;
+  margin-right: 0.625rem;
 }
 
 .ml-10 {
-  margin-left: 0.6125rem;
+  margin-left: 0.625rem;
 }
 
 .pb-10 {
-  padding-bottom: 0.6125rem;
+  padding-bottom: 0.625rem;
 }
 
 .pt-10 {
-  padding-top: 0.6125rem;
+  padding-top: 0.625rem;
 }
 
 .pr-10 {
-  padding-right: 0.6125rem;
+  padding-right: 0.625rem;
 }
 
 .pl-10 {
-  padding-left: 0.6125rem;
+  padding-left: 0.625rem;
 }
 
 .px-10 {
-  padding-inline: 0.6125rem;
+  padding-inline: 0.625rem;
 }
 
 .g-10 {
-  gap: 0.6125rem;
+  gap: 0.625rem;
 }
 
 .mb-12 {
@@ -2426,8 +2426,14 @@ input::placeholder {
   font-size: 5rem;
 }
 
+.bg-main {
+  background-image: url("../assets/backgrounds/bg_abstract_pulse_sound_wave.png"), linear-gradient(53deg, #02002F 44.98%, rgba(254, 52, 130, 0.4) 60.15%, rgba(1, 210, 188, 0.4) 75.57%, rgba(60, 112, 137, 0.7) 92.21%);
+  background-size: cover;
+  min-height: 100vh;
+}
+
 .bg-dots {
-  background-image: url("../assets/backgrounds/bg_black_dots.png"), linear-gradient(45deg, var(--clr-primary-900), var(--clr-secondary-900));
+  background-image: url("../assets/backgrounds/bg_black_dots.png"), linear-gradient(45deg, rgba(0, 51, 41, 0.8), rgba(51, 24, 0, 0.8));
   background-size: cover;
   min-height: 100vh;
 }
@@ -2455,6 +2461,10 @@ input::placeholder {
 
 .justify-space-between {
   justify-content: space-between;
+}
+
+.justify-content-center {
+  justify-content: center;
 }
 
 .relative {

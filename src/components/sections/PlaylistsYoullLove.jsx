@@ -49,8 +49,7 @@ const data = [
     title: "1 Year Suanda",
     artist: "Various Artists",
     released_on: "05/05/2014",
-  },
-  {
+  },  {
     title: "Progressive Hits, Vol. 1",
     artist: "Various Artists",
     released_on: "03/13/2017",

@@ -17,6 +17,7 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    'react/prop-types': 'off', // Add this line to suppress prop types errors
+    'react/prop-types': 'off', // Added this line to suppress prop types errors
+    'no-process-env': 'off'    // Added this line to allow process.env usage
   },
 }

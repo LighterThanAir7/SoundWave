@@ -5,7 +5,7 @@ import LoginForm from "../components/common/LoginForm.jsx";
 export default function Login () {
   return (
     <div className="bg-dots">
-      <Header className="test"/>
+      <Header />
 
       <main className="flex-col align-items-center relative | mt-64">
         <h2 className="text-center | mb-80">

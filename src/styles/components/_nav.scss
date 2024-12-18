@@ -47,7 +47,7 @@ $nav__dropdown-offset: $nav__link-decoration-offset + 32px;
     height: 0;
     overflow: hidden;
     transition: height 0.5s ease-in-out;
-    background-color: rgba(clr(neutral, 800), 0.75);
+    background-color: rgba(clr(neutral, 900), 0.75);
     &-item {
       cursor: pointer;
       transition: background-color 0.3s ease-out;

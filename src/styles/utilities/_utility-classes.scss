@@ -55,10 +55,21 @@
 
 // My Custom Classes
 
-.bg-dots {
+.bg-main {
   background-image:
-    url("../assets/backgrounds/bg_black_dots.png"),
-    linear-gradient(45deg, var(--clr-primary-900) , var(--clr-secondary-900));
+    url("../assets/backgrounds/bg_abstract_pulse_sound_wave.png"),
+    linear-gradient(53deg, #02002F 44.98%, rgba(254, 52, 130, 0.40) 60.15%, rgba(1, 210, 188, 0.40) 75.57%, rgba(60, 112, 137, 0.70) 92.21%);
+  background-size: cover;
+    min-height: 100vh;
+  ;
+}
+
+.bg-dots {
+  $clr-primary-950: rgb(0, 51, 41);
+  $clr-secondary-950: rgb(51, 24, 0);
+  background-image:
+          url("../assets/backgrounds/bg_black_dots.png"),
+          linear-gradient(45deg, rgba(0, 51, 41, 0.8), rgba(51, 24, 0, 0.8));
   background-size: cover;
   min-height: 100vh;
 }
@@ -85,6 +96,10 @@
 
 .justify-space-between {
   justify-content: space-between;
+}
+
+.justify-content-center {
+  justify-content: center;
 }
 
 .relative {
