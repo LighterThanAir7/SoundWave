@@ -4,7 +4,14 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
 
-dotenv.config();
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import uploadRoutes from "./routes/uploadRoutes.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+dotenv.config({ path: join(__dirname, '../../.env') });
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -23,6 +30,7 @@ app.use(cors({
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Start server
 app.listen(PORT, () => {

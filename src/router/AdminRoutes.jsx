@@ -1,32 +1,19 @@
-import {Navigate, Route, Routes} from "react-router-dom";
-import {Helmet} from "react-helmet-async";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import AdminDashboard from "../backend/components/AdminDashboard.jsx";
 import AdminLogin from "../backend/pages/AdminLogin.jsx";
+import {useAuth} from "../context/AuthContext.jsx";
+import {ProtectedRoute} from "./ProtectedRoute.jsx";
 
-export default function AdminRoutes () {
-  const isAuthenticated = false; // This will be replaced with actual auth check
+export default function AdminRoutes() {
+  const { user } = useAuth();
 
   return (
     <Routes>
       <Route
-        path="/"
-        element={
-          isAuthenticated ? (
-            <>
-              <Helmet>
-                <title>Admin - Dashboard</title>
-              </Helmet>
-              <AdminDashboard />
-            </>
-          ) : (
-            <Navigate to="/admin/login" replace />
-          )
-        }
-      />
-      <Route
         path="/login"
         element={
-          !isAuthenticated ? (
+          !user ? (
             <>
               <Helmet>
                 <title>Admin - Login</title>
@@ -38,6 +25,22 @@ export default function AdminRoutes () {
           )
         }
       />
+
+      {/* Protected Admin Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route
+          path="/"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Dashboard</title>
+              </Helmet>
+              <AdminDashboard />
+            </>
+          }
+        />
+        {/* Add other protected admin routes here */}
+      </Route>
     </Routes>
   );
 }
