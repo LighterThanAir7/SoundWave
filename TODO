@@ -1,3 +1,159 @@
+CREATE TABLE users (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_type int(10) NOT NULL,
+    status tinyint(1) DEFAULT 1,
+    email varchar(255) NOT NULL UNIQUE,
+    firstname varchar(50),
+    lastname varchar(50),
+    base_username varchar(50) NOT NULL,
+    discriminator varchar(4) NOT NULL,
+    password varchar(255) NOT NULL,
+    img varchar(255),
+    date_birth date,
+    sex char(1),
+    created_on timestamp DEFAULT CURRENT_TIMESTAMP,
+    last_login timestamp NULL,
+    FOREIGN KEY (id_type) REFERENCES spt_user_type(id),
+    UNIQUE KEY unique_username (base_username, discriminator)
+);
+
+CREATE TABLE spt_user_type (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    status tinyint(1) DEFAULT 1,
+    name varchar(50) NOT NULL UNIQUE,
+    description varchar(255)
+);
+
+-- Insert default user types
+INSERT INTO spt_user_type (name, description) VALUES
+('Super Administrator', 'Has complete control over the system with all privileges'),
+('Administrator', 'Has administrative access with limited system configuration abilities'),
+('User', 'Regular user with basic access privileges');
+
+
+CREATE TABLE api_keys (
+    id            int auto_increment primary key,
+    key_name      varchar(255) not null UNIQUE,
+    encrypted_key text not null,
+    created_at    timestamp default current_timestamp() not null,
+    last_used     timestamp null,
+    is_active     tinyint(1) default 1 null
+);
+
+
+CREATE TABLE artists (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name varchar(255) NOT NULL UNIQUE,
+    bio text,
+    image_url varchar(255),
+    created_on timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_on timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE albums (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title varchar(255) NOT NULL,
+    release_date date,
+    total_tracks int,
+    cover_art_url varchar(255),
+    created_on timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_on timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE songs (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title varchar(255) NOT NULL,
+    primary_artist_id int(10) NOT NULL,
+    album_id int(10),
+    duration int NOT NULL,
+    track_number int,
+    released_on date,
+    artwork_path varchar(255),
+    file_path varchar(255) NOT NULL,
+    file_format varchar(10) NOT NULL,
+    file_size bigint NOT NULL,
+    bitrate int NOT NULL,
+    created_on timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_on timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (primary_artist_id) REFERENCES artists(id),
+    FOREIGN KEY (album_id) REFERENCES albums(id)
+);
+
+CREATE TABLE genres (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name varchar(255) NOT NULL UNIQUE,
+    created_on timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_on timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE song_genre (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    song_id int(10) NOT NULL,
+    genre_id int(10) NOT NULL,
+    FOREIGN KEY (song_id) REFERENCES songs(id),
+    FOREIGN KEY (genre_id) REFERENCES genres(id)
+);
+
+CREATE TABLE collaborating_artists (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    song_id int(10) NOT NULL,
+    artist_id int(10) NOT NULL,
+    artist_role varchar(50),
+    created_on timestamp DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (song_id) REFERENCES songs(id),
+    FOREIGN KEY (artist_id) REFERENCES artists(id)
+);
+
+CREATE TABLE playlists (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    user_id int(10) NOT NULL,
+    description text,
+    is_public boolean DEFAULT false,
+    image_url varchar(255),
+    created_on timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_on timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE playlist_songs (
+    id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    playlist_id int(10) NOT NULL,
+    song_id int(10) NOT NULL,
+    order_number int NOT NULL,
+    added_by_user_id int(10) NOT NULL,
+    added_on timestamp DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_playlist_song (playlist_id, song_id),
+    FOREIGN KEY (playlist_id) REFERENCES playlists(id),
+    FOREIGN KEY (song_id) REFERENCES songs(id),
+    FOREIGN KEY (added_by_user_id) REFERENCES users(id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Would you like to implement any additional features like:
 
     Token refresh mechanism
