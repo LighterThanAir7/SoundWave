@@ -1058,6 +1058,62 @@ input::placeholder {
   background-color: var(--clr-primary-800);
 }
 
+.table {
+  display: flex;
+  flex-direction: column;
+}
+
+.table__row {
+  display: flex;
+  width: 100%;
+}
+
+.table__data {
+  border: 1px solid red;
+  flex: 1;
+}
+
+#songs-table .table__data {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#songs-table .table__data:first-child {
+  flex: 0 0 48px;
+  text-align: center;
+}
+
+#songs-table .table__data:nth-child(2) {
+  flex: 0 0 420px;
+}
+
+#songs-table .table__data:nth-child(3) {
+  flex: 0 0 300px;
+}
+
+#songs-table .table__data:nth-child(4) {
+  flex: 0 0 300px;
+}
+
+#songs-table .table__data:nth-child(5) {
+  flex: 0 0 80px;
+  text-align: center;
+}
+
+#songs-table .table__data:nth-child(6) {
+  flex: 0 0 120px;
+  text-align: center;
+}
+
+#songs-table .table__data:last-child {
+  flex: 0 0 72px;
+}
+
+#songs-table .table__data:nth-last-child(2) {
+  flex: 0 0 72px;
+}
+
 .footer {
   position: fixed;
   bottom: 0;
@@ -1276,6 +1332,10 @@ input::placeholder {
 .content-wrapper__inner {
   padding: 4rem 5rem 0;
   position: relative;
+}
+
+.admin-wrapper {
+  padding: 4rem 5rem;
 }
 
 .text-primary-50 {

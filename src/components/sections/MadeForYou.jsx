@@ -1,5 +1,4 @@
 import SectionHeader from "../common/SectionHeader.jsx";
-import {useRef, useState} from "react";
 import Carousel from "../common/Carousel.jsx";
 
 const images = [
@@ -33,7 +32,7 @@ export default function MadeForYou() {
   return (
     <section className="section">
       <SectionHeader title="Made For You" />
-      <Carousel images={images} data={texts} cardType="text"/> {/* 2 params, data i cardType */}
+      <Carousel images={images} data={texts} cardType="text"/>
     </section>
-  );
+  )
 }

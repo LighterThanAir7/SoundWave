@@ -1,10 +1,21 @@
 import pool from "../db/db.js";
 import NodeID3 from 'node-id3';
 
-const extractSongMetadata = (file, tags) => {
+import fs from 'fs/promises';
+import path from "path";
+
+
+const extractSongMetadata = async (file, tags) => {
   if (!tags) {
     throw new Error('No metadata found in file');
   }
+
+  // Add debug logging
+  console.log('Raw tags:', {
+    artist: tags.artist,
+    title: tags.title,
+    album: tags.album
+  });
 
   // Process artists and genres
   const artists = tags.artist ?
@@ -14,6 +25,15 @@ const extractSongMetadata = (file, tags) => {
       .map(artist => artist.trim())
       .filter(Boolean)
     : [];
+
+  // Add debug logging
+  console.log('Processed artists:', artists);
+
+  // Final check for primary artist
+  const primary_artist = artists[0] || null;
+  if (!primary_artist) {
+    throw new Error('Could not extract primary artist from metadata');
+  }
 
   const genres = tags.genre ?
     tags.genre
@@ -50,6 +70,10 @@ const extractSongMetadata = (file, tags) => {
     return parts[1].replace(/\\/g, '/').replace(/^\/+/, '');
   };
 
+  // Save artwork if present
+  const artwork_path = tags.image ?
+    await saveArtwork(tags.image.imageBuffer, file.path) : null;
+
   return {
     title: tags.title || null,
     primary_artist: artists[0] || null,
@@ -59,7 +83,7 @@ const extractSongMetadata = (file, tags) => {
     track_number: tags.trackNumber ?
       parseInt(tags.trackNumber.split('/')[0]) : null,
     released_on: formatReleaseDate(),
-    has_artwork: tags.image ? true : false,
+    artwork_path,
     file_path: getRelativePath(file.path),
     file_format: 'mp3',
     file_size: file.size,
@@ -112,10 +136,10 @@ const insertSongMetadata = async (pool, metadata) => {
     // 3. Insert song
     const [songResult] = await pool.query(
       `INSERT INTO songs (
-                title, primary_artist_id, album_id, duration, 
-                track_number, released_on, file_path, 
-                file_format, file_size
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          title, primary_artist_id, album_id, duration,
+          track_number, released_on, artwork_path, file_path,
+          file_format, file_size
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         metadata.title,
         artistId,
@@ -123,6 +147,7 @@ const insertSongMetadata = async (pool, metadata) => {
         metadata.duration,
         metadata.track_number,
         metadata.released_on,
+        metadata.artwork_path,
         metadata.file_path,
         metadata.file_format,
         metadata.file_size
@@ -182,6 +207,25 @@ const insertSongMetadata = async (pool, metadata) => {
   }
 };
 
+const saveArtwork = async (imageBuffer, songPath) => {
+  if (!imageBuffer) return null;
+
+  try {
+    // Create artwork path based on song path
+    const artworkPath = songPath.replace('.mp3', '-artwork.jpg');
+
+    // Write the buffer to file
+    await fs.writeFile(artworkPath, imageBuffer);
+
+    // Return relative path (same format as song path)
+    const parts = artworkPath.split('songs');
+    return parts[1].replace(/\\/g, '/').replace(/^\/+/, '');
+  } catch (error) {
+    console.error('Error saving artwork:', error);
+    return null;
+  }
+};
+
 export const handleSingleSongUpload = async (req, res) => {
   try {
     if (!req.file) {
@@ -189,7 +233,24 @@ export const handleSingleSongUpload = async (req, res) => {
     }
 
     const tags = NodeID3.read(req.file.path);
-    const metadata = extractSongMetadata(req.file, tags);
+    const metadata = await extractSongMetadata(req.file, tags);
+
+    console.log('Metadata before validation:', metadata); // Add this log
+
+    // Validate required fields before proceeding
+    if (!metadata.primary_artist) {
+      // Clean up the uploaded file since we can't process it
+      await fs.unlink(req.file.path);
+      // If artwork was saved, clean that up too
+      if (metadata.artwork_path) {
+        const fullArtworkPath = path.join(process.cwd(), 'uploads/songs', metadata.artwork_path);
+        await fs.unlink(fullArtworkPath);
+      }
+      return res.status(400).json({
+        message: 'Song metadata is incomplete: Primary artist is required'
+      });
+    }
+
     const songId = await insertSongMetadata(pool, metadata);
 
     res.json({
@@ -199,6 +260,10 @@ export const handleSingleSongUpload = async (req, res) => {
     });
 
   } catch (error) {
+    // Clean up files if insertion fails
+    if (req.file) {
+      await fs.unlink(req.file.path).catch(console.error);
+    }
     console.error('Single upload error:', error);
     res.status(500).json({
       message: 'Error processing file upload',
@@ -225,7 +290,12 @@ export const handleBatchSongUpload = async (req, res) => {
     for (const file of req.files) {
       try {
         const tags = NodeID3.read(file.path);
-        const metadata = extractSongMetadata(file, tags);
+        const metadata = await extractSongMetadata(file, tags);
+
+        if (!metadata.primary_artist) {
+          throw new Error(`Primary artist is required for file: ${file.originalname}`);
+        }
+
         const songId = await insertSongMetadata(pool, metadata);
         processedFiles.push({
           filename: file.filename,

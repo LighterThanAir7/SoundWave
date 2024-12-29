@@ -1,0 +1,52 @@
+@use '../abstract' as *;
+
+.table {
+  @include d-flex($d: column);
+
+  &__row {
+    @include d-flex();
+    width: 100%;
+  }
+
+  &__data {
+    border: 1px solid red;
+    flex: 1;
+  }
+}
+
+#songs-table {
+  .table__data {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    &:first-child {
+      flex: 0 0 48px;
+      text-align: center;
+    }
+    &:nth-child(2) {
+      flex: 0 0 420px;
+    }
+    &:nth-child(3) {
+      flex: 0 0 300px;
+    }
+    &:nth-child(4) {
+      flex: 0 0 300px;
+    }
+    &:nth-child(5) {
+      flex: 0 0 80px;
+      text-align: center;
+    }
+    &:nth-child(6) {
+      flex: 0 0 120px;
+      text-align: center;
+    }
+
+    &:last-child {
+      flex: 0 0 72px;
+    }
+    &:nth-last-child(2) {
+      flex: 0 0 72px;
+    }
+  }
+}

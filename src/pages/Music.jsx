@@ -12,6 +12,7 @@ import Genres from "../components/sections/Genres.jsx";
 import Quote from "../components/sections/Quote.jsx";
 import Footer from "../components/layout/Footer.jsx";
 import SoundwaveContainer from "../components/common/SoundwaveContainer.jsx";
+import TestSongs from "../components/sections/TestSongs.jsx";
 
 export default function Music () {
   return (
@@ -22,6 +23,7 @@ export default function Music () {
         <main className="content-wrapper__inner">
           <SoundwaveContainer/>
           <Vibe/>
+          <TestSongs/>
           <MadeForYou/>
           <RecentlyPlayed/>
           <PlaylistsYoullLove/>
