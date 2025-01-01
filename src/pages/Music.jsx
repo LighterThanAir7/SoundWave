@@ -24,14 +24,14 @@ export default function Music () {
           <SoundwaveContainer/>
           <Vibe/>
           <TestSongs/>
-          <MadeForYou/>
+          {/*<MadeForYou/>
           <RecentlyPlayed/>
           <PlaylistsYoullLove/>
           <SummerIsHere/>
           <NewReleasesForYou/>
           <Categories/>
           <Artists/>
-          <Genres/>
+          <Genres/>*/}
           <Quote
             mainText="Music is the universal language of mankind"
             primaryWords={['Music']}
