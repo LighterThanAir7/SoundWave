@@ -9,7 +9,7 @@ export const getAllSongs = async () => {
              s.file_path,
              s.artwork_path,
              s.created_on,
-             a.name                        as artist_name,
+             a.name                        as artist,
              GROUP_CONCAT(DISTINCT g.name) as genres,
              GROUP_CONCAT(DISTINCT
                           CONCAT(collab_artist.name,

@@ -637,8 +637,6 @@ input::placeholder {
 
 .player__primary-controls-mid i:nth-child(2) {
   font-size: 2rem;
-  height: 45px;
-  width: 45px;
 }
 
 .player__secondary-controls {
@@ -660,6 +658,51 @@ input::placeholder {
 
 .player__heading-icons i:hover, .player__primary-controls i:hover, .player__secondary-controls i:hover {
   background-color: var(--clr-primary-800);
+}
+
+.player__volume-bar {
+  position: absolute;
+  content: "";
+  bottom: calc(100% + 4.25rem);
+  right: -31px;
+  transform-origin: top right;
+  transform: rotateZ(-90deg);
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.4s ease-in-out;
+}
+
+.player__volume-bar.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.player__volume-bar-slider {
+  height: 24px;
+  width: 157px;
+  border-radius: 8px;
+  border: 1px solid var(--clr-primary-500);
+  background-image: linear-gradient(90deg, var(--clr-primary-400) 10%, #222 0%);
+}
+
+.player__volume-bar-slider::-webkit-slider-thumb, .player__volume-bar-slider::-moz-range-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 0;
+  border-radius: 15px;
+}
+
+.player__volume-bar-slider:hover {
+  cursor: pointer;
+}
+
+.player__volume-bar ::-webkit-slider-runnable-track,
+.player__volume-bar ::-moz-range-track,
+.player__volume-bar ::-moz-range-thumb,
+.player__volume-bar ::-moz-range-progress {
+  border-radius: 50%;
 }
 
 .icon-with-text {
@@ -886,6 +929,133 @@ input::placeholder {
 
 .section__desc {
   color: var(--clr-neutral-200);
+}
+
+.player-queue {
+  box-shadow: 0 0 10px 3px var(--clr-primary-900);
+  background-color: var(--clr-primary-950);
+  position: absolute;
+  content: "";
+  left: 100%;
+  top: -1px;
+  border-radius: 8px;
+  border: 1px solid var(--clr-primary-200);
+  transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  width: 400px;
+  height: 100%;
+  box-sizing: content-box;
+}
+
+.player-queue.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.player-queue:hover {
+  box-shadow: 0 0 16px var(--clr-primary-800);
+}
+
+.player-queue__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.5rem 0;
+  margin-bottom: 0.25rem;
+  width: 100%;
+}
+
+.player-queue__header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  transform: translateY(25px);
+  height: 1px;
+  width: 100%;
+  background-color: var(--clr-primary-500);
+}
+
+.player-queue__header i:hover {
+  cursor: pointer;
+}
+
+.player-queue__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--clr-primary-500);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.player-queue__artwork-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 4px;
+}
+
+.player-queue__list {
+  width: max-content;
+  height: 470px;
+  display: flex;
+  flex-direction: column;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-primary-400);
+}
+
+.player-queue__list ::-webkit-scrollbar {
+  width: 2px;
+}
+
+.player-queue__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-350);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  padding-block: var(--space-150);
+  transition: 0.4s ease-in-out;
+  cursor: pointer;
+  padding-inline: var(--space-250);
+}
+
+.player-queue__item:hover {
+  background-color: var(--clr-primary-900);
+}
+
+.player-queue__item.playing {
+  background-color: var(--clr-primary-700);
+}
+
+.player-queue__song-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.player-queue__song-name {
+  font-weight: 500;
+  font-size: var(--text-250);
+  color: var(--clr-white-600);
+  white-space: nowrap;
+  margin-bottom: var(--space-250);
+}
+
+.player-queue__artist {
+  font-weight: 500;
+  font-size: var(--text-200);
+  color: var(--clr-white-600);
+  white-space: nowrap;
+}
+
+.player-queue .player-queue__item i {
+  flex-shrink: 0;
+}
+
+.player-queue .player-queue__item i:hover {
+  background-color: unset !important;
+  color: unset !important;
 }
 
 .carousel {
@@ -1278,6 +1448,7 @@ input::placeholder {
   box-shadow: inset 0 0 15rem 2px var(--clr-primary-800);
   border-right: 1px solid var(--clr-primary-700);
   padding: 1.5rem 1.25rem;
+  z-index: 10;
 }
 
 .sidebar__logo {
@@ -2533,6 +2704,10 @@ input::placeholder {
 
 .absolute {
   position: absolute;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .z-1 {

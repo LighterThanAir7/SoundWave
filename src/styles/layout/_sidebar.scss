@@ -8,6 +8,8 @@
   box-shadow: inset 0 0 15rem 2px var(--clr-primary-800);
   border-right: 1px solid var(--clr-primary-700);
   padding: size(24) size(20);
+  z-index: 10;
+
   &__logo {
     @include d-flex($d: column, $ai: center, $g: size(8));
     font-size: fs(400);

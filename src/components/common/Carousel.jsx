@@ -1,6 +1,8 @@
-import {useRef, useState} from "react";
+import { useRef, useState } from "react";
+import {usePlayer} from "../../context/PlayerContext.jsx";
 
-export default function Carousel ({images, data, cardType}) {
+export default function Carousel({ data, cardType }) {
+  const { playSong } = usePlayer();
   const carouselRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -31,22 +33,29 @@ export default function Carousel ({images, data, cardType}) {
     carouselRef.current.scrollLeft += cardWidth;
   };
 
-  const renderCard = (src, data, index) => {
+  const getImagePath = (imagePath) => {
+    if (imagePath.startsWith('/src/assets')) {
+      return imagePath;
+    }
+    return `/uploads/songs/${imagePath}`;
+  };
+
+  const renderCard = (data, index) => {
     switch (cardType) {
       case 'text':
         return (
-          <div key={index} className="carousel__card">
+          <div key={index} className="carousel__card" onClick={() => playSong(data)}>
             <div className="carousel__img-container">
-              <img className="carousel__img" src={src} alt=""/>
+              <img className="carousel__img" src={getImagePath(data.artwork_path)} alt={data.title}/>
             </div>
-            <p className="carousel__p">{data}</p>
+            <p className="carousel__p">{`${data.title} - ${data.artist}`}</p>
           </div>
         );
       case 'full-info':
         return (
           <div key={index} className="carousel__card">
             <div className="carousel__img-container">
-              <img className="carousel__img" src={src} alt=""/>
+              <img className="carousel__img" src={getImagePath(data.artwork_path)} alt={data.title}/>
             </div>
             <p className="carousel__title">{data.title}</p>
             <p className="carousel__artist">{data.artist}</p>
@@ -57,33 +66,41 @@ export default function Carousel ({images, data, cardType}) {
         return (
           <div key={index} className="carousel__card">
             <div className="carousel__img-container">
-              <img className="carousel__img carousel__img--artist" src={src} alt=""/>
+              <img
+                className="carousel__img carousel__img--artist"
+                src={getImagePath(data.image_path)}
+                alt={data.name}
+              />
             </div>
             <div className="text-center">
-              <p className="carousel__artist text-300">{data.artist}</p>
-              <p className="carousel__fans-number">{data.fans_number} fans</p>
+              <p className="carousel__artist text-300">{data.name}</p>
+              <p className="carousel__fans-number">{data.fans_count} fans</p>
             </div>
           </div>
-        )
+        );
       case 'text-absolute':
         return (
           <div key={index} className="carousel__card carousel__card--categories">
             <div className="carousel__img-container">
-              <img className="carousel__img" src={src} alt=""/>
-              <p className="carousel__category">{data}</p>
+              <img
+                className="carousel__img"
+                src={getImagePath(data.image_path)}
+                alt={data.name}
+              />
+              <p className="carousel__category">{data.name}</p>
             </div>
           </div>
-        )
+        );
       default:
         return (
           <div key={index} className="carousel__card">
             <div className="carousel__img-container">
-              <img className="carousel__img" src={src} alt=""/>
+              <img className="carousel__img" src={getImagePath(data.image_path)} alt=""/>
             </div>
           </div>
-        )
+        );
     }
-  }
+  };
 
   return (
     <>
@@ -98,8 +115,8 @@ export default function Carousel ({images, data, cardType}) {
         onMouseMove={handleDragging}
         onMouseUp={handleDragStop}
       >
-        {images.map((src, index) => renderCard(src, data[index], index))}
+        {data.map((item, index) => renderCard(item, index))}
       </div>
     </>
-  )
+  );
 }

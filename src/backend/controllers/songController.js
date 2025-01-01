@@ -13,7 +13,7 @@ export const getSongs = async (req, res) => {
         file_path: song.file_path,
         artwork_path: song.artwork_path,
         created_on: new Date(song.created_on).toISOString().slice(0, 19).replace('T', ' '),
-        artist_name: song.artist_name,
+        artist: song.artist,
         genres: song.genres,
         collaborating_artists: song.collaborating_artists
       }))
