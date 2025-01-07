@@ -9,13 +9,13 @@
   top: -1px;
   border-radius: 8px;
   border: 1px solid var(--clr-primary-200);
-  transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  width: 400px;
+  width: 460px;
   height: 100%;
-  box-sizing: content-box;
-  // visibility: hidden;
-  // opacity: 0;
+  box-sizing: content-box; // To account for borders of it's relative parent
+  visibility: hidden;
+  opacity: 0;
 
   &.show {
     visibility: visible;
@@ -28,18 +28,10 @@
 
   &__header {
     @include d-flex($jc: space-between, $ai: center);
-    padding: size(4) size(8) 0;
-    margin-bottom: size(4);
+    padding: size(8);
     width: 100%;
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      transform: translateY(25px);
-      height: 1px;
-      width: 100%;
-      background-color: var(--clr-primary-500);
-    }
+    border-bottom: 1px solid var(--clr-primary-500);
+
     i:hover {
       cursor: pointer;
     }
@@ -56,51 +48,84 @@
     height: 54px;
     border-radius: 4px;
   }
+
   &__list {
-    width: max-content;
-    height: 470px;
+    height: calc(100% - 49px); // 49px = player-queue__header
     @include d-flex($d: column);
     scroll-behavior: smooth;
     overflow-y: scroll;
+    overscroll-behavior-y: contain;
     scrollbar-width: thin;
-    scrollbar-color: var(--clr-primary-400);
-    ::-webkit-scrollbar {
-      width: 2px;
+    scrollbar-color: var(--clr-primary-400) transparent;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      // background-color: var(--clr-primary-400);
     }
-    // Prilagodi za Chrome i ostale browsere
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: size(8);
+      background-color: var(--clr-primary-400);
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* Remove scrollbar buttons (up/down arrows) in Chrome */
+    &::-webkit-scrollbar-button {
+      display: none; /* Hide the arrows */
+    }
   }
+
   &__item {
-    @include d-flex($ai: center, $g: var(--space-350));
+    @include d-flex($ai: center, $g: size(12));
     text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     width: 100%;
-    padding-block: var(--space-150);
-    transition: 0.4s ease-in-out;
+    padding-block: size(4);
+    transition: background-color .3s ease-out;
     cursor: pointer;
-    padding-inline: var(--space-250);
+    padding-inline: size(8);
+    border-bottom: 1px solid transparent;
+
+    &--active {
+      background-color: var(--clr-primary-900);
+    }
+
     &:hover {
       background-color: var(--clr-primary-900);
     }
-    &.playing {
-      background-color: var(--clr-primary-700);
+
+    &.dragging {
+      background-color: var(--clr-primary-900);
+      border-bottom-color: var(--clr-primary-500);
     }
   }
+
   &__song-info {
     @include d-flex($d: column);
     width: 100%;
+    overflow-x: hidden;
   }
+
   &__song-name {
-    font-weight: 500;
-    font-size: var(--text-250);
-    color: var(--clr-white-600);
+    font-weight: $fw-600;
+    font-size: fs(250);
+    color: var(--clr-neutral-300);
     white-space: nowrap;
-    margin-bottom: var(--space-250);
+    margin-bottom: size(2);
+    line-height: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
+
   &__artist {
-    font-weight: 500;
-    font-size: var(--text-200);
-    color: var(--clr-white-600);
+    font-weight: $fw-500;
+    font-size: fs(200);
+    color: var(--clr-neutral-300);
     white-space: nowrap;
   }
+
   &__time {
 
   }
@@ -111,4 +136,9 @@
       color: unset !important;
     }
   }
+}
+
+// Disable hover effects on other items while one is being dragged
+.dragging ~ .player-queue__item:hover {
+  background-color: transparent;
 }

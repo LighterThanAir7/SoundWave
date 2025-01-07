@@ -1,0 +1,15 @@
+@use '../abstract' as *;
+
+.registration {
+  $footer-height: 59px;
+  @include d-flex($d: column, $jc: center, $ai: center);
+  padding-top: size(96);
+
+  .logo {
+    font-size: fs(450);
+
+    .icon-logo {
+      font-size: fs(600);
+    }
+  }
+}

@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import uploadRoutes from "./routes/uploadRoutes.js";
 import songRoutes from "./routes/songRoutes.js";
+import favouritesRoutes from './routes/favouritesRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -33,6 +34,7 @@ app.use(cors({
 app.use("/api/auth", authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api', songRoutes);
+app.use('/api/favorites', favouritesRoutes);
 
 // Start server
 app.listen(PORT, () => {

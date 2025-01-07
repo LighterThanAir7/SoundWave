@@ -6,6 +6,7 @@ import Music from "../pages/Music.jsx";
 import Podcasts from "../pages/Podcasts.jsx";
 import Explore from "../pages/Explore.jsx";
 import Favourites from "../pages/Favourites.jsx";
+import Registration from "../pages/Registration.jsx";
 
 export const FrontendRoutes = () => {
   return (
@@ -29,6 +30,17 @@ export const FrontendRoutes = () => {
               <title>SoundWave - Login</title>
             </Helmet>
             <Login />
+          </>
+        }
+      />
+      <Route
+        path="register"
+        element={
+          <>
+            <Helmet>
+              <title>SoundWave - Registration</title>
+            </Helmet>
+            <Registration />
           </>
         }
       />

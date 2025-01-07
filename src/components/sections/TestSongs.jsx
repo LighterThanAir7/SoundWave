@@ -12,7 +12,7 @@ export default function TestSongs() {
 
         const data = await response.json();
         setSongs(data.songs);
-        console.log(data.songs);
+        /*console.log(data.songs);*/
       } catch (error) {
         console.error('Error fetching songs:', error);
       }

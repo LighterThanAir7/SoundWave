@@ -1,10 +1,11 @@
 import FormInput from "./FormInput.jsx";
 import FormSocials from "./FormSocials.jsx";
+import {Link} from "react-router-dom";
 
 export default function LoginForm () {
   return (
     <div className="z-1">
-      <form className="form" method="post">
+      <form className="form form--login" method="post">
         <FormInput
           label="Email or Username"
           type="text"
@@ -27,8 +28,8 @@ export default function LoginForm () {
 
         <FormSocials/>
 
-        <p className="form__register">Don&apos;t have an account? <a href="https://www.gooogle.com"
-                                                                     className="form__register-link">Register now</a>
+        <p className="form__register">Don&apos;t have an account?
+          <Link to="/register" className="form__register-link">Register now</Link>
         </p>
       </form>
     </div>

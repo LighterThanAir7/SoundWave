@@ -27,6 +27,12 @@
   .ml-#{$size-name} {
     margin-left: $size-value;
   }
+  .mx-#{$size-name} {
+    margin-inline: $size-value;
+  }
+  .my-#{$size-name} {
+    margin-block: $size-value;
+  }
   .pb-#{$size-name} {
     padding-bottom: $size-value;
   }
@@ -41,6 +47,9 @@
   }
   .px-#{$size-name} {
     padding-inline: $size-value;
+  }
+  .py-#{$size-name} {
+    padding-block: $size-value;
   }
   .g-#{$size-name} {
     gap: $size-value;
@@ -74,8 +83,16 @@
   min-height: 100vh;
 }
 
+.fw-600 {
+  font-weight: $fw-600;
+}
+
 .text-center {
   text-align: center;
+}
+
+.block {
+  display: block;
 }
 
 .flex {
@@ -128,4 +145,8 @@
 
 .ff-primary {
   font-family: $ff-primary;
+}
+
+.clr-primary-500 {
+  color: var(--clr-primary-500);
 }

@@ -2,11 +2,23 @@ import { useRef, useState } from "react";
 import {usePlayer} from "../../context/PlayerContext.jsx";
 
 export default function Carousel({ data, cardType }) {
-  const { playSong } = usePlayer();
+  const { playSong, addToQueue } = usePlayer();
   const carouselRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollStartLeft, setStartScrollLeft] = useState(0);
+
+  const handleCardClick = (clickedSong, index) => {
+    // Prvo pustimo odabranu pjesmu
+    playSong(clickedSong);
+
+    // Create queue including current song and remaining songs
+    const newQueue = [clickedSong, ...data.slice(index + 1)];
+    console.log("Queue će sadržavati:", newQueue);
+
+    // Dodajemo pjesme u queue
+    addToQueue(newQueue);
+  };
 
   const handleDragStart = (e) => {
     setIsDragging(true);
@@ -44,7 +56,7 @@ export default function Carousel({ data, cardType }) {
     switch (cardType) {
       case 'text':
         return (
-          <div key={index} className="carousel__card" onClick={() => playSong(data)}>
+          <div key={index} className="carousel__card" onClick={() => handleCardClick(data, index)}>
             <div className="carousel__img-container">
               <img className="carousel__img" src={getImagePath(data.artwork_path)} alt={data.title}/>
             </div>

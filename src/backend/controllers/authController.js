@@ -211,7 +211,6 @@ export const adminLogin = async (req, res) => {
   }
 };
 
-
 export const refreshToken = async (req, res) => {
   try {
     // Get refresh token from cookie
@@ -263,7 +262,6 @@ export const refreshToken = async (req, res) => {
   }
 };
 
-// authController.js
 export const verifyToken = async (req, res) => {
   try {
     const { jwtSecret } = await validateApiKeys();

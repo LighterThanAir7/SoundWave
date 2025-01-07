@@ -103,6 +103,7 @@
     color: clr(neutral, 200);
     margin-bottom: size(12);
     position: relative;
+
     &-mid {
       @include d-flex($ai:center, $g: size(2));
       font-size: fs(450);
@@ -111,7 +112,49 @@
         font-size: fs(500);
       }
     }
+
+    &-message {
+      position: absolute;
+      top: -68%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--clr-primary-900);
+      padding: size(4) size(10);
+      border-radius: size(16);
+      border: 1px solid var(--clr-primary-500);
+      font-size: fs(200);
+      color: clr(generic, white);
+      transition: .3s ease-in-out;
+      white-space: nowrap;
+      opacity: 0;
+      user-select: none;
+      animation: messageAnimation 2s ease-in-out;
+    }
+
+    @keyframes messageAnimation {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .icon-shuffle {
+      &--on {
+        color: var(--clr-primary-500);
+      }
+    }
+
+    .icon-repeat {
+      &--on {
+        color: var(--clr-primary-500);
+      }
+
+      &--on-single {
+        color: var(--clr-primary-500);
+      }
+    }
   }
+
   &__secondary-controls {
     @include d-flex($jc: space-around, $ai: center);
     padding-inline: size(4);

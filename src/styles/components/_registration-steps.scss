@@ -1,0 +1,79 @@
+@use '../abstract' as *;
+
+.registration-steps {
+  @include d-flex($jc: space-between);
+  margin-bottom: size(48);
+  position: relative;
+  margin-inline: -#{size(48)};
+
+  &__title {
+    font-size: fs(450);
+    text-align: center;
+    margin-bottom: size(32);
+  }
+
+  &__item {
+    @include d-flex($ai: center, $jc: center);
+    border: 2px solid clr(neutral, 400);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: clr(neutral, 900);
+    user-select: none;
+    cursor: not-allowed;
+
+    &--completed {
+      border: 2px solid clr(primary, 500);
+      background-color: clr(primary, 900);
+    }
+
+    &--current {
+      border: none;
+      position: relative;
+
+      &::after {
+        position: absolute;
+        inset: 0;
+        border: 2px dashed clr(neutral, 300);
+        content: "";
+        border-radius: 50%;
+        animation: rotateInfinite 15s linear infinite;
+      }
+    }
+
+    &--clickable {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(clr(primary, 500), 0.3);
+      }
+    }
+  }
+
+  &__progress {
+    background-color: clr(primary, 500);
+    width: 33%;
+    height: 100%;
+
+    &-container {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background-color: clr(neutral, 400);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: -1;
+    }
+  }
+}
+
+@keyframes rotateInfinite {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
