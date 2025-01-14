@@ -1,76 +1,84 @@
-import FormInput from "../common/FormInput.jsx";
+import {useState} from "react";
 
-export default function Step3 ({ formData, setFormData, onNext }) {
-  const handleNext = () => {
-    // Ovdje dodaj validaciju ako je potrebna
-    /*if (validateStep1()) {*/
-    onNext();
-    /*}*/
+export default function Step3({ formData, setFormData, onSubmit }) {
+  const [marketingConsent, setMarketingConsent] = useState(formData.step3?.marketingConsent || false);
+  const [privacyConsent, setPrivacyConsent] = useState(formData.step3?.privacyConsent || false);
+
+  const handleMarketingChange = (e) => {
+    const checked = e.target.checked;
+    setMarketingConsent(checked);
+    setFormData(prev => ({
+      ...prev,
+      step3: { ...prev.step3, marketingConsent: checked }
+    }));
+  };
+
+  const handlePrivacyChange = (e) => {
+    const checked = e.target.checked;
+    setPrivacyConsent(checked);
+    setFormData(prev => ({
+      ...prev,
+      step3: { ...prev.step3, privacyConsent: checked }
+    }));
+  };
+
+  const handleFinishRegistration = () => {
+    onSubmit();
   };
 
   return (
     <>
-      <FormInput
-        label="Display name"
-        type="text"
-        placeholder=""
-      />
-
-      <label htmlFor="day" className="mb-8 fw-600">Date of birth</label>
-      <div className="form__date-of-birth">
-        <FormInput
-          id="day"
-          name="day"
-          type="number"
-          placeholder="dd"
-          className="form__input form__input--test form__input--day"
-        />
-
-        <select className="form__select flex-1" id="month" name="month" required>
-          <option disabled selected value="">Month</option>
-          <option value="1">January</option>
-          <option value="2">February</option>
-          <option value="3">March</option>
-          <option value="4">April</option>
-          <option value="5">May</option>
-          <option value="6">June</option>
-          <option value="7">July</option>
-          <option value="8">August</option>
-          <option value="9">September</option>
-          <option value="10">October</option>
-          <option value="11">November</option>
-          <option value="12">December</option>
-        </select>
-
-        <FormInput
-          id="year"
-          name="year"
-          type="number"
-          placeholder="yyyy"
-          className="form__input form__input--test"
-        />
+      <div className="custom-checkbox-field | mb-16">
+        <div>
+          <input
+            type="checkbox"
+            className="custom-checkbox-field__input"
+            id="checkbox-marketing"
+            checked={marketingConsent}
+            onChange={handleMarketingChange}
+          />
+          <label className="custom-checkbox-field__label" htmlFor="checkbox-marketing">
+            <span className="custom-checkbox-field__indicator"></span>
+            <span className="custom-checkbox-field__text">
+              Keep me updated with music recommendations, new releases and exclusive offers
+            </span>
+          </label>
+        </div>
       </div>
 
-      <fieldset role="radiogroup" className="form__fieldset | mb-24">
-        <legend className="mb-6 fw-600">Gender</legend>
-        <label className="block">
-          <input name="gender" type="radio" className="mr-10 mb-8"/>Male
-        </label>
+      <div className="custom-checkbox-field | mb-24">
+        <div>
+          <input
+            type="checkbox"
+            className="custom-checkbox-field__input"
+            id="checkbox-privacy"
+            checked={privacyConsent}
+            onChange={handlePrivacyChange}
+          />
+          <label className="custom-checkbox-field__label" htmlFor="checkbox-privacy">
+            <span className="custom-checkbox-field__indicator"></span>
+            <span className="custom-checkbox-field__text">
+              I agree to share my listening preferences to receive better music recommendations
+            </span>
+          </label>
+        </div>
+      </div>
 
-        <label>
-          <input name="gender" type="radio" className="mr-10"/>Female
-        </label>
-      </fieldset>
+      <p className="text-250 | mb-16">
+        Almost there! By completing registration, you're agreeing to SoundWave's <a href="" className="clr-primary-500">Terms of Use</a>
+      </p>
 
+      <p className="text-250 | mb-24">
+        Your data is protected and used exclusively according to our <a href="" className="clr-primary-500">Privacy Policy</a>
+      </p>
 
       <button
         type="button"
         className="btn btn--primary"
-        onClick={handleNext}
+        onClick={handleFinishRegistration}
       >
-        Next
+        Complete Registration
       </button>
-
     </>
   )
 }

@@ -284,6 +284,15 @@ input::placeholder {
   text-decoration: underline;
 }
 
+.form__field:has(.form__error) .form__label {
+  margin-bottom: 0.5rem;
+}
+
+.form__field:has(.form__error) .form__input {
+  border-color: var(--clr-secondary-400);
+  background-color: var(--clr-secondary-950);
+}
+
 .form__label {
   display: block;
   margin-bottom: 1.5rem;
@@ -496,6 +505,12 @@ input::placeholder {
   padding-left: 0.75rem;
 }
 
+.form__error {
+  color: var(--clr-secondary-300);
+  margin-bottom: 1.5rem;
+  font-size: 0.9375rem;
+}
+
 .form__input--checkbox + .form__checkbox:before {
   content: "\e92d";
 }
@@ -601,18 +616,38 @@ input[type=radio] {
   border-radius: 0.625rem;
   font-weight: 600;
   background-color: transparent;
+  transition: all 0.3s ease-out;
+  padding: 0.625rem 1.5rem;
+  text-transform: uppercase;
 }
 
 .btn--primary {
-  padding: 0.625rem 1.5rem;
-  text-transform: uppercase;
   color: var(--clr-primary-500);
   border: 2px solid var(--clr-primary-500);
-  transition: background-color 0.3s ease-out;
 }
 
 .btn--primary:hover {
   background-color: var(--clr-primary-900);
+}
+
+.btn--neutral {
+  color: var(--clr-neutral-50);
+  border: 2px solid var(--clr-neutral-100);
+}
+
+.btn--neutral:hover {
+  background-color: var(--clr-neutral-800);
+}
+
+.btn--ghost {
+  border: 2px solid var(--clr-neutral-900);
+  color: var(--clr-neutral-200);
+}
+
+.btn--ghost:hover {
+  color: var(--clr-neutral-50);
+  border-color: var(--clr-neutral-400);
+  background-color: var(--clr-neutral-800);
 }
 
 .language-picker {
@@ -1535,7 +1570,7 @@ input[type=radio] {
 .registration-steps__title {
   font-size: 1.75rem;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .registration-steps__item {
@@ -1616,6 +1651,18 @@ input[type=radio] {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.password-requirements__item i {
+  transition: 300ms ease;
+}
+
+.password-requirements__item .icon-x {
+  color: var(--clr-secondary-400);
+}
+
+.password-requirements__item .icon-check {
+  color: var(--clr-primary-400);
 }
 
 .footer {
@@ -3330,8 +3377,8 @@ input[type=radio] {
 
 @font-face {
   font-family: "icomoon";
-  src: url("../fonts/icomoon.eot?9tgd42");
-  src: url("../fonts/icomoon.eot?9tgd42#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?9tgd42") format("truetype"), url("../fonts/icomoon.woff?9tgd42") format("woff");
+  src: url("../fonts/icomoon.eot?dsb72z");
+  src: url("../fonts/icomoon.eot?dsb72z#iefix") format("embedded-opentype"), url("../fonts/icomoon.ttf?dsb72z") format("truetype"), url("../fonts/icomoon.woff?dsb72z") format("woff"), url("../fonts/icomoon.svg?dsb72z#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -3348,6 +3395,14 @@ input[type=radio] {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cancel:before {
+  content: "\e939";
+}
+
+.icon-check:before {
+  content: "\e93a";
 }
 
 .icon-sound-mix:before {
@@ -3534,7 +3589,35 @@ input[type=radio] {
   content: "\e92d";
 }
 
+.icon-checkbox:before {
+  content: "\e92d";
+}
+
+.icon-unchecked:before {
+  content: "\e92d";
+}
+
+.icon-square:before {
+  content: "\e92d";
+}
+
 .icon-checkbox-checked:before {
+  content: "\e92e";
+}
+
+.icon-checkbox1:before {
+  content: "\e92e";
+}
+
+.icon-tick:before {
+  content: "\e92e";
+}
+
+.icon-checked:before {
+  content: "\e92e";
+}
+
+.icon-selected:before {
   content: "\e92e";
 }
 
@@ -3550,7 +3633,7 @@ input[type=radio] {
   content: "\e931";
 }
 
-.icon-image-add:before {
+.icon-image-add-line:before {
   content: "\e932";
 }
 
@@ -3562,16 +3645,20 @@ input[type=radio] {
   content: "\e934";
 }
 
-.icon-heart-fill:before {
+.icon-repeat1:before {
   content: "\e935";
 }
 
-.icon-heart_outline:before {
+.icon-heart-fill:before {
   content: "\e936";
 }
 
-.icon-volume-medium:before {
+.icon-heart_outline:before {
   content: "\e937";
+}
+
+.icon-volume-medium:before {
+  content: "\e938";
 }
 
 /*# sourceMappingURL=App.css.map */

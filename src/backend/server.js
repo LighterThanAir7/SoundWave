@@ -2,13 +2,15 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from 'cors';
 import cookieParser from "cookie-parser";
-import authRoutes from "./routes/authRoutes.js";
 
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+
+import authRoutes from "./routes/authRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import songRoutes from "./routes/songRoutes.js";
-import favouritesRoutes from './routes/favouritesRoutes.js';
+// import favouritesRoutes from './routes/favouritesRoutes.js';
+import userRoutes from "./routes/userRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -34,7 +36,8 @@ app.use(cors({
 app.use("/api/auth", authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api', songRoutes);
-app.use('/api/favorites', favouritesRoutes);
+// app.use('/api/favorites', favouritesRoutes);
+app.use('/api/users', userRoutes);
 
 // Start server
 app.listen(PORT, () => {

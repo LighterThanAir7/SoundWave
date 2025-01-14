@@ -13,8 +13,29 @@ import Quote from "../components/sections/Quote.jsx";
 import Footer from "../components/layout/Footer.jsx";
 import SoundwaveContainer from "../components/common/SoundwaveContainer.jsx";
 import TestSongs from "../components/sections/TestSongs.jsx";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../context/AuthContext.jsx";
 
-export default function Music () {
+export default function Music() {
+  const { user, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      navigate('/login');
+    }
+  }, [user, isLoading, navigate]);
+
+  if (isLoading) {
+    return null; // or a loading spinner
+  }
+
+  // Only render the page content if user is authenticated
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="flex">
       <Sidebar />
@@ -24,14 +45,6 @@ export default function Music () {
           <SoundwaveContainer/>
           <Vibe/>
           <TestSongs/>
-          {/*<MadeForYou/>
-          <RecentlyPlayed/>
-          <PlaylistsYoullLove/>
-          <SummerIsHere/>
-          <NewReleasesForYou/>
-          <Categories/>
-          <Artists/>
-          <Genres/>*/}
           <Quote
             mainText="Music is the universal language of mankind"
             primaryWords={['Music']}
@@ -42,5 +55,5 @@ export default function Music () {
         <Footer type="bottom" footerClass="footer--adjust"/>
       </div>
     </div>
-  )
+  );
 }

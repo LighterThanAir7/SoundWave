@@ -1,3 +1,4 @@
+/*
 import FavouritesModel from '../models/favouritesModel.js';
 
 class FavouritesController {
@@ -47,3 +48,4 @@ class FavouritesController {
 }
 
 export default new FavouritesController();
+*/

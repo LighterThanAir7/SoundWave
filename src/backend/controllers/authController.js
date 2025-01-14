@@ -6,6 +6,7 @@ import {
   getUserByEmail,
 } from "../models/authModel.js";
 import {validateApiKeys} from "../models/apiKeyModel.js";
+import { generateUniqueDiscriminator } from "../helpers/userHelper.js";
 
 /**
  * Create a Super Administrator account if it doesn't already exist.
@@ -78,61 +79,6 @@ export const createSuperAdmin = async (req, res) => {
   }
 };
 
-async function generateUniqueDiscriminator(baseUsername) {
-  // First, check if username has already reached capacity
-  const [capacityReached] = await pool.query(
-    "SELECT 1 FROM username_capacity_reached WHERE base_username = ?",
-    [baseUsername]
-  );
-
-  if (capacityReached.length > 0) {
-    // Increment the attempts counter
-    await pool.query(
-      "UPDATE username_capacity_reached SET attempts_after_capacity = attempts_after_capacity + 1 WHERE base_username = ?",
-      [baseUsername]
-    );
-    throw new Error(`The username "${baseUsername}" has no available discriminators. Please choose a different username.`);
-  }
-
-  // If not at capacity, proceed with random approach
-  for (let attempt = 0; attempt < 10; attempt++) {
-    const randomNum = Math.floor(Math.random() * 10000);
-    const discriminator = randomNum.toString().padStart(4, '0');
-
-    const [existing] = await pool.query(
-      "SELECT 1 FROM users WHERE base_username = ? AND discriminator = ?",
-      [baseUsername, discriminator]
-    );
-
-    if (existing.length === 0) {
-      return discriminator;
-    }
-  }
-
-  // If random approach fails, resort to sequential approach
-  for (let i = 1; i < 10000; i++) {
-    const discriminator = i.toString().padStart(4, '0');
-
-    const [existing] = await pool.query(
-      "SELECT 1 FROM users WHERE base_username = ? AND discriminator = ?",
-      [baseUsername, discriminator]
-    );
-
-    if (existing.length === 0) {
-      return discriminator;
-    }
-  }
-
-  // If we get here, all discriminators are taken
-  // Log this username to our tracking table with initial attempts count of 1
-  await pool.query(
-    "INSERT INTO username_capacity_reached (base_username, attempts_after_capacity) VALUES (?, 1)",
-    [baseUsername]
-  );
-
-  throw new Error(`The username "${baseUsername}" has no available discriminators. Please choose a different username.`);
-}
-
 export const adminLogin = async (req, res) => {
   try {
     const { email, password, remember_me } = req.body;
@@ -201,7 +147,8 @@ export const adminLogin = async (req, res) => {
       user: {
         id: user.id,
         email: user.email,
-        role: user.id_type
+        role: user.id_type,
+        base_username: user.base_username
       }
     });
 
@@ -277,3 +224,84 @@ export const verifyToken = async (req, res) => {
     res.status(401).json({ message: "Invalid token" });
   }
 };
+
+export const userLogin = async (req, res) => {
+  try {
+    const { email, password, remember_me } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
+
+    // Get JWT secrets
+    const { jwtSecret, jwtRefreshSecret } = await validateApiKeys();
+    if (!jwtSecret || !jwtRefreshSecret) {
+      return res.status(500).json({ message: "Authentication system error" });
+    }
+
+    // Get user from database - note the id_type = 3 for regular users
+    const [users] = await pool.query(
+      "SELECT * FROM users WHERE email = ? AND id_type = 3",
+      [email]
+    );
+
+    if (users.length === 0) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const user = users[0];
+
+    // Verify password
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Generate tokens
+    const accessToken = jwt.sign(
+      { userId: user.id, email: user.email, role: user.id_type, base_username: user.base_username },
+      jwtSecret,
+      { expiresIn: '15m' }
+    );
+
+    const refreshToken = jwt.sign(
+      { userId: user.id },
+      jwtRefreshSecret,
+      { expiresIn: remember_me ? '7d' : '24h' }
+    );
+
+    // Set refresh token in HTTP-only cookie
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: remember_me ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
+      path: '/api/auth/refresh'
+    });
+
+    // Store refresh token hash in database
+    const refreshTokenHash = await bcrypt.hash(refreshToken, 10);
+    await pool.query(
+      "UPDATE users SET refresh_token = ?, last_login = NOW() WHERE id = ?",
+      [refreshTokenHash, user.id]
+    );
+
+    res.json({
+      message: "Login successful",
+      accessToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.id_type,
+        base_username: user.base_username,
+        discriminator: user.discriminator
+      }
+    });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
