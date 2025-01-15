@@ -12,9 +12,11 @@
     "watch:tokens": "node src/tokens/watch-tokens.js"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^17.0.0",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "chokidar": "^4.0.0",
+    "colorthief": "^2.6.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -26,11 +28,11 @@
     "mysql2": "^3.11.5",
     "node-id3": "^0.2.6",
     "react": "^18.3.1",
-    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.25.1",
     "sass": "^1.77.8",
+    "tinycolor2": "^1.6.0",
     "uuid": "^11.0.3"
   },
   "devDependencies": {

@@ -1,8 +1,13 @@
 import { usePlayer, REPEAT_MODES } from '../../context/PlayerContext';
 import { useEffect, useRef, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-const StrictModeDroppable = ({ children, ...props }) => {
+const StrictModeDroppable = ({
+     children = null,
+     isDropDisabled = false,
+     isCombineEnabled = false,
+     ...props
+   }) => {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
@@ -14,8 +19,18 @@ const StrictModeDroppable = ({ children, ...props }) => {
   }, []);
 
   if (!enabled) return null;
-  return <Droppable {...props}>{children}</Droppable>;
+
+  return (
+    <Droppable
+      isDropDisabled={isDropDisabled}
+      isCombineEnabled={isCombineEnabled}
+      {...props}
+    >
+      {children}
+    </Droppable>
+  );
 };
+
 
 export default function PlayerControls() {
   const {

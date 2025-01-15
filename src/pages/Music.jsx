@@ -45,6 +45,13 @@ export default function Music() {
           <SoundwaveContainer/>
           <Vibe/>
           <TestSongs/>
+          <RecentlyPlayed/>
+          <PlaylistsYoullLove/>
+          <SummerIsHere/>
+          <NewReleasesForYou/>
+          <Categories/>
+          <Artists/>
+          <Genres/>
           <Quote
             mainText="Music is the universal language of mankind"
             primaryWords={['Music']}

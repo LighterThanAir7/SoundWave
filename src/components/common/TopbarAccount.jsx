@@ -6,8 +6,6 @@ export default function TopbarAccount() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  console.log(user);
-
   const handleLogout = () => {
     logout();
     navigate('/login');

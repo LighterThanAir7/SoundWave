@@ -1,40 +1,102 @@
 import SectionHeader from "../common/SectionHeader.jsx";
 import Carousel from "../common/Carousel.jsx";
 
-const images = [
-  "/src/assets/genres/afro.jpg",
-  "/src/assets/genres/alternative.jpg",
-  "/src/assets/genres/blues.jpg",
-  "/src/assets/genres/classical.jpg",
-  "/src/assets/genres/dance.jpg",
-  "/src/assets/genres/edm.jpg",
-  "/src/assets/genres/electro.jpg",
-  "/src/assets/genres/electronic.jpg",
-  "/src/assets/genres/flamenco.jpg",
-  "/src/assets/genres/k-pop.jpg",
-  "/src/assets/genres/latin-music.jpg",
-  "/src/assets/genres/metal.jpg",
-  "/src/assets/genres/movies-and-series.jpg",
-  "/src/assets/genres/pop.jpg",
-  "/src/assets/genres/rap.jpg",
-  "/src/assets/genres/reggae.jpg",
-  "/src/assets/genres/rnb.jpg",
-  "/src/assets/genres/rock.jpg",
-  "/src/assets/genres/schlager.jpg",
-  "/src/assets/genres/soul.jpg",
-  "/src/assets/genres/soul-and-funk.jpg",
-  "/src/assets/genres/trance.jpg",
+const genreData = [
+  {
+    image_path: "/src/assets/genres/afro.jpg",
+    name: "Afro"
+  },
+  {
+    image_path: "/src/assets/genres/alternative.jpg",
+    name: "Alternative"
+  },
+  {
+    image_path: "/src/assets/genres/blues.jpg",
+    name: "Blues"
+  },
+  {
+    image_path: "/src/assets/genres/classical.jpg",
+    name: "Classical"
+  },
+  {
+    image_path: "/src/assets/genres/dance.jpg",
+    name: "Dance"
+  },
+  {
+    image_path: "/src/assets/genres/edm.jpg",
+    name: "EDM"
+  },
+  {
+    image_path: "/src/assets/genres/electro.jpg",
+    name: "Electro"
+  },
+  {
+    image_path: "/src/assets/genres/electronic.jpg",
+    name: "Electronic"
+  },
+  {
+    image_path: "/src/assets/genres/flamenco.jpg",
+    name: "Flamenco"
+  },
+  {
+    image_path: "/src/assets/genres/k-pop.jpg",
+    name: "K-pop"
+  },
+  {
+    image_path: "/src/assets/genres/latin-music.jpg",
+    name: "Latin"
+  },
+  {
+    image_path: "/src/assets/genres/metal.jpg",
+    name: "Metal"
+  },
+  {
+    image_path: "/src/assets/genres/movies-and-series.jpg",
+    name: "Movies and Series"
+  },
+  {
+    image_path: "/src/assets/genres/pop.jpg",
+    name: "Pop"
+  },
+  {
+    image_path: "/src/assets/genres/rap.jpg",
+    name: "Rap"
+  },
+  {
+    image_path: "/src/assets/genres/reggae.jpg",
+    name: "Reggae"
+  },
+  {
+    image_path: "/src/assets/genres/rnb.jpg",
+    name: "Rnb"
+  },
+  {
+    image_path: "/src/assets/genres/rock.jpg",
+    name: "Rock"
+  },
+  {
+    image_path: "/src/assets/genres/schlager.jpg",
+    name: "Schlager"
+  },
+  {
+    image_path: "/src/assets/genres/soul.jpg",
+    name: "Soul"
+  },
+  {
+    image_path: "/src/assets/genres/soul-and-funk.jpg",
+    name: "Soul and Funk"
+  },
+  {
+    image_path: "/src/assets/genres/trance.jpg",
+    name: "Trance"
+  }
 ];
-
-const data = [
-  "Afro", "Alternative", "Blues", "Classical", "Dance",  "EDM", "Electro", "Electronic", "Flamenco", "K-pop", "Latin", "Metal", "Movies and Series", "Pop", "Rap", "Reggae", "Rnb", "Rock", "Schlager", "Soul", "Soul and Funk", "Trance"
-]
 
 export default function Genres () {
   return (
     <section className="section">
       <SectionHeader title="Genres" />
-      <Carousel images={images} data={data} cardType="text-absolute" />
+      <Carousel data={genreData}  cardType="text-absolute" />
     </section>
   )
 }

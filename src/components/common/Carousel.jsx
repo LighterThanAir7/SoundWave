@@ -9,14 +9,11 @@ export default function Carousel({ data, cardType }) {
   const [scrollStartLeft, setStartScrollLeft] = useState(0);
 
   const handleCardClick = (clickedSong, index) => {
-    // Prvo pustimo odabranu pjesmu
     playSong(clickedSong);
 
     // Create queue including current song and remaining songs
     const newQueue = [clickedSong, ...data.slice(index + 1)];
-    console.log("Queue će sadržavati:", newQueue);
-
-    // Dodajemo pjesme u queue
+    // console.log("Queue će sadržavati:", newQueue);
     addToQueue(newQueue);
   };
 
@@ -46,6 +43,7 @@ export default function Carousel({ data, cardType }) {
   };
 
   const getImagePath = (imagePath) => {
+    if (!imagePath) return null;
     if (imagePath.startsWith('/src/assets')) {
       return imagePath;
     }
@@ -58,16 +56,18 @@ export default function Carousel({ data, cardType }) {
         return (
           <div key={index} className="carousel__card" onClick={() => handleCardClick(data, index)}>
             <div className="carousel__img-container">
-              <img className="carousel__img" src={getImagePath(data.artwork_path)} alt={data.title}/>
+              <img className="carousel__img" src={getImagePath(data.artwork_path) || data.image_path} alt={data.title}/>
             </div>
-            <p className="carousel__p">{`${data.title} - ${data.artist}`}</p>
+            <p className="carousel__p">
+              {data.title}{data.artist ? ` - ${data.artist}` : ''}
+            </p>
           </div>
         );
       case 'full-info':
         return (
           <div key={index} className="carousel__card">
             <div className="carousel__img-container">
-              <img className="carousel__img" src={getImagePath(data.artwork_path)} alt={data.title}/>
+              <img className="carousel__img" src={getImagePath(data.image_path)} alt={data.title}/>
             </div>
             <p className="carousel__title">{data.title}</p>
             <p className="carousel__artist">{data.artist}</p>

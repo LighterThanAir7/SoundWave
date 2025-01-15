@@ -8,6 +8,7 @@
   left: 300px; // sidebar width
   top: 57px; // topbar height
   box-shadow: inset 0 0 20rem 0.75rem var(--clr-primary-800);
+  transition: box-shadow .5s ease-out;
 }
 
 .soundwave__gif {

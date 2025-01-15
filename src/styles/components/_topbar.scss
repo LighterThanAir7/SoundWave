@@ -11,6 +11,8 @@
   top: 0;
   right: 0;
   z-index: 9999;
+  transition: box-shadow .5s ease-out;
+
   &__form {
     @include d-flex($ai: center, $g: size(12));
     position: relative;
@@ -19,26 +21,31 @@
       font-size: fs(350);
     }
   }
+
   &__search {
     color: clr(generic, white);
     transition: .3s ease-out;
     padding: size(8) size(16) size(8) size(18);
     border-radius: size(8);
     width: 40rem;
+
     &:hover {
       background-color: var(--clr-primary-900);
       &::placeholder {
         opacity: 1;
       }
     }
+
     &::placeholder {
       transition: .3s ease-out;
     }
+
     &:focus {
       outline: none;
       box-shadow: inset 0 0 3rem var(--clr-primary-800);
     }
   }
+
   &__search-menu {
     position: absolute;
     left: -#{size(28)};
@@ -50,15 +57,18 @@
     padding-top: size(20);
     border-bottom-right-radius: size(8);
   }
+
   &__search-h {
     @include d-flex($jc: space-between, $ai: center);
     padding-inline: size(24);
     margin-bottom: size(8);
+
     &-title {
       font-size: fs(400);
       font-weight: $fw-600;
       user-select: none;
     }
+
     &-clear {
       transition: .3s ease-out;
       cursor: pointer;
@@ -66,6 +76,7 @@
         color: var(--clr-primary-500);
       }
     }
+
     &-item {
       @include d-flex($jc: space-between, $ai: center);
       padding: size(10) size(32) size(10) size(24);
@@ -81,19 +92,23 @@
       }
     }
   }
+
   &__account {
     @include d-flex($ai: center, $g: size(14));
     i {
       font-size: fs(350);
     }
   }
+
   &__profile-icon {
     border-radius: 50%;
     width: 2.25rem;
   }
+
   &__profile-name {
 
   }
+
   &__separator {
     height: 1.5rem;
     width: 1px;
