@@ -1,0 +1,88 @@
+@use '../abstract' as *;
+
+.form--registration .custom-checkbox-field {
+  background-color: clr(neutral, 900);
+  padding: size(20) 0 size(20) size(20);
+  border-radius: size(4);
+
+  .custom-checkbox-field__indicator {
+    background-color: clr(neutral, 800);
+    border: 1px solid clr(neutral, 500);
+  }
+}
+
+.custom-checkbox-field {
+  &__input {
+    width: 1px;
+    position: absolute;
+    padding: 0;
+    overflow: hidden;
+    margin: -1px;
+    height: 1px;
+    clip: rect(0px, 0px, 0px, 0px);
+    border: 0;
+
+    &:checked {
+      + .custom-checkbox-field__label {
+        .custom-checkbox-field__indicator {
+          background-color: var(--clr-primary-500);
+          border-color: var(--clr-primary-500);
+
+          &::before {
+            border-bottom-width: 2px;
+            border-bottom-style: solid;
+            border-left-width: 2px;
+            border-left-style: solid;
+            border-color: clr(neutral, 900);
+            display: block;
+            block-size: 5px;
+            inline-size: 10px;
+            position: absolute;
+            top: 46%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0px) rotate(-48deg);
+            box-sizing: border-box;
+            background-color: unset;
+            content: "";
+          }
+        }
+      }
+    }
+  }
+
+  &__label {
+    @include d-flex();
+    cursor: pointer;
+
+    &:hover .custom-checkbox-field__indicator {
+      border-color: var(--clr-primary-500);
+    }
+  }
+
+  &__text {
+    position: relative;
+    top: -2px;
+    color: clr(generic, white);
+    overflow-wrap: break-word;
+    min-inline-size: 0;
+    padding-inline-start: size(12);
+    padding-inline-end: size(24);
+    font-size: fs(250);
+    user-select: none;
+  }
+
+  &__indicator {
+    box-sizing: border-box;
+    border-radius: 3px;
+    display: inline-block;
+    flex-shrink: 0;
+    block-size: 16px;
+    user-select: none;
+    inline-size: 16px;
+    align-self: flex-start;
+    top: 1px;
+    position: relative;
+    border: 1px solid clr(neutral, 200);
+    transition: .2s ease-out;
+  }
+}

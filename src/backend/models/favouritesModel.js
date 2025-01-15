@@ -1,11 +1,23 @@
-import pool from '../db/db.js';
+import pool from "../db/db.js";
+
+export const getFavorites = async (userId) => {
+  const [favorites] = await pool.query(`
+    SELECT s.*, a.name as artist 
+    FROM user_favorites uf
+    JOIN songs s ON uf.song_id = s.id
+    LEFT JOIN artists a ON s.primary_artist_id = a.id
+    WHERE uf.user_id = ?
+    ORDER BY uf.created_on DESC
+  `, [userId]);
+  return favorites;
+};
 
 export const addFavorite = async (userId, songId) => {
   const [result] = await pool.query(
     'INSERT INTO user_favorites (user_id, song_id) VALUES (?, ?)',
     [userId, songId]
   );
-  return result;
+  return result.insertId;
 };
 
 export const removeFavorite = async (userId, songId) => {
@@ -13,15 +25,5 @@ export const removeFavorite = async (userId, songId) => {
     'DELETE FROM user_favorites WHERE user_id = ? AND song_id = ?',
     [userId, songId]
   );
-  return result;
-};
-
-export const getFavorites = async (userId) => {
-  const [rows] = await pool.query(
-    `SELECT s.* FROM songs s 
-         INNER JOIN user_favorites uf ON s.id = uf.song_id 
-         WHERE uf.user_id = ?`,
-    [userId]
-  );
-  return rows;
+  return result.affectedRows > 0;
 };

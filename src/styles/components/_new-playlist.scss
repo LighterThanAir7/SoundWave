@@ -1,0 +1,169 @@
+@use '../abstract' as *;
+
+.new-playlist {
+  position: absolute;
+  left: 100%;
+  top: -1px;
+  box-shadow: 0 0 10px 3px var(--clr-primary-900);
+  background-color: var(--clr-primary-950);
+  border-radius: size(8);
+  border: 1px solid var(--clr-primary-200);
+  transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  width: 20rem;
+  box-sizing: content-box; // To account for borders of it's relative parent
+  visibility: hidden;
+  opacity: 0;
+
+  &.show {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &:hover {
+    box-shadow: 0 0 16px var(--clr-primary-800);
+  }
+
+  &__header {
+    @include d-flex($jc: space-between, $ai: center);
+    padding: size(8) size(12) size(8);
+    width: 100%;
+    border-bottom: 1px solid var(--clr-primary-500);
+
+    i:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__title {
+    font-size: fs(300);
+    font-weight: 600;
+    color: var(--clr-primary-500);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  &__info {
+    padding: size(12) size(16);
+
+    .form__input {
+      background-color: var(--clr-neutral-900);
+      border: 1px solid var(--clr-neutral-500);
+      border-radius: size(8);
+      font-size: fs(300);
+    }
+  }
+
+  &__type {
+    margin-bottom: size(12);
+    @include d-flex($d: column, $g: size(4));
+
+    &-item {
+      position: relative;
+      font-size: fs(300);
+      padding-block: size(4);
+      user-select: none;
+
+      input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        // Style the icon when radio is checked
+        &:checked + label i {
+          background-color: var(--clr-primary-700);
+        }
+      }
+
+      label {
+        @include d-flex($ai: center, $g: size(12));
+        cursor: pointer;
+      }
+
+      span {
+        font-size: fs(250);
+        width: 100%;
+      }
+
+      i {
+        padding: size(8);
+        border-radius: 50%;
+        background-color: var(--clr-neutral-900);
+        transition: background-color .2s ease;
+      }
+
+      &:hover {
+
+        i {
+          background-color: var(--clr-primary-800);
+        }
+      }
+    }
+  }
+
+  &__image {
+    position: relative;
+    flex: 1;
+    background-color: var(--clr-neutral-900);
+    border-radius: size(8);
+    border: 1px solid var(--clr-neutral-500);
+    @include d-flex($ai: center, $jc: center);
+    transition: all .2s ease;
+
+    input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .remove-image {
+      position: absolute;
+      top: 5px;
+      right: 20px;
+      transform: translateX(50%);
+      z-index: 10;
+      cursor: pointer;
+      background: var(--clr-neutral-800);
+      border-radius: 50%;
+      padding: size(8);
+      font-size: fs(300);
+
+      &:hover {
+        background: var(--clr-primary-800);
+        color: var(--clr-neutral-50);
+      }
+    }
+
+    i {
+      transition: all .2s ease;
+      padding: size(12);
+      border-radius: 50%;
+      background-color: var(--clr-primary-950);
+    }
+
+    input {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      opacity: 0;
+      z-index: 5;
+    }
+
+    &:hover {
+      border-color: var(--clr-primary-600);
+      background-color: var(--clr-primary-950);
+
+      i {
+        background-color: var(--clr-primary-700);
+      }
+    }
+
+    &:focus {
+      outline: none;
+      background-color: var(--clr-primary-900);
+      border-color: var(--clr-primary-500);
+    }
+  }
+}

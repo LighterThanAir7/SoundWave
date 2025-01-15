@@ -114,7 +114,11 @@ export const adminLogin = async (req, res) => {
 
     // Generate tokens
     const accessToken = jwt.sign(
-      { userId: user.id, email: user.email, role: user.id_type },
+      {
+        userId: user.id,
+        email: user.email,
+        role: user.id_type
+      },
       jwtSecret,
       { expiresIn: '15m' }
     );
@@ -196,7 +200,12 @@ export const refreshToken = async (req, res) => {
 
     // Generate new access token
     const accessToken = jwt.sign(
-      { userId: user.id, email: user.email, role: user.id_type },
+      {
+        id: user.id,
+        email: user.email,
+        role: user.id_type,
+        base_username: user.base_username
+      },
       jwtSecret,
       { expiresIn: '15m' }
     );
@@ -260,7 +269,12 @@ export const userLogin = async (req, res) => {
 
     // Generate tokens
     const accessToken = jwt.sign(
-      { userId: user.id, email: user.email, role: user.id_type, base_username: user.base_username },
+      {
+        id: user.id,
+        email: user.email,
+        role: user.id_type,
+        base_username: user.base_username
+      },
       jwtSecret,
       { expiresIn: '15m' }
     );

@@ -9,8 +9,9 @@ import { dirname, join } from 'path';
 import authRoutes from "./routes/authRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import songRoutes from "./routes/songRoutes.js";
-// import favouritesRoutes from './routes/favouritesRoutes.js';
+import favouritesRoutes from './routes/favouritesRoutes.js';
 import userRoutes from "./routes/userRoutes.js";
+import playlistRoutes from './routes/playlistRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -29,15 +30,19 @@ app.use(cors({
   origin: "http://localhost:5173", // React frontend URL
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  exposedHeaders: ["Content-Length", "X-Foo", "X-Bar"],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 
 // Routes
 app.use("/api/auth", authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api', songRoutes);
-// app.use('/api/favorites', favouritesRoutes);
+app.use('/api/favorites', favouritesRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/playlists', playlistRoutes);
 
 // Start server
 app.listen(PORT, () => {

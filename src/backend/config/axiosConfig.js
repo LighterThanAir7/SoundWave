@@ -6,6 +6,17 @@ const api = axios.create({
   withCredentials: true
 });
 
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => Promise.reject(error)
+);
+
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -16,13 +27,16 @@ api.interceptors.response.use(
 
       try {
         const response = await api.post('/api/auth/refresh');
+        console.log('Refreshed token:', response.data.accessToken);
         const { accessToken } = response.data;
 
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         localStorage.setItem('accessToken', accessToken);
+        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
         return api(originalRequest);
       } catch (refreshError) {
+        console.error('Refresh Token Failed:', refreshError.message);
         window.location.href = '/admin/login';
         return Promise.reject(refreshError);
       }

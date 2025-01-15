@@ -1,51 +1,54 @@
-/*
-import FavouritesModel from '../models/favouritesModel.js';
+import { getFavorites, addFavorite, removeFavorite } from '../models/favouritesModel.js';
 
-class FavouritesController {
-  async addToFavorites(req, res) {
-    try {
-      const userId = req.user.id; // Pretpostavljamo da imamo middleware za auth
-      const { songId } = req.params;
-
-      const result = await FavouritesModel.addToFavorites(userId, songId);
-
-      if (result) {
-        res.status(200).json({ message: 'Pjesma dodana u favorite' });
-      } else {
-        res.status(400).json({ message: 'Greška pri dodavanju u favorite' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: 'Serverska greška' });
-    }
+export const getUserFavorites = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const favorites = await getFavorites(userId);
+    res.json({
+      message: "Favorites retrieved successfully",
+      favorites
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching favorites",
+      error: error.message
+    });
   }
+};
 
-  async removeFromFavorites(req, res) {
-    try {
-      const userId = req.user.id;
-      const { songId } = req.params;
+export const addToFavorites = async (req, res) => {
+  try {
+    const { songId } = req.body;
+    const userId = req.user.id;
 
-      const result = await FavouritesModel.removeFromFavorites(userId, songId);
-
-      if (result) {
-        res.status(200).json({ message: 'Pjesma uklonjena iz favorita' });
-      } else {
-        res.status(400).json({ message: 'Greška pri uklanjanju iz favorita' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: 'Serverska greška' });
+    if (!userId) {
+      return res.status(401).json({ message: "User not authenticated" });
     }
-  }
 
-  async getUserFavorites(req, res) {
-    try {
-      const userId = req.user.id;
-      const favorites = await FavouritesModel.getUserFavorites(userId);
-      res.status(200).json(favorites);
-    } catch (error) {
-      res.status(500).json({ message: 'Serverska greška' });
+    await addFavorite(userId, songId);
+    res.json({ message: "Song added to favorites" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error adding to favorites",
+      error: error.message
+    });
+  }
+};
+
+export const removeFromFavorites = async (req, res) => {
+  try {
+    const { songId } = req.params;
+    const userId = req.user.id;
+    const removed = await removeFavorite(userId, songId);
+    if (removed) {
+      res.json({ message: "Song removed from favorites" });
+    } else {
+      res.status(404).json({ message: "Favorite not found" });
     }
+  } catch (error) {
+    res.status(500).json({
+      message: "Error removing from favorites",
+      error: error.message
+    });
   }
-}
-
-export default new FavouritesController();
-*/
+};

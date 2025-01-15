@@ -7,6 +7,7 @@ export const getAllSongs = async () => {
              s.duration,
              s.file_size,
              s.file_path,
+             s.file_format,
              s.artwork_path,
              s.created_on,
              a.name                        as artist,
@@ -27,4 +28,19 @@ export const getAllSongs = async () => {
       ORDER BY s.created_on DESC
   `);
   return songs;
+};
+
+export const getSongById = async (id) => {
+  const [song] = await pool.query(`
+    SELECT s.id,
+           s.title,
+           s.file_path,
+           s.file_format,
+           a.name as artist
+    FROM songs s
+    LEFT JOIN artists a ON s.primary_artist_id = a.id
+    WHERE s.id = ?
+  `, [id]);
+
+  return song[0];
 };

@@ -79,3 +79,44 @@ export const uploadSong = multer({
     files: 5000 // per batch
   }
 });
+
+
+
+
+// Add playlist image storage configuration
+const playlistStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadDir = path.join(projectRoot, 'uploads/playlists');
+
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uuid = uuidv4();
+    const extension = path.extname(file.originalname);
+    const finalName = `playlist-${uuid}${extension}`;
+    cb(null, finalName);
+  }
+});
+
+// Add playlist image filter
+const playlistImageFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed!'), false);
+  }
+};
+
+// Export playlist upload configuration
+export const uploadPlaylistImage = multer({
+  storage: playlistStorage,
+  fileFilter: playlistImageFilter,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit for images
+  }
+});

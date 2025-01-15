@@ -1,4 +1,5 @@
 import {createContext, useContext, useState, useRef, useEffect} from 'react';
+import api from '../backend/config/axiosConfig.js';
 
 export const REPEAT_MODES = {
   OFF: 'off',
@@ -174,7 +175,6 @@ export function PlayerProvider({ children }) {
     if (previousSong) playSong(previousSong);
   };
 
-
   const handleVolumeChange = (newVolume) => {
     setVolume(newVolume);
     audioRef.current.volume = newVolume / 100;
@@ -203,6 +203,29 @@ export function PlayerProvider({ children }) {
     });
   };
 
+  const handleDownload = async (song) => {
+    if (!song) return;
+    const filename = `${song.artist} - ${song.title}.${song.file_format}`;
+
+    try {
+      const response = await api.get(`/api/songs/download/${song.id}`, {
+        responseType: 'blob'
+      });
+
+      const blob = new Blob([response.data], { type: `audio/${song.file_format}` });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading:', error);
+    }
+  };
+
   return (
     <PlayerContext.Provider value={{
       currentSong,
@@ -222,7 +245,8 @@ export function PlayerProvider({ children }) {
       repeatMode,
       toggleRepeatMode,
       isShuffleOn,
-      toggleShuffle
+      toggleShuffle,
+      handleDownload
     }}>
       {children}
     </PlayerContext.Provider>

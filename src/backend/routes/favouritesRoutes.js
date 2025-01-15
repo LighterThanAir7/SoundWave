@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import { verifyToken } from '../middleware/authMiddleware.js';
-import FavouritesController from '../controllers/favouritesController.js';
+import { getUserFavorites, addToFavorites, removeFromFavorites } from '../controllers/favouritesController.js';
+import { verifyToken } from '../middleware/auth.js';
 
 const router = Router();
 
-router.use(verifyToken);
-
-router.post('/songs/:songId', FavouritesController.addToFavorites);
-router.delete('/songs/:songId', FavouritesController.removeFromFavorites);
-router.get('/songs', FavouritesController.getUserFavorites);
+// Apply verifyToken middleware to all favorites routes
+router.get('/', verifyToken, getUserFavorites);
+router.post('/', verifyToken, addToFavorites);
+router.delete('/:songId', verifyToken, removeFromFavorites);
 
 export default router;

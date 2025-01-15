@@ -34,6 +34,7 @@ export default function PlayerControls() {
     toggleRepeatMode,
     isShuffleOn,
     toggleShuffle,
+    handleDownload
   } = usePlayer();
 
   const [showVolumeBar, setShowVolumeBar] = useState(false);
@@ -239,7 +240,10 @@ export default function PlayerControls() {
         </div>
 
         <i className="icon-lyrics"></i>
-        <i className="icon-download"></i>
+        <i
+          className="icon-download"
+          onClick={() => currentSong && handleDownload(currentSong)}
+        ></i>
 
         <div className="relative">
           <i className="icon-volume-medium" ref={volumeIconRef} onClick={toggleVolumeBar}></i>
