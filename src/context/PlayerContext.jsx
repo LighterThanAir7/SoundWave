@@ -12,13 +12,17 @@ const PlayerContext = createContext();
 export function PlayerProvider({ children }) {
   const audioRef = useRef(new Audio());
   const [volume, setVolume] = useState(100);
+  const [showVolumeBar, setShowVolumeBar] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [queue, setQueue] = useState([]);
+  const [showQueue, setShowQueue] = useState(false);
   const [repeatMode, setRepeatMode] = useState(REPEAT_MODES.OFF);
   const [isShuffleOn, setIsShuffleOn] = useState(false);
   const [shuffledQueue, setShuffledQueue] = useState([]);
   const [playHistory, setPlayHistory] = useState([]);
+  const [controlMessage, setControlMessage] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     const handleSongEnd = () => {
@@ -59,6 +63,15 @@ export function PlayerProvider({ children }) {
     audioRef.current.addEventListener('ended', handleSongEnd);
     return () => audioRef.current.removeEventListener('ended', handleSongEnd);
   }, [currentSong, repeatMode, queue, isShuffleOn, shuffledQueue]);
+
+  const handleVolumeChange = (newVolume) => {
+    setVolume(newVolume);
+    audioRef.current.volume = newVolume / 100;
+  };
+
+  const toggleVolumeBar = () => {
+    setShowVolumeBar(!showVolumeBar);
+  };
 
   const toggleShuffle = () => {
     if (!isShuffleOn) {
@@ -175,11 +188,6 @@ export function PlayerProvider({ children }) {
     if (previousSong) playSong(previousSong);
   };
 
-  const handleVolumeChange = (newVolume) => {
-    setVolume(newVolume);
-    audioRef.current.volume = newVolume / 100;
-  };
-
   const toggleRepeatMode = () => {
     setRepeatMode(current => {
       switch(current) {
@@ -226,28 +234,70 @@ export function PlayerProvider({ children }) {
     }
   };
 
+  const showControlMessage = (message) => {
+    setControlMessage(message);
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 2000);
+  };
+
+  // ------------------------------ Queue Methods ------------------------------
+
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+    reorderQueue(result.source.index, result.destination.index);
+  };
+
+  const handleQueueItemClick = (song) => {
+    playSong(song);
+  };
+
+  const toggleQueue = () => {
+    setShowQueue(!showQueue);
+  };
+
+  const formatTime = (durationInSeconds) => {
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = durationInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
+  const value = {
+    currentSong,
+    isPlaying,
+    playSong,
+    playQueueItem,
+    playNextSong,
+    playPreviousSong,
+    pauseSong,
+    audioRef,
+    volume,
+    handleVolumeChange,
+    toggleVolumeBar,
+    showVolumeBar,
+    queue,
+    setQueue,
+    formatTime,
+    showQueue,
+    setShowQueue,
+    handleDragEnd,
+    handleQueueItemClick,
+    toggleQueue,
+    reorderQueue,
+    addToQueue,
+    repeatMode,
+    toggleRepeatMode,
+    isShuffleOn,
+    toggleShuffle,
+    handleDownload,
+    controlMessage,
+    showMessage,
+    showControlMessage
+  }
+
   return (
-    <PlayerContext.Provider value={{
-      currentSong,
-      isPlaying,
-      playSong,
-      playQueueItem,
-      playNextSong,
-      playPreviousSong,
-      pauseSong,
-      audioRef,
-      volume,
-      handleVolumeChange,
-      queue,
-      setQueue,
-      reorderQueue,
-      addToQueue,
-      repeatMode,
-      toggleRepeatMode,
-      isShuffleOn,
-      toggleShuffle,
-      handleDownload
-    }}>
+    <PlayerContext.Provider value={value}>
       {children}
     </PlayerContext.Provider>
   );

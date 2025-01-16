@@ -87,3 +87,4 @@ export const useColorManagement = (imageRef) => {
     }
   }, [imageRef, updateColors]);
 };
+
