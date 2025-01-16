@@ -1,0 +1,53 @@
+@use "../abstract" as *;
+
+.autoscroller {
+  position: relative;
+  width: 100%;
+  height: 8.75rem;
+  overflow: hidden;
+  padding-block: size(96);
+
+  &__element {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    &--primary {
+      animation: primary 30s linear infinite;
+    }
+
+    &--secondary {
+      animation: secondary 30s linear infinite;
+    }
+  }
+
+  &__text {
+    font-family: 'AvenirLTStd-Black', sans-serif;
+    font-size: fs(950);
+    -webkit-text-stroke: 3px rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+    color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+@keyframes primary {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 0;
+  }
+}
+
+@keyframes secondary {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
+  }
+}

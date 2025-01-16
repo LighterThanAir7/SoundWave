@@ -2,7 +2,7 @@ import { usePlayer } from '../../context/PlayerContext';
 import { useEffect, useState } from 'react';
 
 export default function PlayerProgress() {
-  const { currentSong, audioRef, isPlaying } = usePlayer();
+  const { audioRef } = usePlayer();
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 

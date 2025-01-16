@@ -5,7 +5,7 @@ import {
   checkExistingUsername,
   checkUsernameCapacity,
   incrementCapacityAttempts,
-  logUsernameCapacityReached
+  logUsernameCapacityReached, getAdminUsersList
 } from "../models/userModel.js";
 import { generateUniqueDiscriminator } from "../helpers/userHelper.js";
 
@@ -63,6 +63,19 @@ export const registerUser = async (req, res) => {
     console.error('Error registering user:', error);
     res.status(500).json({
       message: "Error registering user",
+      error: error.message
+    });
+  }
+};
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await getAdminUsersList();
+    res.status(200).json({ users });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({
+      message: "Error fetching users",
       error: error.message
     });
   }

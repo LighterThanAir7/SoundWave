@@ -13,6 +13,8 @@ import favouritesRoutes from './routes/favouritesRoutes.js';
 import userRoutes from "./routes/userRoutes.js";
 import playlistRoutes from './routes/playlistRoutes.js';
 
+import adminRoutes from './routes/adminRoutes.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -43,6 +45,8 @@ app.use('/api', songRoutes);
 app.use('/api/favorites', favouritesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/playlists', playlistRoutes);
+
+app.use('/api/admin', adminRoutes);
 
 // Start server
 app.listen(PORT, () => {

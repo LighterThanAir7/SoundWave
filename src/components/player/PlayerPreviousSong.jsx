@@ -1,7 +1,19 @@
 import { usePlayer } from "../../context/PlayerContext";
+import {useColorManagement} from "../../hooks/useColorManagement.js";
+import {useRef} from "react";
 
 export default function PlayerPreviousSong() {
   const { playPreviousSong, previousSong } = usePlayer();
+  const previousSongImageRef = useRef(null);
+
+  useColorManagement(previousSongImageRef, true, {
+    colorVariables: {
+      border: '--previous-song-border',
+      bgStart: '--previous-song-bg-start',
+      bgEnd: '--previous-song-bg-end',
+      header: '--previous-song-header'
+    }
+  });
 
   const getImagePath = (imagePath) => {
     if (!imagePath) return null;
@@ -25,9 +37,11 @@ export default function PlayerPreviousSong() {
           </div>
           <div className="previous-song__img-container">
             <img
+              ref={previousSongImageRef}
               className="previous-song__img"
               src={getImagePath(previousSong.artwork_path)}
               alt={previousSong.title || 'Previous song'}
+              crossOrigin="anonymous"
             />
           </div>
         </div>

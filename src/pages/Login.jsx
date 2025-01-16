@@ -20,7 +20,7 @@ export default function Login() {
   }
 
   return (
-    <div className="bg-dots">
+    <div className="home bg-dots">
       <Header />
       <main className="flex-col align-items-center relative | mt-64">
         <h2 className="text-center | mb-80">

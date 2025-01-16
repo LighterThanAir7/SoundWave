@@ -77,3 +77,18 @@ export const getUserByEmail = async (email) => {
   const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
   return rows.length > 0 ? rows[0] : null;
 };
+
+export const getAdminUsersList = async () => {
+  const [rows] = await pool.query(`
+    SELECT 
+      u.id,
+      t.name as user_type,
+      u.status,
+      u.email,
+      CONCAT(u.base_username, '#', u.discriminator) as username
+    FROM users u
+    JOIN spt_user_type t ON u.id_type = t.id
+    ORDER BY u.id DESC
+  `);
+  return rows;
+};

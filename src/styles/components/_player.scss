@@ -127,7 +127,8 @@
       @include d-flex($ai:center, $g: size(2));
       font-size: fs(450);
       color: clr(generic, white);
-      i:nth-child(2) {
+      .icon-play,
+      .icon-pause {
         font-size: fs(500);
       }
     }

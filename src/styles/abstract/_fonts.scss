@@ -1,0 +1,3 @@
+@use 'mixins' as m;
+
+@include m.font-face('AvenirLTStd-Black', '../fonts/AvenirLTStd-Black.ttf', 'truetype');

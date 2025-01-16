@@ -3,7 +3,7 @@
 .topbar {
   @include d-flex($jc: space-between, $ai: center);
   background-color: var(--clr-neutral-900);
-  box-shadow: inset 0 0 3rem var(--clr-primary-800);
+  box-shadow: inset 0 0 3rem var(--clr-primary-900);
   border-bottom: 1px solid var(--clr-primary-700);
   width: calc(100% - 300px);
   padding: size(8) size(24) size(8) size(28);

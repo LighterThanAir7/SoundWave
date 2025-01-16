@@ -1,0 +1,7 @@
+@use "../abstract" as *;
+
+.container {
+  width: 80%;
+  padding-inline: size(40);
+  margin-inline: auto;
+}

@@ -15,6 +15,8 @@ export function PlayerProvider({ children }) {
   const [showVolumeBar, setShowVolumeBar] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [nextSong, setNextSong] = useState(null);
+  const [previousSong, setPreviousSong] = useState(null);
   const [queue, setQueue] = useState([]);
   const [showQueue, setShowQueue] = useState(false);
   const [repeatMode, setRepeatMode] = useState(REPEAT_MODES.OFF);
@@ -119,11 +121,24 @@ export function PlayerProvider({ children }) {
       return;
     }
 
+    const currentIndex = queue.findIndex(s => s.id === song.id);
+
+    // Set previous song based on queue position
+    setPreviousSong(currentIndex > 0 ? queue[currentIndex - 1] : null);
+
+    // Set next song based on queue position
+    setNextSong(currentIndex < queue.length - 1 ? queue[currentIndex + 1] : null);
+
     // Play new song
     audioRef.current.src = `/uploads/songs/${song.file_path}`;
     audioRef.current.play();
     setCurrentSong(song);
     setIsPlaying(true);
+
+    // Update play history for shuffle mode
+    if (isShuffleOn) {
+      setPlayHistory(prev => [...prev, song]);
+    }
   };
 
   const playQueueItem = (song) => {
@@ -136,56 +151,66 @@ export function PlayerProvider({ children }) {
   };
 
   const getNextSong = () => {
-    if (!isShuffleOn) {
-      // Original sequential logic
-      const currentIndex = queue.findIndex(song => song.id === currentSong?.id);
-      if (currentIndex === -1) return queue[0];
+    if (!currentSong || queue.length === 0) return null;
 
-      const isLastSong = currentIndex === queue.length - 1;
-      if (isLastSong && repeatMode === REPEAT_MODES.ALL) {
-        return queue[0];
+    if (isShuffleOn) {
+      if (shuffledQueue.length === 0) {
+        const newShuffledQueue = shuffleArray([...queue]);
+        setShuffledQueue(newShuffledQueue);
+        return newShuffledQueue[0];
       }
-      if (isLastSong && repeatMode !== REPEAT_MODES.ALL) return null;
-      return queue[currentIndex + 1];
+      return shuffledQueue[0];
     }
 
-    // Shuffle mode logic
-    if (shuffledQueue.length === 0) {
-      // If all songs have been played, reshuffle remaining queue
-      const newShuffledQueue = shuffleArray([...queue]);
-      setShuffledQueue(newShuffledQueue);
-      return newShuffledQueue[0];
+    const currentIndex = queue.findIndex(song => song.id === currentSong.id);
+    if (currentIndex === -1) return queue[0];
+
+    const isLastSong = currentIndex === queue.length - 1;
+    if (isLastSong && repeatMode === REPEAT_MODES.ALL) {
+      return queue[0];
+    }
+    if (isLastSong && repeatMode !== REPEAT_MODES.ALL) {
+      return null;
     }
 
-    return shuffledQueue[0];
+    const nextSong = queue[currentIndex + 1];
+    setNextSong(nextSong);
+    return nextSong;
   };
 
   const getPreviousSong = () => {
-    if (!isShuffleOn) {
-      // Original sequential logic
-      const currentIndex = queue.findIndex(song => song.id === currentSong?.id);
-      if (currentIndex === -1) return queue[queue.length - 1];
-      const isFirstSong = currentIndex === 0;
-      return queue[isFirstSong ? queue.length - 1 : currentIndex - 1];
+    if (!currentSong || queue.length === 0) return null;
+
+    if (isShuffleOn) {
+      if (playHistory.length > 1) {
+        const previousSong = playHistory[playHistory.length - 2];
+        setPlayHistory(prev => prev.slice(0, -1));
+        setPreviousSong(previousSong);
+        return previousSong;
+      }
+      return null;
     }
 
-    // Shuffle mode - get previous from history
-    if (playHistory.length > 1) {
-      const previousSong = playHistory[playHistory.length - 2];
-      setPlayHistory(prev => prev.slice(0, -1));
-      return previousSong;
-    }
-    return null;
+    const currentIndex = queue.findIndex(song => song.id === currentSong.id);
+    if (currentIndex === -1) return null;
+
+    const isFirstSong = currentIndex === 0;
+    const previousSong = isFirstSong ?
+      (repeatMode === REPEAT_MODES.ALL ? queue[queue.length - 1] : null) :
+      queue[currentIndex - 1];
+
+    setPreviousSong(previousSong);
+    return previousSong;
   };
 
   const playNextSong = () => {
-    const nextSong = getNextSong();
-    if (nextSong) playSong(nextSong);
+    if (!currentSong || !nextSong) return;
+    playSong(nextSong);
   };
 
   const playPreviousSong = () => {
-    const previousSong = getPreviousSong();
-    if (previousSong) playSong(previousSong);
+    const previous = getPreviousSong();
+    if (previous) playSong(previous);
   };
 
   const toggleRepeatMode = () => {
@@ -270,6 +295,9 @@ export function PlayerProvider({ children }) {
     playQueueItem,
     playNextSong,
     playPreviousSong,
+    previousSong,
+    nextSong,
+    setNextSong,
     pauseSong,
     audioRef,
     volume,

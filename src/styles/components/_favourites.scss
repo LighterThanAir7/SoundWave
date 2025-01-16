@@ -1,0 +1,5 @@
+@use '../abstract' as *;
+
+.favourites {
+  @include d-flex($jc: space-between, $g: size(20));
+}

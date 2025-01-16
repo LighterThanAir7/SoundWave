@@ -1,10 +1,9 @@
-import {useCallback, useEffect} from 'react';
+import { useCallback, useEffect } from 'react';
 import ColorThief from 'colorthief';
 import tinycolor from 'tinycolor2';
-import {findClosestColor, oppositeColor, darkenColor, predefinedColors, lightenColor} from '../utils/colorUtils';
+import { findClosestColor, oppositeColor, darkenColor, predefinedColors, lightenColor } from '../utils/colorUtils';
 
-export const useColorManagement = (imageRef) => {
-  // Memoize the color scale percentages to avoid recalculation
+export const useColorManagement = (imageRef, shouldShow = true, options = {}) => {
   const colorScales = {
     lighter: [
       { level: 50, percent: 40 },
@@ -26,29 +25,35 @@ export const useColorManagement = (imageRef) => {
     const setColorVariables = (colorType, color) => {
       const root = document.documentElement;
 
-      // Set all variables in a batch
       const setVariables = () => {
-        // Lighter variants
-        colorScales.lighter.forEach(({ level, percent }) => {
-          root.style.setProperty(
-            `--clr-${colorType}-${level}`,
-            lightenColor(color, percent)
-          );
-        });
+        if (options.colorVariables) {
+          root.style.setProperty(options.colorVariables.border, lightenColor(color, 15));
+          root.style.setProperty(options.colorVariables.bgStart, darkenColor(color, 50));
+          root.style.setProperty(options.colorVariables.bgEnd, darkenColor(color, 75));
+          root.style.setProperty(options.colorVariables.header, `hsl(${color.h}, ${color.s}%, ${color.l}%)`);
+        } else {
+          // Lighter variants
+          colorScales.lighter.forEach(({ level, percent }) => {
+            root.style.setProperty(
+              `--clr-${colorType}-${level}`,
+              lightenColor(color, percent)
+            );
+          });
 
-        // Base color
-        root.style.setProperty(
-          `--clr-${colorType}-500`,
-          `hsl(${color.h}, ${color.s}%, ${color.l}%)`
-        );
-
-        // Darker variants
-        colorScales.darker.forEach(({ level, percent }) => {
+          // Base color
           root.style.setProperty(
-            `--clr-${colorType}-${level}`,
-            darkenColor(color, percent)
+            `--clr-${colorType}-500`,
+            `hsl(${color.h}, ${color.s}%, ${color.l}%)`
           );
-        });
+
+          // Darker variants
+          colorScales.darker.forEach(({ level, percent }) => {
+            root.style.setProperty(
+              `--clr-${colorType}-${level}`,
+              darkenColor(color, percent)
+            );
+          });
+        }
       };
 
       requestAnimationFrame(setVariables);
@@ -56,16 +61,17 @@ export const useColorManagement = (imageRef) => {
 
     const dominantColorVariable = `rgb(${dominantColor.join(',')})`;
     const convertedColor = tinycolor(dominantColorVariable).toHsl();
-
     const closestPrimaryColor = findClosestColor(convertedColor, predefinedColors);
     const secondaryColor = oppositeColor(closestPrimaryColor);
 
     setColorVariables('primary', closestPrimaryColor);
-    setColorVariables('secondary', secondaryColor);
-  }, []);
+    if (!options.colorVariables) {
+      setColorVariables('secondary', secondaryColor);
+    }
+  }, [options]);
 
   useEffect(() => {
-    if (!imageRef.current) return;
+    if (!imageRef.current || !shouldShow) return;
 
     const colorThief = new ColorThief();
     const img = imageRef.current;
@@ -85,6 +91,5 @@ export const useColorManagement = (imageRef) => {
       img.addEventListener('load', handleLoad);
       return () => img.removeEventListener('load', handleLoad);
     }
-  }, [imageRef, updateColors]);
+  }, [imageRef, updateColors, shouldShow]);
 };
-

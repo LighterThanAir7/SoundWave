@@ -1,6 +1,6 @@
 @use '../abstract' as *;
 
-.previous-song {
+.next-song {
   position: absolute;
   border: 1px solid var(--previous-song-border);
   left: calc(100% + 12px);
@@ -8,9 +8,9 @@
   border-bottom-right-radius: size(12);
   padding: size(8) size(8) size(8) size(10);
   background: linear-gradient(
-      90deg,
-      var(--previous-song-bg-start) 0%,
-      var(--previous-song-bg-end) 100%
+                  90deg,
+                  var(--previous-song-bg-start) 0%,
+                  var(--previous-song-bg-end) 100%
   );
   transition: 0.6s ease-in-out;
   opacity: 0;
@@ -76,7 +76,7 @@
   }
 }
 
-.player__primary-controls .icon-previous:hover ~ .previous-song {
+.player__primary-controls .icon-next:hover ~ .next-song {
   visibility: visible;
   opacity: 1;
 }

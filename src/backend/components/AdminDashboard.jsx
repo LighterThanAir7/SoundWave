@@ -3,7 +3,7 @@ import AdminNav from "./AdminNav.jsx";
 
 export default function AdminDashboard() {
   return (
-    <div>
+    <div className="bg-main">
       <h1>Admin dasboard</h1>
       <AdminNav />
       <TestForm />
