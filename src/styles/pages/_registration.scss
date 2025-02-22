@@ -13,3 +13,14 @@
     }
   }
 }
+
+.registration-page {
+  background-image: url("/src/assets/backgrounds/bg_black_dots.png");
+  background-size: cover;
+  min-height: 100vh;
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+  }
+}

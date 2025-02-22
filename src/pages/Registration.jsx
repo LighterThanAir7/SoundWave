@@ -94,8 +94,8 @@ export default function Registration() {
   };
 
   return (
-    <main className="">
-      <div className="registration">
+    <div className="registration-page">
+      <main className="registration">
         <Logo className="mb-32"/>
 
         <form className="form form--registration">
@@ -111,9 +111,9 @@ export default function Registration() {
 
           {renderStep()}
         </form>
-      </div>
+      </main>
       <Footer type="bottom"/>
-    </main>
+    </div>
   )
 }
 

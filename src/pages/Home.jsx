@@ -2,6 +2,7 @@ import Header from "../components/layout/Header.jsx";
 import Footer from "../components/layout/Footer.jsx";
 import {Link} from "react-router-dom";
 import playerHome from "../assets/playerHome.png";
+import playerHome2 from "../assets/playerHome2.png";
 
 export default function Home () {
   return (
@@ -20,7 +21,7 @@ export default function Home () {
         </div>
         <div className="hero__images">
           <img className="hero__image" src={playerHome} alt="Music player for showcase"/>
-          <img className="hero__image hero__image--secondary" src={playerHome} alt="Music player for showcase"/>
+          <img className="hero__image hero__image--secondary" src={playerHome2} alt="Music player for showcase"/>
         </div>
       </main>
 

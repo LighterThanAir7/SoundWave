@@ -71,7 +71,7 @@ export default function Step0({ formData, setFormData, onNext }) {
       <FormSocials/>
 
       <p className="form__register">Already have an account?
-        <Link to="/register" className="form__register-link">Log in here</Link>
+        <Link to="/login" className="form__register-link">Log in here</Link>
       </p>
     </>
   )

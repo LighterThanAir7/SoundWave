@@ -102,7 +102,7 @@ export default function PlayerQueue() {
                           alt={song.title}
                         />
                         <div className="player-queue__song-info">
-                          <h5 className="player-queue__song-name">{song.title}</h5>
+                          <div className="player-queue__song-name">{song.title}</div>
                           <p className="player-queue__artist">
                             {song.artist}
                             <span>&nbsp;•&nbsp;</span>

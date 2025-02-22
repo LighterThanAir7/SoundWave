@@ -22,7 +22,7 @@ export default function Login() {
   return (
     <div className="home bg-dots">
       <Header />
-      <main className="flex-col align-items-center relative | mt-64">
+      <main className="flex-col align-items-center relative | mt-40">
         <h2 className="text-center | mb-80">
           <span className="text-primary-500">Life</span> and
           <span className="text-primary-500"> Love</span> go on, let the
