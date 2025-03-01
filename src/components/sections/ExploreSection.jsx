@@ -20,6 +20,5 @@ export default function ExploreSection () {
       </div>
       <img src="/src/assets/man-with-a-microphone.jpg" alt=""/>
     </section>
-
-)
+  )
 }

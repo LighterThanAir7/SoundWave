@@ -5,7 +5,7 @@ import Step0 from "../components/registrationSteps/step0.jsx";
 import Step1 from "../components/registrationSteps/step1.jsx";
 import Step2 from "../components/registrationSteps/step2.jsx";
 import Step3 from "../components/registrationSteps/step3.jsx";
-import api from '../backend/config/axiosConfig.js';
+import api from '../../backend/config/axiosConfig.js';
 
 export default function Registration() {
   const [currentStep, setCurrentStep] = useState(0);

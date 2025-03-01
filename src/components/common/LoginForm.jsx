@@ -3,7 +3,7 @@ import FormSocials from "./FormSocials.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import {useAuth} from "../../context/AuthContext.jsx";
 import { useState } from "react";
-import api from '../../backend/config/axiosConfig.js';
+import api from '../../../backend/config/axiosConfig.js';
 
 export default function LoginForm() {
   const navigate = useNavigate();

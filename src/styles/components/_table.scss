@@ -3,49 +3,175 @@
 .table {
   @include d-flex($d: column);
 
-  &__row {
-    @include d-flex();
-    width: 100%;
+  &__header {
+    background-color: clr(neutral, 850);
+    border-radius: 0.5rem;
+    color: clr(neutral, 100);
+    margin-bottom: size(8);
+    line-height: size(48);
+
+    .table__row {
+      @include d-flex();
+      padding-inline: size(16);
+      border-radius: 0.5rem;
+    }
+  }
+
+  &__body {
+
+    .table__row {
+      @include d-flex();
+      padding-inline: size(16);
+      border-radius: 0.5rem;
+      transition: 200ms ease-in-out;
+
+      &:hover {
+        background-color: clr(primary, 950);
+      }
+    }
+
+    .table__data {
+      line-height: size(48);
+      color: clr(neutral, 200);
+    }
   }
 
   &__data {
     flex: 1;
   }
+
+  .icon-dots {
+    border: 1px solid transparent;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: 200ms ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+    font-size: fs(350);
+
+    &:hover {
+      background-color: clr(primary, 900);
+      border: 1px solid clr(primary, 500);
+    }
+  }
 }
 
-#songs-table {
+#table-users {
   .table__data {
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
+    padding-right: size(20);
 
+    &:not(:last-child) {
+      overflow: hidden;
+    }
+
+    // Checkbox
     &:first-child {
-      flex: 0 0 48px;
+      flex: 0 0 max-content;
       text-align: center;
-    }
-    &:nth-child(2) {
-      flex: 0 0 420px;
-    }
-    &:nth-child(3) {
-      flex: 0 0 300px;
-    }
-    &:nth-child(4) {
-      flex: 0 0 300px;
-    }
-    &:nth-child(5) {
-      flex: 0 0 80px;
-      text-align: center;
-    }
-    &:nth-child(6) {
-      flex: 0 0 120px;
-      text-align: center;
+      align-content: center;
+
+      .custom-checkbox-field__indicator {
+        border-color: clr(neutral, 400);
+      }
     }
 
-    &:last-child {
-      flex: 0 0 72px;
+    // ID
+    &:nth-child(2) {
+      flex: 0 0 clamp(120px, 120px, 200px);
     }
-    &:nth-last-child(2) {
-      flex: 0 0 72px;
+
+    // Type
+    &:nth-child(3) {
+      flex: 0 0 220px;
+    }
+
+    // Status
+    &:nth-child(4) {
+      flex: 0 0 max-content;
+    }
+
+    // Email
+    &:nth-child(5) {
+      // Već imaju flex: 1
+    }
+
+    // Username
+    &:nth-child(6) {
+      // Već imaju flex: 1
+    }
+
+    // Actions
+    &:last-child {
+      flex: 0 0 max-content;
+      @include d-flex($ai: center);
+      padding-right: 0;
+      position: relative;
+    }
+  }
+}
+
+#table-songs {
+  .table__data {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: size(20);
+
+    &:not(:last-child) {
+      overflow: hidden;
+    }
+
+    // Checkbox
+    &:first-child {
+      flex: 0 0 max-content;
+      text-align: center;
+      align-content: center;
+
+      .custom-checkbox-field__indicator {
+        border-color: clr(neutral, 400);
+      }
+    }
+
+    // Title
+    &:nth-child(2) {
+      flex: 0 0 clamp(120px, 300px, 400px);
+    }
+
+    // Artist
+    &:nth-child(3) {
+      flex: 0 0 220px;
+    }
+
+    // Collab. artists
+    &:nth-child(4) {
+      flex: 0 0 clamp(120px, 300px, 400px);
+    }
+
+    // Duration
+    &:nth-child(5) {
+      text-align: center;
+      // Već imaju flex: 1
+    }
+
+    // Size
+    &:nth-child(6) {
+      text-align: center;
+      // Već imaju flex: 1
+    }
+
+    // Genre
+    &:nth-child(7) {
+      text-align: center;
+      // Već imaju flex: 1
+    }
+
+    // Actions
+    &:last-child {
+      flex: 0 0 max-content;
+      @include d-flex($ai: center);
+      padding-right: 0;
+      position: relative;
     }
   }
 }

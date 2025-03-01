@@ -1,13 +1,15 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import AdminDashboard from "../backend/components/AdminDashboard.jsx";
-import AdminLogin from "../backend/pages/AdminLogin.jsx";
 import {useAuth} from "../context/AuthContext.jsx";
 import {ProtectedRoute} from "./ProtectedRoute.jsx";
-import UserManagement from "../backend/components/UserManagement.jsx";
-import SongsManagement from "../backend/components/SongsManagement.jsx";
-import ArtistsManagement from "../backend/components/ArtistsManagement.jsx";
-import AlbumsManagement from "../backend/components/AlbumsManagement.jsx";
+import AdminDashboard from "../../backend/components/AdminDashboard.jsx";
+import AdminLogin from "../../backend/pages/AdminLogin.jsx";
+import UserManagement from "../../backend/components/UserManagement.jsx";
+import SongsManagement from "../../backend/components/SongsManagement.jsx";
+import ArtistsManagement from "../../backend/components/ArtistsManagement.jsx";
+import AlbumsManagement from "../../backend/components/AlbumsManagement.jsx";
+import GenresManagement from "../../backend/components/GenresManagement.jsx";
+import PlaylistsManagement from "../../backend/components/PlaylistsManagement.jsx";
 
 export default function AdminRoutes() {
   const { user } = useAuth();
@@ -88,6 +90,30 @@ export default function AdminRoutes() {
                 <title>Admin - Albums</title>
               </Helmet>
               <AlbumsManagement />
+            </>
+          }
+        />
+
+        <Route
+          path="/playlists"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Playlists</title>
+              </Helmet>
+              <PlaylistsManagement />
+            </>
+          }
+        />
+
+        <Route
+          path="/genres"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Genres</title>
+              </Helmet>
+              <GenresManagement />
             </>
           }
         />

@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from 'react';
-import {API_URL} from "../config/constants.jsx";
+import {API_URL} from "../../backend/config/constants.js";
 
 const AuthContext = createContext(undefined);
 const useAuth = () => useContext(AuthContext);

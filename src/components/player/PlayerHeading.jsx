@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import api from "../../backend/config/axiosConfig.js";
+import api from "../../../backend/config/axiosConfig.js";
 import { usePlayer } from '../../context/PlayerContext';
 
 export default function PlayerHeading() {
@@ -158,7 +158,6 @@ export default function PlayerHeading() {
       submitData.append('playlist_image', formData.playlist_image);
     }
 
-
     try {
       const response = await api.post('/api/playlists', submitData, {
         headers: {
@@ -167,7 +166,9 @@ export default function PlayerHeading() {
       });
 
       if (response.status === 201) {
-        // Reset form and close modal on success
+        const playlistsReponse = await api.get('/api/playlists');
+        setUserPlaylists(playlistsReponse.data.playlists);
+
         setFormData({
           playlist_title: '',
           playlist_type: 'public',

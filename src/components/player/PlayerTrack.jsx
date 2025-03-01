@@ -1,6 +1,6 @@
 import { usePlayer } from '../../context/PlayerContext';
 import { useState, useEffect } from 'react';
-import api from '../../backend/config/axiosConfig.js';
+import api from '../../../backend/config/axiosConfig.js';
 
 export default function PlayerTrack() {
   const { currentSong } = usePlayer();

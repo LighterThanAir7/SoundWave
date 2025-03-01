@@ -5,9 +5,9 @@ export const ProtectedRoute = () => {
   const { user } = useAuth();
   const location = useLocation();
 
-  return user ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/admin/login" state={{ from: location }} replace />
-  );
+  if (!user || (user.role !== 1 && user.role !== 2)) {
+    return <Navigate to="/admin/login" state={{from: location}} replace/>;
+  }
+
+  return <Outlet />;
 };

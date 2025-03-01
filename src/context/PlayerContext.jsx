@@ -1,5 +1,5 @@
 import {createContext, useContext, useState, useRef, useEffect} from 'react';
-import api from '../backend/config/axiosConfig.js';
+import api from '../../backend/config/axiosConfig.js';
 
 export const REPEAT_MODES = {
   OFF: 'off',
