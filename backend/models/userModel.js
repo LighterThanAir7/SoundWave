@@ -94,3 +94,33 @@ export const getUsersModel = async () => {
   `);
   return rows;
 };
+
+export const getUserByIdModel = async (id) => {
+  const [rows] = await pool.query(`
+    SELECT
+      u.id,
+      u.id_type,
+      t.name as user_type,
+      u.status,
+      u.email,
+      u.firstname,
+      u.lastname,
+      u.base_username,
+      u.discriminator,
+      CONCAT(u.base_username, '#', u.discriminator) as username,
+      u.img,
+      u.date_birth,
+      u.sex,
+      u.last_login,
+      u.created_on,
+      u.created_by,
+      u.marketing_consent,
+      u.data_sharing_consent
+    FROM users u
+    JOIN spt_user_type t ON u.id_type = t.id
+    WHERE u.id = ?
+  `, [id]);
+
+  return rows.length > 0 ? rows[0] : null;
+};
+

@@ -1,7 +1,16 @@
-import {Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../src/context/AuthContext";
 import adminLogo from "../../src/assets/logo-horizontal-white.svg"
 
 export default function AdminSidebar () {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin');
+  };
+
   const navItems = [
     { path: "/admin", label: "Dashboard", icon: 'dashboard'},
     { path: "/admin/users", label: "Users", icon: 'users1'},
@@ -15,8 +24,15 @@ export default function AdminSidebar () {
   const navSecondaryItems = [
     { path: "/admin/analytics", label: "Analytics", icon: 'analytics' },
     { path: "/admin/settings", label: "Settings", icon: 'settings' },
-    { path: "/admin/logout", label: "Logout", icon: 'logout' }
+    { onClick: handleLogout, label: "Logout", icon: 'logout' }
   ]
+
+  const isActiveLink = (path) => {
+    if (path === "/admin") {
+      return location.pathname === path;
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <aside className="admin-sidebar">
@@ -28,7 +44,7 @@ export default function AdminSidebar () {
           <Link
             to={item.path}
             key={item.label}
-            className={`admin-sidebar__link ${location.pathname === item.path ? 'admin-sidebar__link--active' : ''}`}
+            className={`admin-sidebar__link ${isActiveLink(item.path) ? 'admin-sidebar__link--active' : ''}`}
           >
             <i className={`icon-${item.icon}`}></i>
             {item.label}
@@ -37,14 +53,25 @@ export default function AdminSidebar () {
       </nav>
       <nav className="admin-sidebar__nav-secondary">
         {navSecondaryItems.map((item) => (
-          <Link
-            to={item.path}
-            key={item.label}
-            className={`admin-sidebar__link ${location.pathname === item.path ? 'admin-sidebar__link--active' : ''}`}
-          >
-            <i className={`icon-${item.icon}`}></i>
-            {item.label}
-          </Link>
+          item.onClick ? (
+            <button
+              onClick={item.onClick}
+              key={item.label}
+              className={`admin-sidebar__link`}
+            >
+              <i className={`icon-${item.icon}`}></i>
+              {item.label}
+            </button>
+          ) : (
+            <Link
+              to={item.path}
+              key={item.label}
+              className={`admin-sidebar__link ${isActiveLink(item.path) ? 'admin-sidebar__link--active' : ''}`}
+            >
+              <i className={`icon-${item.icon}`}></i>
+              {item.label}
+            </Link>
+          )
         ))}
       </nav>
     </aside>

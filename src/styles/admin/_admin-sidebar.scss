@@ -25,6 +25,7 @@
     padding: size(10) size(20);
     border-radius: size(10);
     transition: all .3s ease-out;
+    width: 100%;
 
     &:hover {
       background-color: var(--clr-primary-900);

@@ -40,4 +40,29 @@ export default class Helper {
     const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), 3); // Maksimalno do GB (indeks 3)
     return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + units[i];
   }
+
+  static formatReleaseDate(date) {
+    if (!date) return 'Nije definirano';
+
+    const d = new Date(date);
+    const day = d.getDate();
+    const month = d.toLocaleString('en-US', { month: 'long' });
+    const year = d.getFullYear();
+
+    return `${day}. ${month} ${year}`;
+  }
+
+  static formatCreatedOn(date) {
+    if (!date) return 'Nije dostupno';
+
+    const d = new Date(date);
+    const day = d.getDate();
+    const month = d.toLocaleString('en-US', { month: 'long' });
+    const year = d.getFullYear();
+    const hours = d.getHours().toString().padStart(2, '0');
+    const minutes = d.getMinutes().toString().padStart(2, '0');
+
+    return `${day}. ${month} ${year}, ${hours}:${minutes}`;
+  }
+
 }

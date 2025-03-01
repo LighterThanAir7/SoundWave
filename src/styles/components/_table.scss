@@ -140,7 +140,7 @@
 
     // Artist
     &:nth-child(3) {
-      flex: 0 0 220px;
+      flex: 0 0 300px;
     }
 
     // Collab. artists
@@ -151,19 +151,260 @@
     // Duration
     &:nth-child(5) {
       text-align: center;
-      // Već imaju flex: 1
+      flex: 0 0 100px;
     }
 
     // Size
     &:nth-child(6) {
       text-align: center;
-      // Već imaju flex: 1
+      flex: 0 0 120px;
     }
 
     // Genre
     &:nth-child(7) {
-      text-align: center;
       // Već imaju flex: 1
+    }
+
+    // Actions
+    &:last-child {
+      flex: 0 0 max-content;
+      @include d-flex($ai: center);
+      padding-right: 0;
+      position: relative;
+    }
+  }
+}
+
+#table-artists {
+  .table__data {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: size(20);
+
+    &:not(:last-child) {
+      overflow: hidden;
+    }
+
+    // Checkbox
+    &:first-child {
+      flex: 0 0 max-content;
+      text-align: center;
+      align-content: center;
+
+      .custom-checkbox-field__indicator {
+        border-color: clr(neutral, 400);
+      }
+    }
+
+    // ID
+    &:nth-child(2) {
+      flex: 0 0 120px
+    }
+
+    // Name
+    &:nth-child(3) {
+      flex: 0 0 clamp(120px, 400px, 600px);
+    }
+
+    // Image
+    &:nth-child(4) {
+      text-align: center;
+      flex: 0 0 120px;
+    }
+
+    // Created on
+    &:nth-child(5) {
+      text-align: center;
+    }
+
+    &:nth-child(6) {
+      text-align: center;
+    }
+
+    // Actions
+    &:last-child {
+      flex: 0 0 max-content;
+      @include d-flex($ai: center);
+      padding-right: 0;
+      position: relative;
+    }
+  }
+}
+
+#table-albums {
+  .table__data {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: size(20);
+
+    &:not(:last-child) {
+      overflow: hidden;
+    }
+
+    // Checkbox
+    &:first-child {
+      flex: 0 0 max-content;
+      text-align: center;
+      align-content: center;
+
+      .custom-checkbox-field__indicator {
+        border-color: clr(neutral, 400);
+      }
+    }
+
+    // ID
+    &:nth-child(2) {
+      flex: 0 0 120px
+    }
+
+    // Title
+    &:nth-child(3) {
+      flex: 1 0 clamp(120px, 500px, 800px);
+    }
+
+    // Release Date
+    &:nth-child(4) {
+      flex: 0 0 180px;
+    }
+
+    // Created on
+    &:nth-child(5) {
+      flex: 0 0 120px;
+      text-align: center;
+    }
+
+    &:nth-child(6) {
+
+    }
+
+    &:nth-child(7) {
+      flex: 0 0 140px;
+    }
+
+    // Actions
+    &:last-child {
+      flex: 0 0 max-content;
+      @include d-flex($ai: center);
+      padding-right: 0;
+      position: relative;
+    }
+  }
+}
+
+#table-playlists {
+  .table__data {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: size(20);
+
+    &:not(:last-child) {
+      overflow: hidden;
+    }
+
+    // Checkbox
+    &:first-child {
+      flex: 0 0 max-content;
+      text-align: center;
+      align-content: center;
+
+      .custom-checkbox-field__indicator {
+        border-color: clr(neutral, 400);
+      }
+    }
+
+    // ID
+    &:nth-child(2) {
+      flex: 0 0 120px
+    }
+
+    // Playlist Name
+    &:nth-child(3) {
+      flex: 0 0 120px
+    }
+
+    // Created by User
+    &:nth-child(4) {
+      flex: 1 0 clamp(120px, 500px, 800px);
+    }
+
+    // Type
+    &:nth-child(5) {
+      flex: 0 0 120px;
+      text-align: center;
+    }
+
+    // Total Songs
+    &:nth-child(6) {
+      text-align: center;
+      flex: 0 0 100px;
+    }
+
+    // Created on
+    &:nth-child(7) {
+      flex: 0 0 140px;
+    }
+
+    // Updated on
+    &:nth-child(8) {
+      flex: 0 0 140px;
+    }
+
+    // Actions
+    &:last-child {
+      flex: 0 0 max-content;
+      @include d-flex($ai: center);
+      padding-right: 0;
+      position: relative;
+    }
+  }
+}
+
+#table-genres {
+  .table__data {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: size(20);
+
+    &:not(:last-child) {
+      overflow: hidden;
+    }
+
+    // Checkbox
+    &:first-child {
+      flex: 0 0 max-content;
+      text-align: center;
+      align-content: center;
+
+      .custom-checkbox-field__indicator {
+        border-color: clr(neutral, 400);
+      }
+    }
+
+    // ID
+    &:nth-child(2) {
+      flex: 0 0 120px
+    }
+
+    // Genre Name
+    &:nth-child(3) {
+
+    }
+
+    // Genre Image
+    &:nth-child(4) {
+      flex: 0 0 100px
+    }
+
+    // Songs in Genre
+    &:nth-child(5) {
+      flex: 0 0 120px;
+      text-align: center;
+    }
+
+    // Created on
+    &:nth-child(6) {
+      text-align: center;
+      flex: 0 0 200px;
     }
 
     // Actions

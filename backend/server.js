@@ -12,6 +12,9 @@ import songRoutes from "./routes/songRoutes.js";
 import favouritesRoutes from './routes/favouritesRoutes.js';
 import userRoutes from "./routes/userRoutes.js";
 import playlistRoutes from './routes/playlistRoutes.js';
+import artistRoutes from "./routes/artistRoutes.js";
+import albumRoutes from "./routes/albumRoutes.js";
+import genreRoutes from "./routes/genreRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,9 +43,12 @@ app.use(cors({
 app.use("/api/auth", authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api', songRoutes);
+app.use('/api', artistRoutes);
+app.use('/api', albumRoutes);
 app.use('/api/favorites', favouritesRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/playlists', playlistRoutes);
+app.use('/api', userRoutes);
+app.use('/api', playlistRoutes);
+app.use('/api', genreRoutes)
 
 // Start server
 app.listen(PORT, () => {

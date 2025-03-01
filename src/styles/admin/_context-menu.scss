@@ -20,12 +20,13 @@
     transform: translateY(0.5rem);
   }
 
-  &__item {
-    white-space: nowrap;
-    text-align: left;
-    padding-inline: 0.75rem;
+  &__link {
     transition: 200ms ease-out;
+    padding-inline: 0.75rem;
+    display: block;
     line-height: 2rem;
+    white-space: nowrap;
+    text-align: start;
 
     &:hover {
       background-color: clr(primary, 900);

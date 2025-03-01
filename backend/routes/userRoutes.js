@@ -1,9 +1,19 @@
 import { Router } from 'express';
-import { getUsers, registerUser } from '../controllers/userController.js';
+import { getUsers, getUserById, registerUser } from '../controllers/userController.js';
+import { jwtAuthMiddleware } from "../middleware/jwtAuth.js";
 
 const router = Router();
 
-router.post('/register', registerUser);
-router.get('/', getUsers);
+router.post('/users/register', registerUser);
+
+
+// Admin Routes
+const adminRouter = Router();
+adminRouter.use(jwtAuthMiddleware);
+
+adminRouter.get('/users', getUsers);
+adminRouter.get('/users/:id', getUserById);
+
+router.use('/admin', adminRouter);
 
 export default router;

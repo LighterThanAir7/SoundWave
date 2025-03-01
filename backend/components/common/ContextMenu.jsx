@@ -28,8 +28,8 @@ export default function ContextMenu({ options }) {
       <i className="icon-dots" onClick={toggleMenu}></i>
       <ul className={`context-menu ${isOpen ? 'context-menu--open' : ''}`}>
         {options.map((option, index) => (
-          <li key={index} className="context-menu__item">
-            <Link to={option.link}>{option.label}</Link>
+          <li key={index}>
+            <Link className="context-menu__link" to={option.link}>{option.label}</Link>
           </li>
         ))}
       </ul>

@@ -4,19 +4,29 @@ import {
   getUserPlaylists,
   addSongToUserPlaylist,
   getSongInPlaylists,
-  removeSongFromPlaylist
+  removeSongFromPlaylist, getAllPlaylists, getPlaylistById
 } from '../controllers/playlistController.js';
 import { verifyToken } from '../middleware/auth.js';
 import { uploadPlaylistImage } from '../config/multerConfig.js';
+import { jwtAuthMiddleware } from "../middleware/jwtAuth.js";
 
 const router = Router();
 
-router.post('/', verifyToken, uploadPlaylistImage.single('playlist_image'), createNewPlaylist);
-router.post('/add-song', verifyToken, addSongToUserPlaylist);
+// Public routes
+router.post('/playlists', verifyToken, uploadPlaylistImage.single('playlist_image'), createNewPlaylist);
+router.post('/playlists/add-song', verifyToken, addSongToUserPlaylist);
+router.get('/playlists/song/:songId', verifyToken, getSongInPlaylists);
+router.get('/playlists', verifyToken, getUserPlaylists);
+router.delete('/playlists/remove-song', verifyToken, removeSongFromPlaylist);
 
-router.get('/song/:songId', verifyToken, getSongInPlaylists);
-router.get('/', verifyToken, getUserPlaylists);
+// Admin routes
+const adminRouter = Router();
+adminRouter.use(jwtAuthMiddleware);
 
-router.delete('/remove-song', verifyToken, removeSongFromPlaylist);
+adminRouter.get('/playlists', getAllPlaylists);
+adminRouter.get('/playlists/:id', getPlaylistById);
+
+router.use('/admin', adminRouter);
+
 
 export default router;

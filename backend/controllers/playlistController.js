@@ -3,7 +3,7 @@ import {
   getPlaylistsByUser,
   addSongToPlaylist,
   getSongInPlaylistsQuerry,
-  removeSongFromPlaylistQuery
+  removeSongFromPlaylistQuery, getAllPlaylistsModel, getPlaylistByIdModel
 } from '../models/playlistModel.js';
 
 export const createNewPlaylist = async (req, res) => {
@@ -97,6 +97,46 @@ export const removeSongFromPlaylist = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Error removing song from playlist",
+      error: error.message
+    });
+  }
+};
+
+export const getAllPlaylists = async (req, res) => {
+  try {
+    const playlists = await getAllPlaylistsModel();
+    res.json({
+      message: "All playlists retrieved successfully",
+      playlists
+    });
+  } catch (error) {
+    console.error('Error fetching all playlists:', error);
+    res.status(500).json({
+      message: "Error fetching all playlists",
+      error: error.message
+    });
+  }
+};
+
+export const getPlaylistById = async (req, res) => {
+  try {
+    const playlistId = req.params.id;
+    const playlist = await getPlaylistByIdModel(playlistId);
+
+    if (!playlist) {
+      return res.status(404).json({
+        message: "Playlist not found"
+      });
+    }
+
+    res.json({
+      message: "Playlist retrieved successfully",
+      playlist
+    });
+  } catch (error) {
+    console.error('Error fetching playlist:', error);
+    res.status(500).json({
+      message: "Error fetching playlist",
       error: error.message
     });
   }

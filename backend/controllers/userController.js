@@ -5,7 +5,7 @@ import {
   checkExistingUsername,
   checkUsernameCapacity,
   incrementCapacityAttempts,
-  logUsernameCapacityReached, getUsersModel
+  logUsernameCapacityReached, getUsersModel, getUserByIdModel
 } from "../models/userModel.js";
 import { generateUniqueDiscriminator } from "../helpers/userHelper.js";
 
@@ -76,6 +76,30 @@ export const getUsers = async (req, res) => {
     console.error('Error fetching users:', error);
     res.status(500).json({
       message: "Error fetching users",
+      error: error.message
+    });
+  }
+};
+
+export const getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await getUserByIdModel(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+
+    res.status(200).json({
+      message: "User retrieved successfully",
+      user
+    });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({
+      message: "Error fetching user",
       error: error.message
     });
   }

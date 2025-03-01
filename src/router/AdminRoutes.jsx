@@ -4,12 +4,18 @@ import {useAuth} from "../context/AuthContext.jsx";
 import {ProtectedRoute} from "./ProtectedRoute.jsx";
 import AdminDashboard from "../../backend/components/AdminDashboard.jsx";
 import AdminLogin from "../../backend/pages/AdminLogin.jsx";
-import UserManagement from "../../backend/components/UserManagement.jsx";
-import SongsManagement from "../../backend/components/SongsManagement.jsx";
-import ArtistsManagement from "../../backend/components/ArtistsManagement.jsx";
-import AlbumsManagement from "../../backend/components/AlbumsManagement.jsx";
-import GenresManagement from "../../backend/components/GenresManagement.jsx";
-import PlaylistsManagement from "../../backend/components/PlaylistsManagement.jsx";
+import Users from "../../backend/components/lists/Users.jsx";
+import Songs from "../../backend/components/lists/Songs.jsx";
+import Artists from "../../backend/components/lists/Artists.jsx";
+import Albums from "../../backend/components/lists/Albums.jsx";
+import Genres from "../../backend/components/lists/Genres.jsx";
+import Playlists from "../../backend/components/lists/Playlists.jsx";
+import Song from "../../backend/components/pages/Song.jsx";
+import User from "../../backend/components/pages/User.jsx";
+import Artist from "../../backend/components/pages/Artist.jsx";
+import Album from "../../backend/components/pages/Album.jsx";
+import Playlist from "../../backend/components/pages/Playlist.jsx";
+import Genre from "../../backend/components/pages/Genre.jsx";
 
 export default function AdminRoutes() {
   const { user } = useAuth();
@@ -47,25 +53,49 @@ export default function AdminRoutes() {
         />
 
         <Route
-          path="/songs"
-          element={
-            <>
-              <Helmet>
-                <title>Admin - Songs</title>
-              </Helmet>
-              <SongsManagement />
-            </>
-          }
-        />
-
-        <Route
           path="/users"
           element={
             <>
               <Helmet>
                 <title>Admin - Users</title>
               </Helmet>
-              <UserManagement />
+              <Users />
+            </>
+          }
+        />
+
+        <Route
+          path="/users/:id"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - User Details</title>
+              </Helmet>
+              <User />
+            </>
+          }
+        />
+
+        <Route
+          path="/songs"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Songs</title>
+              </Helmet>
+              <Songs />
+            </>
+          }
+        />
+
+        <Route
+          path="/songs/:id"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Song Details</title>
+              </Helmet>
+              <Song />
             </>
           }
         />
@@ -77,7 +107,19 @@ export default function AdminRoutes() {
               <Helmet>
                 <title>Admin - Artists</title>
               </Helmet>
-              <ArtistsManagement />
+              <Artists />
+            </>
+          }
+        />
+
+        <Route
+          path="/artists/:id"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Artist Details</title>
+              </Helmet>
+              <Artist />
             </>
           }
         />
@@ -89,7 +131,19 @@ export default function AdminRoutes() {
               <Helmet>
                 <title>Admin - Albums</title>
               </Helmet>
-              <AlbumsManagement />
+              <Albums />
+            </>
+          }
+        />
+
+        <Route
+          path="/albums/:id"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Album Details</title>
+              </Helmet>
+              <Album />
             </>
           }
         />
@@ -101,7 +155,19 @@ export default function AdminRoutes() {
               <Helmet>
                 <title>Admin - Playlists</title>
               </Helmet>
-              <PlaylistsManagement />
+              <Playlists />
+            </>
+          }
+        />
+
+        <Route
+          path="/playlists/:id"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Playlist Details</title>
+              </Helmet>
+              <Playlist />
             </>
           }
         />
@@ -113,7 +179,19 @@ export default function AdminRoutes() {
               <Helmet>
                 <title>Admin - Genres</title>
               </Helmet>
-              <GenresManagement />
+              <Genres />
+            </>
+          }
+        />
+
+        <Route
+          path="/genres/:id"
+          element={
+            <>
+              <Helmet>
+                <title>Admin - Genre Details</title>
+              </Helmet>
+              <Genre />
             </>
           }
         />

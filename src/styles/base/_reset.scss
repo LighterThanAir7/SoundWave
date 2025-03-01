@@ -52,6 +52,8 @@ input[type="search"]::-webkit-search-decoration {
 
 button {
   all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 input {

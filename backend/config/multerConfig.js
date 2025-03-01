@@ -120,3 +120,22 @@ export const uploadPlaylistImage = multer({
     fileSize: 5 * 1024 * 1024 // 5MB limit for images
   }
 });
+
+
+
+
+
+// GENRE IMAGE UPLOAD
+/*export const uploadGenreImage = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const path = './public/uploads/genres';
+      fs.mkdirSync(path, { recursive: true });
+      cb(null, path);
+    },
+    filename: (req, file, cb) => {
+      cb(null, `genre-${Date.now()}-${file.originalname}`);
+    }
+  }),
+  fileFilter: imageFileFilter
+});*/
