@@ -80,9 +80,6 @@ export const uploadSong = multer({
   }
 });
 
-
-
-
 // Add playlist image storage configuration
 const playlistStorage = multer.diskStorage({
   destination: function (req, file, cb) {

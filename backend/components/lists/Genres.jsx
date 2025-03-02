@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../../config/axiosConfig.js';
 import AdminSidebar from "../AdminSidebar.jsx";
 import TableCheckbox from "../common/TableCheckbox.jsx";
-import Helper from "../../helpers/Helper.jsx";
+import Helper from "../../helpers/Helper.js";
 import ContextMenu from "../common/ContextMenu.jsx";
 import AdminLoader from "../common/AdminLoader.jsx";
 import AdminError from "../common/AdminError.jsx";

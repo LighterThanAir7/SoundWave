@@ -38,7 +38,6 @@ export const getSongByIdModel = async (id) => {
              s.file_path,
              s.file_format,
              s.file_size,
-             s.bitrate,
              s.created_on,
              s.updated_on,
              a.name as artist,
@@ -59,7 +58,7 @@ export const getSongByIdModel = async (id) => {
       WHERE s.id = ?
       GROUP BY s.id, s.title, s.primary_artist_id, s.album_id, s.duration,
                s.track_number, s.released_on, s.artwork_path, s.file_path,
-               s.file_format, s.file_size, s.bitrate, s.created_on, s.updated_on,
+               s.file_format, s.file_size, s.created_on, s.updated_on,
                a.name, al.title
   `, [id]);
 

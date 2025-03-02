@@ -9,6 +9,7 @@
     color: clr(neutral, 100);
     margin-bottom: size(8);
     line-height: size(48);
+    font-weight: $fw-500;
 
     .table__row {
       @include d-flex();
@@ -26,7 +27,7 @@
       transition: 200ms ease-in-out;
 
       &:hover {
-        background-color: clr(primary, 950);
+        background-color: var(--clr-primary-950);
       }
     }
 
@@ -50,8 +51,8 @@
     font-size: fs(350);
 
     &:hover {
-      background-color: clr(primary, 900);
-      border: 1px solid clr(primary, 500);
+      background-color: var(--clr-primary-900);
+      border: 1px solid var(--clr-primary-500);
     }
   }
 }

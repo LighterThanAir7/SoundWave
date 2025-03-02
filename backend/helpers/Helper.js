@@ -65,4 +65,18 @@ export default class Helper {
     return `${day}. ${month} ${year}, ${hours}:${minutes}`;
   }
 
+  static mapCodec(container, codec, lossless) {
+    if (container === 'MPEG' && codec === 'MPEG 1 Layer 3') return 1;
+    if (container === 'MP4' && codec && codec.includes('AAC')) return 2;
+    if (container === 'OGG' && codec && codec.includes('Vorbis')) return 3;
+    if (container === 'FLAC' && (!codec || !codec.includes('MQA'))) return 4;
+    if (container === 'MP4' && codec && codec.includes('ALAC')) return 5;
+    if (container === 'FLAC' && codec && codec.includes('MQA')) return 6;
+    if (container === 'WAV') return 7;
+    if (container === 'AIFF') return 8;
+    if (container === 'OGG' && codec && codec.includes('Opus')) return 9;
+    if (container === 'DSF' || container === 'DFF') return 10;
+
+    return null;
+  }
 }

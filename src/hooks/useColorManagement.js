@@ -3,7 +3,7 @@ import ColorThief from 'colorthief';
 import tinycolor from 'tinycolor2';
 import { findClosestColor, oppositeColor, darkenColor, predefinedColors, lightenColor } from '../utils/colorUtils';
 
-export const useColorManagement = (imageRef, shouldShow = true, options = {}) => {
+export const useColorManagement = (imageRef, shouldShow = true, onColorsApplied, options = {}) => {
   const colorScales = {
     lighter: [
       { level: 50, percent: 40 },
@@ -57,6 +57,12 @@ export const useColorManagement = (imageRef, shouldShow = true, options = {}) =>
       };
 
       requestAnimationFrame(setVariables);
+
+      if (typeof onColorsApplied === 'function') {
+        requestAnimationFrame(() => {
+          onColorsApplied();
+        });
+      }
     };
 
     const dominantColorVariable = `rgb(${dominantColor.join(',')})`;
@@ -68,7 +74,7 @@ export const useColorManagement = (imageRef, shouldShow = true, options = {}) =>
     if (!options.colorVariables) {
       setColorVariables('secondary', secondaryColor);
     }
-  }, [options]);
+  }, [options, onColorsApplied]);
 
   useEffect(() => {
     if (!imageRef.current || !shouldShow) return;

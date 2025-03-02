@@ -28,6 +28,7 @@
     width: 100%;
 
     &:hover {
+      color: clr(generic, white);
       background-color: var(--clr-primary-900);
       box-shadow: 0 0 32px 1px var(--clr-primary-900);
     }

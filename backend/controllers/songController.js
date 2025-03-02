@@ -8,8 +8,6 @@ export const getSongs = async (req, res) => {
       message: "Songs retrieved successfully",
       songs
     });
-    console.log(songs);
-
   } catch (error) {
     console.error('Error fetching songs:', error);
     res.status(500).json({
@@ -32,10 +30,7 @@ export const getSongById = async (req, res) => {
       message: `Song retrieved successfully`,
       song
     });
-
-    console.log(song);
   } catch (error) {
-    console.log('Error fetching song:', error);
     res.status(500).json({
       message: "Error fetching songs",
       error: error.message
@@ -54,8 +49,6 @@ export const downloadSong = async (req, res) => {
 
     const filePath = path.join(process.cwd(), '..', '..', 'uploads', 'songs', song.file_path);
 
-    console.log(filePath);
-
     res.sendFile(filePath, {
       headers: {
         'Content-Type': `audio/${song.file_format}`,
@@ -64,7 +57,6 @@ export const downloadSong = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error downloading song:', error);
     res.status(500).json({
       message: "Error downloading song",
       error: error.message

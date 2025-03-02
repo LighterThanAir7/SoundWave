@@ -1,48 +1,27 @@
-import pool from "../db/db.js";
 import NodeID3 from 'node-id3';
-
+import * as mm from 'music-metadata';
 import fs from 'fs/promises';
 import path from "path";
+import {insertSongMetadata} from "../models/uploadSongsModel.js";
+import Helper from "../helpers/Helper.js";
 
 const extractSongMetadata = async (file, tags) => {
   if (!tags) {
     throw new Error('No metadata found in file');
   }
 
-  // Add debug logging
-  console.log('Raw tags:', {
-    artist: tags.artist,
-    title: tags.title,
-    album: tags.album
-  });
+  const getUserDefinedValue = (description) => {
+    if (!tags.userDefinedText || !Array.isArray(tags.userDefinedText)) {
+      return null;
+    }
 
-  // Process artists and genres
-  const artists = tags.artist ?
-    tags.artist
-      .replace(/([a-z])([A-Z])/g, '$1;$2')
-      .split(';')
-      .map(artist => artist.trim())
-      .filter(Boolean)
-    : [];
+    const field = tags.userDefinedText.find(item =>
+      item.description === description
+    );
 
-  // Add debug logging
-  console.log('Processed artists:', artists);
+    return field ? field.value : null;
+  };
 
-  // Final check for primary artist
-  const primary_artist = artists[0] || null;
-  if (!primary_artist) {
-    throw new Error('Could not extract primary artist from metadata');
-  }
-
-  const genres = tags.genre ?
-    tags.genre
-      .replace(/([a-z])([A-Z])/g, '$1;$2')
-      .split(';')
-      .map(genre => genre.trim())
-      .filter(Boolean)
-    : [];
-
-  // Format release date
   const formatReleaseDate = () => {
     if (!tags.year) return null;
 
@@ -55,7 +34,6 @@ const extractSongMetadata = async (file, tags) => {
     return `${tags.year}-01-01`;
   };
 
-  // Get relative path
   const getRelativePath = (fullPath) => {
     if (!fullPath) {
       throw new Error('File path is required');
@@ -69,159 +47,116 @@ const extractSongMetadata = async (file, tags) => {
     return parts[1].replace(/\\/g, '/').replace(/^\/+/, '');
   };
 
-  // Save artwork if present
-  const artwork_path = tags.image ?
-    await saveArtwork(tags.image.imageBuffer, file.path) : null;
+  const title = tags.title || null
+  const artists = tags.artist ?
+    tags.artist
+      .replace(/([a-z])([A-Z])/g, '$1;$2')
+      .split(';')
+      .map(artist => artist.trim())
+      .filter(Boolean)
+    : [];
+
+  const primary_artist = artists[0] || null;
+  if (!primary_artist) {
+    throw new Error('Could not extract primary artist from metadata');
+  }
+
+  const featuring_artists = artists.slice(1);
+
+  const genres = tags.genre ?
+    tags.genre
+      .replace(/([a-z])([A-Z])/g, '$1;$2')
+      .split(';')
+      .map(genre => genre.trim())
+      .filter(Boolean)
+    : [];
+
+  const album = tags.album || null;
+  const released_on = formatReleaseDate();
+
+  const artwork = tags.image ? {
+    mime: tags.image.mime,
+    artwork_type_id: tags.image.type?.id || null,
+    description: tags.image.description || null,
+    imageBuffer: tags.image.imageBuffer
+  } : null;
+
+  const disc_number = tags.partOfSet ? parseInt(tags.partOfSet.split('/')[0]) : null;
+  const duration = tags.length ? Math.round(parseInt(tags.length) / 1000) : null;
+  const track_number = tags.trackNumber ? parseInt(tags.trackNumber.split('/')[0]) : null;
+
+  const file_path = getRelativePath(file.path);
+  const file_format = path.extname(file.path).substring(1).toLowerCase();
+  const file_size = file.size;
+
+  const barcode = getUserDefinedValue('BARCODE');
+  const itunes_advisory_str = getUserDefinedValue('ITUNESADVISORY');
+  const itunes_advisory = itunes_advisory_str ? parseInt(itunes_advisory_str) : null;
+  const bpm = tags.bpm ? parseInt(tags.bpm) : null;
+  const performer_info = tags.performerInfo || null;
+  const publisher = tags.publisher || null;
+  const isrc = tags.ISRC || null;
+  const composer = tags.composer || null;
+  const conductor = tags.conductor || null;
+  const textWriter = tags.textWriter || null;
+  const originalArtist = tags.originalArtist || null;
+  const originalTitle = tags.originalTitle || null;
+  const originalTextwriter = tags.originalTextwriter || null;
+  const encoder = tags.encoder || null;
+  const copyright = tags.copyright || null;
+  const involvedPeopleList = tags.involvedPeopleList || null;
+  const contentGroup = tags.contentGroup || null;
+  const lyrics = tags.unsynchronisedLyrics?.text || null;
+  const lyricsLanguage = tags.unsynchronisedLyrics?.language || null;
+  const synchronisedLyrics = tags.synchronisedLyrics || null;
+
+  const mmData = await mm.parseFile(file.path);
+
+  const codec_id = Helper.mapCodec(mmData.format.container, mmData.format.codec, mmData.format.lossless);
+
+  const technicalData = {
+    bitrate: mmData.format.bitrate ? Math.round(mmData.format.bitrate / 1000) : null,
+    sample_rate: mmData.format.sampleRate || null,
+    channels: mmData.format.numberOfChannels || null,
+    vbr: mmData.format.codecProfile === 'VBR',
+    codec: codec_id,
+    lossless: mmData.format.lossless || false
+  };
 
   return {
-    title: tags.title || null,
-    primary_artist: artists[0] || null,
-    featuring_artists: artists.slice(1),
-    album: tags.album || null,
-    duration: tags.length ? Math.round(parseInt(tags.length) / 1000) : null,
-    track_number: tags.trackNumber ?
-      parseInt(tags.trackNumber.split('/')[0]) : null,
-    released_on: formatReleaseDate(),
-    artwork_path,
-    file_path: getRelativePath(file.path),
-    file_format: 'mp3',
-    file_size: file.size,
-    genres
-  };
-};
-
-const insertSongMetadata = async (pool, metadata) => {
-  try {
-    // 1. Insert or get primary artist
-    let artistId = null;
-    if (metadata.primary_artist) {
-      const [artistResult] = await pool.query(
-        'INSERT IGNORE INTO artists (name) VALUES (?)',
-        [metadata.primary_artist]
-      );
-
-      const [artistIdResult] = await pool.query(
-        'SELECT id FROM artists WHERE name = ?',
-        [metadata.primary_artist]
-      );
-
-      if (artistIdResult.length > 0) {
-        artistId = artistIdResult[0].id;
-      } else {
-        throw new Error(`Could not create or find artist: ${metadata.primary_artist}`);
-      }
-    } else {
-      throw new Error('Primary artist is required');
-    }
-
-    // 2. Insert or get album if exists
-    let albumId = null;
-    if (metadata.album) {
-      const [albumResult] = await pool.query(
-        'INSERT IGNORE INTO albums (title, release_date) VALUES (?, ?)',
-        [metadata.album, metadata.released_on]
-      );
-
-      const [albumIdResult] = await pool.query(
-        'SELECT id FROM albums WHERE title = ?',
-        [metadata.album]
-      );
-
-      if (albumIdResult.length > 0) {
-        albumId = albumIdResult[0].id;
-      }
-    }
-
-    // 3. Insert song
-    const [songResult] = await pool.query(
-      `INSERT INTO songs (
-          title, primary_artist_id, album_id, duration,
-          track_number, released_on, artwork_path, file_path,
-          file_format, file_size
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        metadata.title,
-        artistId,
-        albumId,
-        metadata.duration,
-        metadata.track_number,
-        metadata.released_on,
-        metadata.artwork_path,
-        metadata.file_path,
-        metadata.file_format,
-        metadata.file_size
-      ]
-    );
-
-    // 4. Insert genres
-    if (metadata.genres.length > 0) {
-      for (const genreName of metadata.genres) {
-        const [genreResult] = await pool.query(
-          'INSERT IGNORE INTO genres (name) VALUES (?)',
-          [genreName]
-        );
-
-        const [genreIdResult] = await pool.query(
-          'SELECT id FROM genres WHERE name = ?',
-          [genreName]
-        );
-
-        if (genreIdResult.length > 0) {
-          const genreId = genreIdResult[0].id;
-          await pool.query(
-            'INSERT INTO song_genre (song_id, genre_id) VALUES (?, ?)',
-            [songResult.insertId, genreId]
-          );
-        }
-      }
-    }
-
-    // 5. Insert featuring artists
-    if (metadata.featuring_artists.length > 0) {
-      for (const artistName of metadata.featuring_artists) {
-        const [featArtistResult] = await pool.query(
-          'INSERT IGNORE INTO artists (name) VALUES (?)',
-          [artistName]
-        );
-
-        const [artistIdResult] = await pool.query(
-          'SELECT id FROM artists WHERE name = ?',
-          [artistName]
-        );
-
-        if (artistIdResult.length > 0) {
-          const featArtistId = artistIdResult[0].id;
-          await pool.query(
-            'INSERT INTO collaborating_artists (song_id, artist_id, artist_role) VALUES (?, ?, ?)',
-            [songResult.insertId, featArtistId, 'featuring']
-          );
-        }
-      }
-    }
-
-    return songResult.insertId;
-  } catch (error) {
-    console.error('Error inserting song metadata:', error);
-    throw error;
-  }
-};
-
-const saveArtwork = async (imageBuffer, songPath) => {
-  if (!imageBuffer) return null;
-
-  try {
-    // Create artwork path based on song path
-    const artworkPath = songPath.replace('.mp3', '-artwork.jpg');
-
-    // Write the buffer to file
-    await fs.writeFile(artworkPath, imageBuffer);
-
-    // Return relative path (same format as song path)
-    const parts = artworkPath.split('songs');
-    return parts[1].replace(/\\/g, '/').replace(/^\/+/, '');
-  } catch (error) {
-    console.error('Error saving artwork:', error);
-    return null;
+    title,
+    primary_artist,
+    featuring_artists,
+    album,
+    duration,
+    track_number,
+    released_on,
+    artwork,
+    file_path,
+    file_format,
+    file_size,
+    genres,
+    disc_number,
+    bpm,
+    performer_info,
+    publisher,
+    isrc,
+    barcode,
+    itunes_advisory,
+    composer,
+    conductor,
+    textWriter,
+    originalArtist,
+    originalTitle,
+    originalTextwriter,
+    encoder,
+    copyright,
+    involvedPeopleList,
+    contentGroup,
+    lyrics,
+    lyricsLanguage,
+    synchronisedLyrics,
+    technicalData
   }
 };
 
@@ -231,39 +166,45 @@ export const handleSingleSongUpload = async (req, res) => {
       return res.status(400).json({ message: 'No file was uploaded.' });
     }
 
+    // Čitanje ID3 tagova
     const tags = NodeID3.read(req.file.path);
+
+    // Priprema metapodataka
     const metadata = await extractSongMetadata(req.file, tags);
 
-    console.log('Metadata before validation:', metadata); // Add this log
-
-    // Validate required fields before proceeding
+    // Validacija obaveznih polja
     if (!metadata.primary_artist) {
-      // Clean up the uploaded file since we can't process it
       await fs.unlink(req.file.path);
-      // If artwork was saved, clean that up too
-      if (metadata.artwork_path) {
-        const fullArtworkPath = path.join(process.cwd(), 'uploads/songs', metadata.artwork_path);
-        await fs.unlink(fullArtworkPath);
-      }
       return res.status(400).json({
         message: 'Song metadata is incomplete: Primary artist is required'
       });
     }
 
-    const songId = await insertSongMetadata(pool, metadata);
+    // Unos pjesme u bazu i spremanje artworka
+    try {
+      const songId = await insertSongMetadata(metadata);
 
-    res.json({
-      message: 'Song uploaded and processed successfully',
-      songId,
-      metadata
-    });
+      // Vraćanje uspješnog odgovora
+      res.json({
+        message: 'Song uploaded and processed successfully',
+        songId
+      });
+    } catch (dbError) {
+      // Čišćenje datoteke ako unos u bazu ne uspije
+      await fs.unlink(req.file.path).catch(console.error);
+
+      return res.status(500).json({
+        message: 'Error saving song to database',
+        error: dbError.message
+      });
+    }
 
   } catch (error) {
-    // Clean up files if insertion fails
+    // Čišćenje datoteke ako obrada ne uspije
     if (req.file) {
       await fs.unlink(req.file.path).catch(console.error);
     }
-    console.error('Single upload error:', error);
+
     res.status(500).json({
       message: 'Error processing file upload',
       error: error.message
@@ -295,13 +236,18 @@ export const handleBatchSongUpload = async (req, res) => {
           throw new Error(`Primary artist is required for file: ${file.originalname}`);
         }
 
-        const songId = await insertSongMetadata(pool, metadata);
+        // Koristi insertSongMetadata bez pool parametra jer funkcija sama dohvaća konekciju
+        const songId = await insertSongMetadata(metadata);
+
         processedFiles.push({
-          filename: file.filename,
-          songId,
-          metadata
+          filename: file.originalname,
+          songId
+          // Ne vraćamo cijeli metadata objekt jer može biti velik zbog imageBuffer-a
         });
       } catch (error) {
+        // Čišćenje datoteke ako obrada ne uspije
+        await fs.unlink(file.path).catch(console.error);
+
         errors.push({
           filename: file.originalname,
           error: error.message
@@ -320,6 +266,13 @@ export const handleBatchSongUpload = async (req, res) => {
 
   } catch (error) {
     console.error('Batch upload error:', error);
+
+    if (req.files) {
+      for (const file of req.files) {
+        await fs.unlink(file.path).catch(console.error);
+      }
+    }
+
     res.status(500).json({
       message: 'Error processing batch upload',
       error: error.message

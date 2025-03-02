@@ -1737,6 +1737,7 @@ input[type=radio] {
   color: hsl(0, 0%, 96%);
   margin-bottom: 0.5rem;
   line-height: 3rem;
+  font-weight: 500;
 }
 
 .table__header .table__row {
@@ -1753,7 +1754,7 @@ input[type=radio] {
 }
 
 .table__body .table__row:hover {
-  background-color: rgb(0, 51, 40.8);
+  background-color: var(--clr-primary-950);
 }
 
 .table__body .table__data {
@@ -1776,8 +1777,8 @@ input[type=radio] {
 }
 
 .table .icon-dots:hover {
-  background-color: rgb(0, 76.5, 61.2);
-  border: 1px solid #00ffcc;
+  background-color: var(--clr-primary-900);
+  border: 1px solid var(--clr-primary-500);
 }
 
 #table-users .table__data {
@@ -2215,7 +2216,7 @@ input[type=radio] {
   block-size: 5px;
   inline-size: 10px;
   position: absolute;
-  top: 46%;
+  top: 44%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0px) rotate(-48deg);
   box-sizing: border-box;
@@ -2818,10 +2819,6 @@ input[type=radio] {
 .content-wrapper__inner {
   padding: 4rem 5rem 0;
   position: relative;
-}
-
-.admin-wrapper {
-  padding: 4rem 5rem;
 }
 
 .container {
@@ -4447,6 +4444,10 @@ input[type=radio] {
   z-index: 1;
 }
 
+.z-2 {
+  z-index: 2;
+}
+
 .mb-0 {
   margin-bottom: 0;
 }
@@ -4507,6 +4508,7 @@ input[type=radio] {
 }
 
 .admin-sidebar__link:hover {
+  color: hsl(0, 0%, 100%);
   background-color: var(--clr-primary-900);
   box-shadow: 0 0 32px 1px var(--clr-primary-900);
 }
@@ -4526,6 +4528,11 @@ input[type=radio] {
   min-height: 100vh;
   background-color: hsl(0, 0%, 9%);
   color: hsl(0, 0%, 96%);
+  padding: 4rem 5rem;
+}
+
+.admin-wrapper--song {
+  padding: 0;
 }
 
 .admin-wrapper--loading {
@@ -4540,7 +4547,7 @@ input[type=radio] {
   display: grid;
   border: 4px solid rgba(0, 0, 0, 0);
   border-radius: 50%;
-  border-right-color: #25b09b;
+  border-right-color: var(--clr-primary-800);
   animation: l15 1s infinite linear;
 }
 
@@ -4671,6 +4678,31 @@ input[type=radio] {
 
 .context-menu__link:hover {
   background-color: rgb(0, 76.5, 61.2);
+}
+
+.admin-song-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: linear-gradient(to right, var(--clr-primary-950), var(--clr-primary-800));
+  padding: 3rem;
+  position: relative;
+}
+
+.admin-song-header__img {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.admin-song-header::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(to bottom, var(--clr-primary-950), var(--clr-neutral-900));
+  top: 100%;
+  left: 0;
+  z-index: 1;
 }
 
 @font-face {

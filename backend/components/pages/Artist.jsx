@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from '../../config/axiosConfig.js';
 import AdminSidebar from "../AdminSidebar.jsx";
-import Helper from "../../helpers/Helper.jsx";
+import Helper from "../../helpers/Helper.js";
 import AdminLoader from "../common/AdminLoader.jsx";
 import AdminError from "../common/AdminError.jsx";
 

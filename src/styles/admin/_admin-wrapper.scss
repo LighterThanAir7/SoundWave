@@ -6,6 +6,11 @@
   min-height: 100vh;
   background-color: clr(neutral, 900);
   color: clr(neutral, 100);
+  padding: size(64) size(80);
+
+  &--song {
+    padding: 0;
+  }
 
   &--loading {
     display: grid;
@@ -19,7 +24,7 @@
     display: grid;
     border: 4px solid #0000;
     border-radius: 50%;
-    border-right-color: #25b09b;
+    border-right-color: var(--clr-primary-800);
     animation: l15 1s infinite linear;
 
     &::before,
