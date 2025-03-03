@@ -66,6 +66,16 @@ export function PlayerProvider({ children }) {
     return () => audioRef.current.removeEventListener('ended', handleSongEnd);
   }, [currentSong, repeatMode, queue, isShuffleOn, shuffledQueue]);
 
+  useEffect(() => {
+    if (queue.length > 0 && currentSong) {
+      // Ovdje možete postaviti previousSong i nextSong
+      const currentIndex = queue.findIndex(s => s.id === currentSong.id);
+      setPreviousSong(currentIndex > 0 ? queue[currentIndex - 1] : null);
+      setNextSong(currentIndex < queue.length - 1 ? queue[currentIndex + 1] : null);
+    }
+  }, [queue, currentSong]);
+
+
   const handleVolumeChange = (newVolume) => {
     setVolume(newVolume);
     audioRef.current.volume = newVolume / 100;
@@ -104,38 +114,35 @@ export function PlayerProvider({ children }) {
     return newArray;
   };
 
-  const playSong = (song) => {
+  const playSong = (song, newQueue = null) => {
     if (!song || !song.id || !song.file_path) {
       console.error('Invalid song data provided:', song);
       return;
     }
 
-    if (currentSong?.id === song.id) {
-      // Toggle play/pause if same song
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-      return;
+    console.log(newQueue);
+
+    // Ako je proslijeđen novi queue, postavite ga
+    if (newQueue) {
+      setQueue(newQueue);
+
+      // Odmah postavite previousSong i nextSong na temelju novog queue-a
+      const currentIndex = newQueue.findIndex(s => s.id === song.id);
+      setPreviousSong(currentIndex > 0 ? newQueue[currentIndex - 1] : null);
+      setNextSong(currentIndex < newQueue.length - 1 ? newQueue[currentIndex + 1] : null);
+    } else {
+      // Postojeća logika za queue
+      const currentIndex = queue.findIndex(s => s.id === song.id);
+      setPreviousSong(currentIndex > 0 ? queue[currentIndex - 1] : null);
+      setNextSong(currentIndex < queue.length - 1 ? queue[currentIndex + 1] : null);
     }
 
-    const currentIndex = queue.findIndex(s => s.id === song.id);
-
-    // Set previous song based on queue position
-    setPreviousSong(currentIndex > 0 ? queue[currentIndex - 1] : null);
-
-    // Set next song based on queue position
-    setNextSong(currentIndex < queue.length - 1 ? queue[currentIndex + 1] : null);
-
-    // Play new song
+    // Nastavite s reprodukcijom pjesme
     audioRef.current.src = `/uploads/songs/${song.file_path}`;
     audioRef.current.play();
     setCurrentSong(song);
     setIsPlaying(true);
 
-    // Update play history for shuffle mode
     if (isShuffleOn) {
       setPlayHistory(prev => [...prev, song]);
     }

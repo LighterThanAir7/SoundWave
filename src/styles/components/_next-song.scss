@@ -2,15 +2,15 @@
 
 .next-song {
   position: absolute;
-  border: 1px solid var(--previous-song-border);
+  border: 1px solid var(--next-song-border);
   left: calc(100% + 12px);
   border-top-left-radius: size(12);
   border-bottom-right-radius: size(12);
   padding: size(8) size(8) size(8) size(10);
   background: linear-gradient(
                   90deg,
-                  var(--previous-song-bg-start) 0%,
-                  var(--previous-song-bg-end) 100%
+                  var(--next-song-bg-start) 0%,
+                  var(--next-song-bg-end) 100%
   );
   transition: 0.6s ease-in-out;
   opacity: 0;
@@ -31,7 +31,7 @@
   &__header {
     font-weight: $fw-600;
     font-size: fs(300);
-    color: var(--previous-song-header);
+    color: var(--next-song-header);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     position: relative;
@@ -46,7 +46,7 @@
       bottom: -7px;
       width: 102%;
       height: 1px;
-      background-color: var(--previous-song-border);
+      background-color: var(--next-song-border);
     }
   }
 

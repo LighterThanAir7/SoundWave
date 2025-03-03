@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import {usePlayer} from "../../context/PlayerContext.jsx";
+import { usePlayer } from "../../context/PlayerContext.jsx";
 
 export default function Carousel({ data, cardType }) {
   const { playSong, addToQueue } = usePlayer();
@@ -9,12 +9,14 @@ export default function Carousel({ data, cardType }) {
   const [scrollStartLeft, setStartScrollLeft] = useState(0);
 
   const handleCardClick = (clickedSong, index) => {
-    playSong(clickedSong);
+    console.log("Clicked song:", clickedSong);
+    console.log("Index of clicked song: ", index);
+    console.log(data);
 
-    // Create queue including current song and remaining songs
     const newQueue = [clickedSong, ...data.slice(index + 1)];
-    // console.log("Queue će sadržavati:", newQueue);
-    addToQueue(newQueue);
+    console.log("Queue će sadržavati:", newQueue);
+
+    playSong(clickedSong, newQueue);
   };
 
   const handleDragStart = (e) => {
@@ -54,7 +56,7 @@ export default function Carousel({ data, cardType }) {
     switch (cardType) {
       case 'text':
         return (
-          <div key={index} className="carousel__card" onClick={() => handleCardClick(data, index)}>
+          <div key={data.id} className="carousel__card" onClick={() => handleCardClick(data, index)}>
             <div className="carousel__img-container">
               <img className="carousel__img" src={getImagePath(data.artwork_path) || data.image_path} alt={data.title}/>
             </div>

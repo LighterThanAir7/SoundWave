@@ -6,6 +6,8 @@ export const getAllSongs = async () => {
              s.title,
              s.duration,
              s.file_size,
+             s.file_path,
+             s.artwork_path,
              a.name as artist,
              GROUP_CONCAT(DISTINCT g.name) as genres,
              GROUP_CONCAT(DISTINCT

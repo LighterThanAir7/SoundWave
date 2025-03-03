@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import SectionHeader from "../common/SectionHeader.jsx";
 import Carousel from "../common/Carousel.jsx";
+import api from "../../../backend/config/axiosConfig.js";
 
 export default function TestSongs() {
   const [songs, setSongs] = useState([]);
@@ -8,11 +9,8 @@ export default function TestSongs() {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/songs');
-
-        const data = await response.json();
-        setSongs(data.songs);
-        /*console.log(data.songs);*/
+        const response = await api.get('/api/songs');
+        setSongs(response.data.songs);
       } catch (error) {
         console.error('Error fetching songs:', error);
       }

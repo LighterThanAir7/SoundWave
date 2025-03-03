@@ -3,7 +3,7 @@ import ColorThief from 'colorthief';
 import tinycolor from 'tinycolor2';
 import { findClosestColor, oppositeColor, darkenColor, predefinedColors, lightenColor } from '../utils/colorUtils';
 
-export const useColorManagement = (imageRef, shouldShow = true, onColorsApplied, options = {}) => {
+export const useColorManagement = (imageRef, shouldShow = true, options = {}) => {
   const colorScales = {
     lighter: [
       { level: 50, percent: 40 },
@@ -22,15 +22,29 @@ export const useColorManagement = (imageRef, shouldShow = true, onColorsApplied,
   };
 
   const updateColors = useCallback((dominantColor) => {
+    const dominantColorVariable = `rgb(${dominantColor.join(',')})`;
+    const convertedColor = tinycolor(dominantColorVariable).toHsl();
+    const closestPrimaryColor = findClosestColor(convertedColor, predefinedColors);
+    const secondaryColor = oppositeColor(closestPrimaryColor);
+
     const setColorVariables = (colorType, color) => {
       const root = document.documentElement;
 
       const setVariables = () => {
         if (options.colorVariables) {
+          // Postavljanje specifičnih varijabli za komponente
           root.style.setProperty(options.colorVariables.border, lightenColor(color, 15));
           root.style.setProperty(options.colorVariables.bgStart, darkenColor(color, 50));
           root.style.setProperty(options.colorVariables.bgEnd, darkenColor(color, 75));
           root.style.setProperty(options.colorVariables.header, `hsl(${color.h}, ${color.s}%, ${color.l}%)`);
+
+          // Dodajemo console.log za debugging
+          console.log('Setting color variables:', {
+            [options.colorVariables.border]: lightenColor(color, 15),
+            [options.colorVariables.bgStart]: darkenColor(color, 50),
+            [options.colorVariables.bgEnd]: darkenColor(color, 75),
+            [options.colorVariables.header]: `hsl(${color.h}, ${color.s}%, ${color.l}%)`
+          });
         } else {
           // Lighter variants
           colorScales.lighter.forEach(({ level, percent }) => {
@@ -58,29 +72,29 @@ export const useColorManagement = (imageRef, shouldShow = true, onColorsApplied,
 
       requestAnimationFrame(setVariables);
 
-      if (typeof onColorsApplied === 'function') {
+      if (typeof options.onColorsApplied === 'function') {
         requestAnimationFrame(() => {
-          onColorsApplied();
+          options.onColorsApplied();
         });
       }
     };
 
-    const dominantColorVariable = `rgb(${dominantColor.join(',')})`;
-    const convertedColor = tinycolor(dominantColorVariable).toHsl();
-    const closestPrimaryColor = findClosestColor(convertedColor, predefinedColors);
-    const secondaryColor = oppositeColor(closestPrimaryColor);
-
+    // Postavi primarne boje
     setColorVariables('primary', closestPrimaryColor);
+
+    // Postavi sekundarne boje samo ako ne koristimo colorVariables
     if (!options.colorVariables) {
       setColorVariables('secondary', secondaryColor);
     }
-  }, [options, onColorsApplied]);
+  }, [options]);
 
   useEffect(() => {
     if (!imageRef.current || !shouldShow) return;
 
     const colorThief = new ColorThief();
     const img = imageRef.current;
+
+    console.log('useColorManagement - Current image source:', img.src);
 
     const handleLoad = () => {
       try {
@@ -91,7 +105,7 @@ export const useColorManagement = (imageRef, shouldShow = true, onColorsApplied,
       }
     };
 
-    if (img.complete) {
+    if (img.complete && img.naturalWidth > 0) {
       handleLoad();
     } else {
       img.addEventListener('load', handleLoad);

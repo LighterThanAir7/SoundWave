@@ -9,14 +9,14 @@ export const verifyToken = async (req, res, next) => {
     if (!req.headers.authorization) {
       console.error("Authorization header missing");
     }
-    console.log("Authorization token:", token);
+    // console.log("Authorization token:", token);
 
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }
 
     const decoded = jwt.verify(token, jwtSecret);
-    console.log('Decoded Token:', decoded);
+    // console.log('Decoded Token:', decoded);
     req.user = decoded;
     next();
   } catch (error) {
