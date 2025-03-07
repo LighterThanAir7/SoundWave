@@ -15,6 +15,9 @@
 }
 
 @each $size-name, $size-value in $sizes {
+  .m-#{$size-name} {
+    margin: $size-value;
+  }
   .mb-#{$size-name} {
     margin-bottom: $size-value;
   }
@@ -32,6 +35,9 @@
   }
   .my-#{$size-name} {
     margin-block: $size-value;
+  }
+  .p-#{$size-name} {
+    padding: $size-value;
   }
   .pb-#{$size-name} {
     padding-bottom: $size-value;

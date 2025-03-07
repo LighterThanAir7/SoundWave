@@ -95,7 +95,7 @@ export default function Song() {
   return (
     <div className="flex">
       <AdminSidebar />
-      <div className="admin-wrapper admin-wrapper--song">
+      <div className="admin-wrapper admin-wrapper--single">
         <AdminLoader loading={loading} />
         <AdminError error={error} visible={!loading && error} setVisible={() => setError(null)} />
 
