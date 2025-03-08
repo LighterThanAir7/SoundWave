@@ -7,11 +7,19 @@
   transition: 0.3s ease-in-out;
   user-select: none;
   cursor: pointer;
+
   &:hover {
     color: clr(primary, 500);
     text-shadow: 0 0 1rem var(--clr-primary-800);
   }
+
   .icon-logo {
     font-size: fs(600);
+  }
+
+  &__text {
+    @include mq(lg) {
+      display: none;
+    }
   }
 }

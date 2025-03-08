@@ -5,7 +5,7 @@ import {
   checkExistingUsername,
   checkUsernameCapacity,
   incrementCapacityAttempts,
-  logUsernameCapacityReached, getUsersModel, getUserByIdModel
+  logUsernameCapacityReached, getUsersModel, getUserByIdModel, updateUserModel
 } from "../models/userModel.js";
 import { generateUniqueDiscriminator } from "../helpers/userHelper.js";
 
@@ -100,6 +100,44 @@ export const getUserById = async (req, res) => {
     console.error('Error fetching user:', error);
     res.status(500).json({
       message: "Error fetching user",
+      error: error.message
+    });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updateData = req.body;
+
+    // Provjeri postoji li korisnik
+    const existingUser = await getUserByIdModel(userId);
+    if (!existingUser) {
+      return res.status(404).json({
+        message: "Korisnik nije pronađen"
+      });
+    }
+
+    // Ažuriraj korisnika koristeći model funkciju
+    const updated = await updateUserModel(userId, updateData);
+
+    if (updated) {
+      // Dohvati ažuriranog korisnika
+      const updatedUser = await getUserByIdModel(userId);
+
+      return res.status(200).json({
+        message: "Korisnik uspješno ažuriran",
+        user: updatedUser
+      });
+    } else {
+      return res.status(400).json({
+        message: "Ažuriranje korisnika nije uspjelo"
+      });
+    }
+  } catch (error) {
+    console.error('Greška prilikom ažuriranja korisnika:', error);
+    res.status(500).json({
+      message: "Greška prilikom ažuriranja korisnika",
       error: error.message
     });
   }

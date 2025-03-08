@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
+// import VibeItems from "../sections/VibeItems.jsx";
 
 export default function Carousel({ data, cardType }) {
   const { playSong, addToQueue } = usePlayer();
@@ -65,6 +66,19 @@ export default function Carousel({ data, cardType }) {
             </p>
           </div>
         );
+      case 'vibe':
+        let icons = data.icons;
+        let names = data.names;
+        return (
+          <>
+            {icons.map((icon, index) => (
+              <li key={index} className="carousel__card carousel__card--vibe">
+                <i className={`vibe__icon icon-${icon}`}></i>
+                <span className="vibe__name">{names[index]}</span>
+              </li>
+            ))}
+          </>
+        )
       case 'full-info':
         return (
           <div key={index} className="carousel__card">

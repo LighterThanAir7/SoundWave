@@ -10,6 +10,19 @@
 
   &--single {
     padding: 0;
+    @include d-flex($d: column);
+
+    > form {
+      @include d-flex($g: size(64));
+      flex-grow: 1;
+      z-index: 2;
+      position: relative;
+      margin: size(48) size(48) 0 size(48);
+
+      .form__group {
+        margin-bottom: 5.5rem;
+      }
+    }
   }
 
   &--loading {

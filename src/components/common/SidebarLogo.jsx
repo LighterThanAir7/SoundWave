@@ -4,7 +4,7 @@ export default function SidebarLogo () {
   return (
     <Link className="sidebar__logo" to="/">
       <i className="icon-logo"></i>
-      SoundWave
+      <span className="logo__text">SoundWave</span>
     </Link>
   )
 }

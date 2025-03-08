@@ -9,25 +9,25 @@ export default function SidebarNav () {
         className={`sidebar__nav-link ${location.pathname === '/music' ? 'sidebar__nav-link--active' : ''}`}
         to="/music"
       >
-        <i className="icon-music-note"></i>Music
+        <i className="icon-music-note"></i><span>Music</span>
       </Link>
       <Link
         className={`sidebar__nav-link ${location.pathname === '/podcasts' ? 'sidebar__nav-link--active' : ''}`}
         to="/podcasts"
       >
-        <i className="icon-podcasts"></i>Podcasts
+        <i className="icon-podcasts"></i><span>Podcasts</span>
       </Link>
       <Link
         className={`sidebar__nav-link ${location.pathname === '/explore' ? 'sidebar__nav-link--active' : ''}`}
         to="/explore"
       >
-        <i className="icon-explore"></i>Explore
+        <i className="icon-explore"></i><span>Explore</span>
       </Link>
       <Link
         className={`sidebar__nav-link ${location.pathname === '/favourites' ? 'sidebar__nav-link--active' : ''}`}
         to="/favourites"
       >
-        <i className="icon-heart_outline"></i>Favourites
+        <i className="icon-heart_outline"></i><span>Favourites</span>
       </Link>
     </nav>
   );

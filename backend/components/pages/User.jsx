@@ -11,9 +11,13 @@ export default function User() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [userUpdated, setUserUpdated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
+
   const [formData, setFormData] = useState({
+    status: '',
     firstname: '',
     lastname: '',
     email: '',
@@ -25,37 +29,105 @@ export default function User() {
     data_sharing_consent: false,
   });
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  useEffect(() => {
+    if (user) {
+      const hasAnyChanges = Object.keys(formData).some(key =>
+        user[key] !== formData[key]
+      );
+      setHasChanges(hasAnyChanges);
+    }
+  }, [formData, user]);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await api.get(`/api/admin/users/${id}`);
         setUser(response.data.user);
+        if (userUpdated) setUserUpdated(false);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchUser();
-  }, [id]);
+  }, [id, userUpdated]);
 
+  // Set Form Data when user loads
   useEffect(() => {
     if (user) {
       setFormData(prevData => ({
         ...prevData,
+        status: user.status,
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
         username: user.username,
-        sex: user.sex === 'M' ? 'Muški' : user.sex === 'F' ? 'Ženski' : 'Nije postavljeno',
-        date_birth: '',
-        user_type: '',
-        marketing_consent: false,
-        data_sharing_consent: false,
+        sex: user.sex,
+        date_birth: user.date_birth,
+        user_type: user.user_type,
+        marketing_consent: user.marketing_consent,
+        data_sharing_consent: user.data_sharing_consent,
       }));
     }
   }, [user]);
+
+  // Dodajemo funkciju za ažuriranje korisnika u User.jsx komponenti
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      const changedData = {};
+
+      // Prolazimo kroz sva polja i dodajemo samo ona koja su promijenjena
+      for (const key in formData) {
+        if (user[key] !== formData[key]) {
+          changedData[key] = formData[key];
+        }
+      }
+
+      // Šaljemo samo promijenjene podatke
+      const response = await api.put(`/api/admin/users/${id}`, changedData);
+
+      if (response.status === 200) {
+        setUserUpdated(true);
+        // alert('Korisnik uspješno ažuriran');
+      }
+    } catch (err) {
+      setError(err.message || 'Došlo je do greške prilikom ažuriranja korisnika');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Dodaj funkciju za resetiranje forme na originalne vrijednosti
+  const handleCancel = () => {
+    if (user) {
+      setFormData({
+        status: user.status,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        username: user.username,
+        sex: user.sex,
+        date_birth: user.date_birth,
+        user_type: user.user_type,
+        marketing_consent: user.marketing_consent,
+        data_sharing_consent: user.data_sharing_consent,
+      });
+      // Resetiraj hasChanges ako ga koristiš za praćenje promjena
+      setHasChanges(false);
+    }
+  };
 
   return (
     <div className="flex">
@@ -80,7 +152,7 @@ export default function User() {
               </div>
               <div className="header-single__info">
                 <h1 className="mb-8">{user.username}</h1>
-                <h3 className="mb-0">{Helper.formatCreatedOn(user.created_on)}</h3>
+                <h3 className="mb-0">Joined on: {Helper.formatCreatedOn(user.created_on)}</h3>
               </div>
               <div className="header-single__stats | text-italic ">
                 <p className="fw-500">Last login 27, March 2025</p>
@@ -89,138 +161,113 @@ export default function User() {
               </div>
             </div>
 
-            <div className="p-48">
-              <form className="content-wrapper-single z-2 relative">
-                <div className="">
-                  <fieldset className="form__group">
-                    <h3>User information</h3>
+            <form onSubmit={handleSubmit}>
+              <fieldset className="form__group">
+                <legend>User information</legend>
+                <div className="form__row">
+                  <FormInput
+                    name="firstname"
+                    label="First name"
+                    type="text"
+                    value={formData.firstname}
+                    onChange={handleChange}
+                  />
 
-                    <div className="form__row">
-                      <FormInput
-                        id="firstname"
-                        name="firstname"
-                        label="First name"
-                        type="text"
-                        /*value={formData.email}*/
-                        /*onChange={handleChange}*/
-                      />
-
-                      <FormInput
-                        id="lastname"
-                        name="lastname"
-                        label="Last name"
-                        type="text"
-                        /*value={formData.email}*/
-                        /*onChange={handleChange}*/
-                      />
-                    </div>
-
-                    <div className="form__row">
-                      <FormInput
-                        id="email"
-                        name="email"
-                        label="Email"
-                        type="email"
-                        /*value={formData.email}*/
-                        /*onChange={handleChange}*/
-                      />
-
-                      <FormInput
-                        id="username"
-                        name="username"
-                        label="Username"
-                        type="text"
-                        /*value={formData.email}*/
-                        /*onChange={handleChange}*/
-                      />
-                    </div>
-
-                    <div className="form__row">
-                      <FormInput
-                        id="date_birth"
-                        name="date_birth"
-                        label="Date of birth"
-                        type="email"
-                        /*value={formData.email}*/
-                        /*onChange={handleChange}*/
-                      />
-
-                      <FormInput
-                        id="sex"
-                        name="sex"
-                        label="Gender"
-                        type="text"
-                        /*value={formData.email}*/
-                        /*onChange={handleChange}*/
-                      />
-
-                      <FormInput
-                        id="user_type"
-                        name="user_type"
-                        label="User type"
-                        type="text"
-                        /*value={formData.email}*/
-                        /*onChange={handleChange}*/
-                      />
-                    </div>
-                  </fieldset>
+                  <FormInput
+                    name="lastname"
+                    label="Last name"
+                    type="text"
+                    value={formData.lastname}
+                    onChange={handleChange}
+                  />
                 </div>
-                <div>
-                  <h2>Content</h2>
-                  <div className="user-details">
-                    <div className="user-info">
 
-                        <div className="info-row">
-                          <span className="label">Status:</span>
-                          <span className="value">{user.status ? 'Aktivan' : 'Neaktivan'}</span>
-                        </div>
+                <div className="form__row">
+                  <FormInput
+                    name="email"
+                    label="Email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
 
-                      <div className="info-group">
-                        <h3>Osobni podaci</h3>
-                        <div className="info-row">
-                          <span className="label">Datum rođenja:</span>
-                          <span className="value">
-                            {user.date_birth ? Helper.formatReleaseDate(user.date_birth) : 'Nije postavljeno'}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="info-group">
-                        <h3>Postavke privatnosti</h3>
-                        <div className="info-row">
-                          <span className="label">Marketing pristanak:</span>
-                          <span className="value">{user.marketing_consent ? 'Da' : 'Ne'}</span>
-                        </div>
-                        <div className="info-row">
-                          <span className="label">Pristanak za dijeljenje podataka:</span>
-                          <span className="value">{user.data_sharing_consent ? 'Da' : 'Ne'}</span>
-                        </div>
-                      </div>
-
-                      <div className="info-group">
-                        <h3>Sistemske informacije</h3>
-                        <div className="info-row">
-                          <span className="label">Zadnja prijava:</span>
-                          <span className="value">
-                      {user.last_login ? Helper.formatCreatedOn(user.last_login) : 'Nikad'}
-                    </span>
-                        </div>
-                        <div className="info-row">
-                          <span className="label">Kreiran:</span>
-                          <span className="value">{Helper.formatCreatedOn(user.created_on)}</span>
-                        </div>
-                      </div>
-
-                      <div className="user-actions">
-                        <button className="btn btn-primary">Uredi</button>
-                        <button className="btn btn-danger">Izbriši</button>
-                        <button className="btn btn-secondary">Resetiraj lozinku</button>
-                      </div>
-                    </div>
-                  </div>
+                  <FormInput
+                    name="username"
+                    label="Username"
+                    type="text"
+                    value={formData.username}
+                    onChange={handleChange}
+                  />
                 </div>
-              </form>
-            </div>
+
+                <div className="form__row">
+                  <FormInput
+                    name="date_birth"
+                    label="Date of birth"
+                    type="text"
+                    value={formData.date_birth ? Helper.formatReleaseDate(user.date_birth) : 'Nije postavljeno'}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    name="sex"
+                    label="Gender"
+                    type="radio"
+                    value={formData.sex}
+                    onChange={handleChange}
+                    options={[
+                      { value: 'M', label: 'Male' },
+                      { value: 'F', label: 'Female' }
+                    ]}
+                  />
+
+                  <FormInput
+                    name="user_type"
+                    label="User type"
+                    type="text"
+                    value={formData.user_type}
+                    onChange={handleChange}
+                  />
+                </div>
+              </fieldset>
+              <fieldset className="form__group">
+                <legend>Other</legend>
+                <div className="form__row">
+                  <FormInput
+                    name="marketing_consent"
+                    label="Marketing consent"
+                    type="checkbox"
+                    checked={formData.marketing_consent}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    name="data_sharing_consent"
+                    label="Data sharing consent"
+                    type="checkbox"
+                    checked={formData.data_sharing_consent}
+                    onChange={handleChange}
+                  />
+                </div>
+              </fieldset>
+              <div className="form__actions">
+                <button
+                  className="btn btn--neutral"
+                  type="button"
+                  onClick={handleCancel}
+                  disabled={!hasChanges || loading}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn btn--primary"
+                  type="submit"
+                  disabled={!hasChanges || loading}
+                >
+                  {loading ? 'Spremanje...' : 'Save changes'}
+                </button>
+              </div>
+            </form>
           </>
         )}
       </div>

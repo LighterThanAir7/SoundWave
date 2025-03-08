@@ -124,3 +124,44 @@ export const getUserByIdModel = async (id) => {
   return rows.length > 0 ? rows[0] : null;
 };
 
+export const updateUserModel = async (userId, updateData) => {
+  try {
+    const allowedFields = [
+      'status', 'email', 'firstname', 'lastname', 'img', 'username',
+      'date_birth', 'sex', 'marketing_consent', 'data_sharing_consent'
+    ];
+
+    // Filtriranje samo dozvoljenih polja
+    const filteredData = {};
+    Object.entries(updateData).forEach(([key, value]) => {
+      if (allowedFields.includes(key)) {
+        filteredData[key] = value;
+      }
+    });
+
+    // Provjera da li postoje podaci za ažuriranje nakon filtriranja
+    if (Object.keys(filteredData).length === 0) {
+      return false;
+    }
+
+    const updateFields = [];
+    const values = [];
+
+    // Generiranje SET dijela upita samo za filtrirana polja
+    Object.entries(filteredData).forEach(([key, value]) => {
+      updateFields.push(`${key} = ?`);
+      values.push(value);
+    });
+
+    values.push(userId);
+
+    const sql = `UPDATE users SET ${updateFields.join(', ')} WHERE id = ?`;
+    const [result] = await pool.query(sql, values);
+
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error('Greška prilikom ažuriranja korisnika:', error);
+    throw error;
+  }
+};
+

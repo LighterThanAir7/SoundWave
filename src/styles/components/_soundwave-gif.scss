@@ -9,6 +9,10 @@
   top: $topbar-height;
   box-shadow: inset 0 0 12rem 0.5rem var(--clr-primary-900);
   transition: box-shadow .5s ease-out;
+
+  @include mq(lg) {
+    left: size(64);
+  }
 }
 
 .soundwave__gif {

@@ -1,109 +1,175 @@
 @use '../abstract' as *;
 
 .carousel {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  gap: size(32);
-  scrollbar-width: none;
-  position: relative;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  &--dragging {
-    scroll-snap-type: none;
-    scroll-behavior: auto;
-    .carousel__card {
-      cursor: grab;
-      user-select: none;
-    }
-  }
-  &-wrapper {
+    --items-per-view: 5;
+    --carousel-gap: #{size(32)};
+    --item-width: calc(100% / var(--items-per-view) - (var(--carousel-gap) * (var(--items-per-view) - 1)) / var(--items-per-view));
 
-  }
-  &__card {
-    flex: 0 0 calc(20% - 26px); // 100% / 5 cards = 20%
-    cursor: pointer;
-    scroll-snap-align: start;
-    &:hover {
-      .carousel__img {
-        filter: brightness(0.6);
-      }
-      .carousel__p {
-        color: var(--clr-primary-500);
-      }
+    @include d-flex($g: var(--carousel-gap));
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    position: relative;
+
+    @include mq(xxl) {
+        --items-per-view: 4;
     }
-    &--categories {
-      &:hover {
-        .carousel__category {
-          scale: 1.1;
+
+    @include mq(xl) {
+        --items-per-view: 3;
+    }
+
+    @include mq(md) {
+        --items-per-view: 2;
+    }
+
+    &:has(&__card--vibe) {
+        gap: size(64);
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &--dragging {
+        scroll-snap-type: none;
+        scroll-behavior: auto;
+        .carousel__card {
+            cursor: grab;
+            user-select: none;
         }
-       }
     }
-  }
-  &__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: size(8);
-    transition: .3s ease-out;
-    &--artist {
-      border-radius: 50%;
-      margin-bottom: size(16);
+
+    &__card {
+        flex: 0 0 var(--item-width);
+        cursor: pointer;
+        scroll-snap-align: start;
+
+        &--vibe {
+            @include d-flex($d: column, $ai: center, $g: size(12));
+            flex: 0 0 auto;
+
+            &:hover {
+                .vibe__icon {
+                    background-color: var(--clr-primary-800);
+                    color: clr(generic, white);
+                }
+
+                .vibe__name {
+                    scale: 1.05;
+                    color: var(--clr-primary-500);
+                    transform: translateY(0.25rem);
+                }
+            }
+
+            .vibe__icon {
+                font-size: fs(700);
+                padding: size(32);
+                border-radius: 50%;
+                background-color: var(--clr-neutral-800);
+                color: var(--clr-primary-500);
+                transition: all .25s ease-in-out;
+            }
+
+            .vibe__name {
+                transition: all .25s ease-in-out;
+            }
+        }
+
+        &:hover {
+            .carousel__img {
+                filter: brightness(0.6);
+            }
+            .carousel__p {
+                color: var(--clr-primary-500);
+            }
+        }
+
+        &--categories {
+            &:hover {
+                .carousel__category {
+                    scale: 1.1;
+                }
+            }
+        }
     }
-    &-container {
-      margin-bottom: size(8);
-      position: relative;
-      pointer-events: none;
+
+    &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: size(8);
+        transition: .3s ease-out;
+
+        &--artist {
+            border-radius: 50%;
+            margin-bottom: size(16);
+        }
+
+        &-container {
+            margin-bottom: size(8);
+            position: relative;
+            pointer-events: none;
+        }
     }
-  }
-  &__arrows {
-    position: absolute;
-    right: 0;
-    top: 0;
-    @include d-flex($ai: center, $g: size(16));
-    font-size: fs(400);
-    i {
-      padding: size(8);
-      border-radius: 50%;
-      transition: background-color .3s ease-in-out;
-      cursor: pointer;
-      &:hover {
-        background-color: var(--clr-primary-800);
-      }
+
+    &__arrows {
+        position: absolute;
+        right: 0;
+        top: 0;
+        @include d-flex($ai: center, $g: size(16));
+        font-size: fs(400);
+        i {
+            padding: size(8);
+            border-radius: 50%;
+            transition: background-color .3s ease-in-out;
+            cursor: pointer;
+            &:hover {
+                background-color: var(--clr-primary-800);
+            }
+        }
+
+        &:has(+ .carousel .carousel__card--vibe) {
+            top: size(32);
+        }
     }
-  }
-  &__p {
-    transition: .3s ease-out;
-    font-size: fs(250);
-  }
-  &__title {
-    font-size: fs(300);
-    margin-bottom: size(4);
-  }
-  &__artist {
-    font-size: fs(250);
-    color: var(--clr-primary-500);
-  }
-  &__released-on {
-    font-size: fs(200);
-    color: var(--clr-neutral-300);
-  }
-  &__category {
-    position: absolute;
-    z-index: 10;
-    top: 50%;
-    left: 50%;
-    white-space: nowrap;
-    transform: translate(-50%, -50%);
-    font-size: fs(350);
-    transform-origin: left;
-    transition: .3s ease-out;
-  }
-  &__fans-number {
-    font-size: fs(200);
-    color: var(--clr-neutral-300);
-  }
+
+    &__p {
+        transition: .3s ease-out;
+        font-size: fs(250);
+    }
+
+    &__title {
+        font-size: fs(300);
+        margin-bottom: size(4);
+    }
+
+    &__artist {
+        font-size: fs(250);
+        color: var(--clr-primary-500);
+    }
+
+    &__released-on {
+        font-size: fs(200);
+        color: var(--clr-neutral-300);
+    }
+
+    &__category {
+        position: absolute;
+        z-index: 10;
+        top: 50%;
+        left: 50%;
+        white-space: nowrap;
+        transform: translate(-50%, -50%);
+        font-size: fs(350);
+        transform-origin: left;
+        transition: .3s ease-out;
+    }
+
+    &__fans-number {
+        font-size: fs(200);
+        color: var(--clr-neutral-300);
+    }
 }

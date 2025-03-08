@@ -27,7 +27,8 @@ h2 {
   margin-bottom: size(36);
 }
 
-h3 {
+h3,
+legend {
   font-size: fs(500);
   font-weight: $fw-600;
   line-height: size(40);
