@@ -1,17 +1,20 @@
 import { usePlayer } from '../../context/PlayerContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '../../../backend/config/axiosConfig.js';
 
 export default function PlayerTrack() {
   const { currentSong } = usePlayer();
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const songTitleRef = useRef(null);
+  const containerRef = useRef(null);
 
+  // Provjera omiljenih pjesama
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       if (!currentSong) return;
 
       try {
-        // Updated endpoint to match server routes
         const response = await api.get('/api/favorites');
         const favorites = response.data.favorites;
         setIsFavorite(favorites.some(fav => fav.id === currentSong.id));
@@ -23,15 +26,23 @@ export default function PlayerTrack() {
     checkFavoriteStatus();
   }, [currentSong]);
 
+  // Provjera prelijevanja teksta
+  useEffect(() => {
+    if (!songTitleRef.current || !containerRef.current) return;
+
+    const isTextOverflowing =
+      songTitleRef.current.scrollWidth > containerRef.current.offsetWidth;
+    setIsOverflowing(isTextOverflowing);
+  }, [currentSong]);
+
+  // Rukovanje klikom na omiljene pjesme
   const handleFavoriteClick = async () => {
     if (!currentSong) return;
 
     try {
       if (isFavorite) {
-        // Updated endpoint to match server routes
         await api.delete(`/api/favorites/${currentSong.id}`);
       } else {
-        // Updated endpoint to match server routes
         await api.post('/api/favorites', { songId: currentSong.id });
       }
       setIsFavorite(!isFavorite);
@@ -42,8 +53,13 @@ export default function PlayerTrack() {
 
   return (
     <div className="player__track">
-      <div className="overflow-hidden">
-        <p className="player__song-title">{currentSong?.title || 'No song playing'}</p>
+      <div className="player__song-title-container" ref={containerRef}>
+        <p
+          className={`player__song-title ${isOverflowing ? 'scrolling' : ''}`}
+          ref={songTitleRef}
+        >
+          {currentSong?.title || 'No song playing'}
+        </p>
         <p className="player__artist">{currentSong?.artist || 'Unknown artist'}</p>
       </div>
       <i

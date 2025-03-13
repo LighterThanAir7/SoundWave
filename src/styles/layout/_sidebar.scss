@@ -1,21 +1,26 @@
 @use '../abstract' as *;
 
+$sidebar-width: 18.75rem;
+$sidebar-collapsed-width: 64px;
+
 .sidebar {
+    $root: &;
     @include d-flex($d: column, $jc: space-between);
-    width: 18.75rem;
+    width: $sidebar-width;
     height: 100vh;
     position: fixed;
     box-shadow: inset 0 0 8rem 0.5rem var(--clr-primary-900);
     border-right: 1px solid var(--clr-primary-700);
     padding: size(24) size(20);
     z-index: 10;
-    transition: box-shadow .5s ease-out;
+    transition: box-shadow .5s ease-out, width .3s ease-out;
 
     &__logo {
         @include d-flex($d: column, $ai: center, $g: size(8));
         font-size: fs(400);
         font-weight: $fw-600;
         transition: all .3s ease-out;
+        margin-bottom: size(24);
 
         &:hover {
             text-shadow: 0 0 4px var(--clr-primary-700);
@@ -34,6 +39,8 @@
             padding: size(10) size(20);
             border-radius: size(10);
             transition: all .3s ease-out;
+            cursor: pointer;
+            user-select: none;
 
             &--active {
                 color: var(--clr-primary-500);
@@ -48,22 +55,72 @@
                 background-color: var(--clr-primary-900);
                 box-shadow: 0 0 32px 1px var(--clr-primary-900);
             }
+
+            &:last-child {
+                color: var(--clr-neutral-400);
+                font-size: fs(300);
+
+                &:hover {
+                    color: var(--clr-neutral-200);
+
+                    i {
+                        color: var(--clr-neutral-200);
+                    }
+                }
+
+                i {
+                    color: var(--clr-neutral-400);
+                    font-size: fs(350);
+                }
+            }
+        }
+
+        &-separator {
+            height: 1px;
+            width: 100%;
+            background-color: var(--clr-primary-900);
+            margin: size(12) 0;
         }
     }
 
-    @include mq(lg) {
-        width: size(64);
-        padding: size(18) 0;
-        align-items: center;
-        box-shadow: inset 0 0 3rem .5rem var(--clr-primary-900);
+    &--collapsed {
+        --artwork-size: 6.75rem;
 
-        &__logo .icon-logo {
-            font-size: fs(450);
+        @include mq(lg) {
+            --artwork-size: 5.75rem;
         }
 
-        &__nav {
+        width: $sidebar-collapsed-width;
+        align-items: center;
+        box-shadow: inset 0 0 3rem .5rem var(--clr-primary-900);
+        padding: 0 0 var(--artwork-size);
+        z-index: 9999;
+
+        #{$root}__logo {
+            border-bottom: 1px solid var(--clr-primary-700);
+            height: 57px;
+            width: 100%;
+            @include d-flex($jc: center);
+            background: var(--clr-primary-800);
+
+            .icon-logo {
+                font-size: fs(450);
+            }
+        }
+
+        #{$root}__nav {
+            @include d-flex($d: column, $ai: center, $jc: center, $g: size(8));
+
+            &-separator {
+                width: 75%;
+            }
+
             &-link {
                 padding: size(10);
+
+                i {
+                    font-size: fs(450);
+                }
 
                 span {
                     display: none;
@@ -72,7 +129,98 @@
         }
 
         .player {
+            $player: '.player';
+            padding-inline: size(8);
+            border-radius: unset;
+            border: unset;
+            box-shadow: unset;
+
+            &__heading {
+                justify-content: center;
+                margin-bottom: 0;
+
+                &-icons {
+                    flex-direction: column;
+
+                    i {
+                        padding: size(10);
+                        font-size: fs(450);
+                    }
+                }
+            }
+
+            &__artwork {
+                margin-bottom: 0;
+                width: var(--artwork-size);
+                height: var(--artwork-size);
+
+                &-track {
+                    flex-direction: row;
+                    gap: size(20);
+                }
+            }
+
+            &__song-title-container {
+                max-width: clamp(10rem, 20vw, 25rem);
+            }
+
+            &__now-playing {
+                display: none;
+            }
+
+            &__bottom-half {
+                @include d-flex($ai: center, $jc: space-between, $g: size(8));
+                box-shadow: inset 0 0 6rem 0.5rem var(--clr-primary-900);
+                border-top: 1px solid var(--clr-primary-700);
+                position: absolute;
+                left: 0;
+                z-index: 999;
+                bottom: calc(var(--artwork-size) * -1);
+                width: 100vw;
+                background: rgba(clr(generic, black), 0.75);
+                backdrop-filter: blur(4px);
+                padding-right: size(24);
+            }
+
+            &__track {
+                margin-bottom: 0;
+            }
+
+            &__time {
+                margin-bottom: 0;
+            }
+
+            &__primary-controls {
+                margin-bottom: size(8);
+                order: 0;
+            }
+
+            &__progress {
+                width: clamp(14rem, 30vw, 30rem);
+
+                &-container {
+                    align-items: center;
+                }
+            }
+        }
+
+        .logo__text {
             display: none;
         }
+    }
+}
+
+#root:has(.sidebar--collapsed) {
+    .content-wrapper {
+        margin-left: $sidebar-collapsed-width;
+    }
+
+    .soundwave__gif-container {
+        left: $sidebar-collapsed-width;
+    }
+
+    .topbar {
+        width: calc(100% - #{$sidebar-collapsed-width});
+        padding-left: size(28);
     }
 }

@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 
-export default function SidebarNav () {
+export default function SidebarNav({ toggleCollapse }) {
   const location = useLocation();
 
   return (
@@ -29,6 +29,15 @@ export default function SidebarNav () {
       >
         <i className="icon-heart_outline"></i><span>Favourites</span>
       </Link>
+      <div className="sidebar__nav-separator"></div>
+      {/* Dodavanje onClick događaja */}
+      <a
+        className="sidebar__nav-link"
+        role="button"
+        onClick={toggleCollapse}
+      >
+        <i className="icon-heart_outline"></i><span>Collapse</span>
+      </a>
     </nav>
   );
 }

@@ -2,6 +2,7 @@
 @use "../abstract/colors" as *;
 @use "../abstract/sizes" as *;
 @use "../abstract/functions" as *;
+@use "../abstract/mixins" as *;
 
 body {
   font-family: $ff-primary;
@@ -39,7 +40,12 @@ h4 {
   font-size: fs(450);
   font-weight: $fw-600;
   line-height: size(36);
-  margin-bottom: size(28);
+  margin-bottom: fs(500);
+
+  @include mq(xxl) {
+    font-size: fs(400);
+    margin-bottom: fs(350);
+  }
 }
 
 h5 {
@@ -47,4 +53,10 @@ h5 {
   font-weight: $fw-600;
   line-height: size(32);
   margin-bottom: size(24);
+}
+
+p {
+  @include mq(xxl) {
+    font-size: fs(250);
+  }
 }

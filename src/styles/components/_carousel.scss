@@ -13,18 +13,6 @@
     scrollbar-width: none;
     position: relative;
 
-    @include mq(xxl) {
-        --items-per-view: 4;
-    }
-
-    @include mq(xl) {
-        --items-per-view: 3;
-    }
-
-    @include mq(md) {
-        --items-per-view: 2;
-    }
-
     &:has(&__card--vibe) {
         gap: size(64);
     }
@@ -139,6 +127,12 @@
     &__p {
         transition: .3s ease-out;
         font-size: fs(250);
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     &__title {
@@ -171,5 +165,37 @@
     &__fans-number {
         font-size: fs(200);
         color: var(--clr-neutral-300);
+    }
+
+    @include mq(xxl) {
+        --items-per-view: 4;
+
+        &__p {
+            font-size: fs(200);
+        }
+
+        &__title {
+            font-size: fs(250);
+        }
+
+        &__artist {
+            font-size: fs(200);
+        }
+
+        &__released-on {
+            font-size: 11px;
+        }
+
+        &__arrows i {
+            font-size: fs(350);
+        }
+    }
+
+    @include mq(xl) {
+        --items-per-view: 3;
+    }
+
+    @include mq(md) {
+        --items-per-view: 2;
     }
 }

@@ -1,5 +1,6 @@
 import { usePlayer } from '../../context/PlayerContext';
 import { useEffect, useState } from 'react';
+import PlayerPrimaryControls from "./PlayerPrimaryControls.jsx";
 
 export default function PlayerProgress() {
   const { audioRef } = usePlayer();
@@ -44,7 +45,8 @@ export default function PlayerProgress() {
   };
 
   return (
-    <>
+    <div className="player__progress-container">
+      <PlayerPrimaryControls />
       <div className="player__progress" onClick={handleProgressClick}>
         <div
           className="player__progress-bar"
@@ -60,6 +62,6 @@ export default function PlayerProgress() {
                     {formatTime(duration)}
                 </span>
       </div>
-    </>
+    </div>
   );
 }
