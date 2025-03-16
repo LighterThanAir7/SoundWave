@@ -5,35 +5,34 @@ import Player from "../player/Player.jsx";
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [userCollapsed, setUserCollapsed] = useState(false); // Praćenje ručnog zatvaranja
+  const [userCollapsed, setUserCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Funkcija za ručno zatvaranje ili otvaranje
   const toggleCollapse = () => {
-    setIsCollapsed((prevState) => !prevState); // Postavi sidebar kao zatvoren
-    setUserCollapsed((prevState) => !prevState); // Označi da je korisnik ručno zatvorio
+    setIsCollapsed((prevState) => !prevState);
+    setUserCollapsed((prevState) => !prevState);
   };
 
   useEffect(() => {
     const handleResize = () => {
-      // Automatsko zatvaranje samo ako korisnik nije ručno zatvorio sidebar
       if (!userCollapsed) {
         setIsCollapsed(window.innerWidth < 920);
       }
+      setIsMobile(window.innerWidth < 768);
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Provjeri početnu širinu
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [userCollapsed]); // Dodaj userCollapsed kao ovisnost
+  }, [userCollapsed]);
 
   return (
-    <aside className={`sidebar ${isCollapsed ? "sidebar--collapsed" : ""}`}>
+    <aside className={`sidebar ${isCollapsed ? "sidebar--collapsed" : ""} ${isMobile ? "sidebar--mobile" : ""}`}>
       <div className="w-full">
         <SidebarLogo />
-        {/* Prosljeđivanje funkcije kao prop */}
         <SidebarNav toggleCollapse={toggleCollapse} />
       </div>
       <Player />

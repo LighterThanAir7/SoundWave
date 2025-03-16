@@ -109,7 +109,7 @@ $sidebar-collapsed-width: 64px;
         }
 
         #{$root}__nav {
-            @include d-flex($d: column, $ai: center, $jc: center, $g: size(8));
+            @include d-flex($d: column, $ai: center, $g: size(8));
 
             &-separator {
                 width: 75%;
@@ -208,6 +208,53 @@ $sidebar-collapsed-width: 64px;
             display: none;
         }
     }
+
+    &--mobile {
+        --artwork-size: #{size(64)};
+        box-shadow: unset;
+        border-right: unset;
+        position: fixed;
+        left: -64px;
+
+        .sidebar__logo {
+            margin-bottom: 0;
+            left: 64px;
+            position: absolute;
+        }
+
+        .sidebar__nav {
+            display: none;
+        }
+
+        .player {
+            &__heading,
+            &__progress,
+            &__time,
+            &__secondary-controls,
+            &__primary-controls .icon-shuffle,
+            &__primary-controls .icon-repeat {
+                display: none;
+            }
+
+            &__primary-controls {
+                margin-bottom: 0;
+                padding-inline: 0;
+
+                i {
+                    font-size: fs(400);
+                }
+            }
+
+            &__artwork-track {
+                gap: size(12);
+            }
+
+            &__bottom-half {
+                left: 40px;
+                padding-right: size(8);
+            }
+        }
+    }
 }
 
 #root:has(.sidebar--collapsed) {
@@ -222,5 +269,42 @@ $sidebar-collapsed-width: 64px;
     .topbar {
         width: calc(100% - #{$sidebar-collapsed-width});
         padding-left: size(28);
+    }
+
+    .footer--adjust-for-sidebar {
+        margin-bottom: 109px;
+
+        @include mq(lg) {
+            margin-bottom: 5.75rem;
+        }
+
+        .footer__link {
+            &:first-child,
+            &:nth-child(2) {
+                display: none;
+            }
+        }
+    }
+}
+
+#root:has(.sidebar--mobile) {
+    .content-wrapper {
+        margin-left: 0;
+    }
+
+    .soundwave__gif-container {
+        left: 0;
+    }
+
+    .topbar {
+
+    }
+
+    .footer--adjust-for-sidebar {
+        margin-bottom: 109px;
+
+        @include mq(lg) {
+            margin-bottom: size(64);
+        }
     }
 }

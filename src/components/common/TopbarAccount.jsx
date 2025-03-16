@@ -11,12 +11,19 @@ export default function TopbarAccount() {
     navigate('/login');
   };
 
+  const getContextMenuOptions = () => [
+    { label: 'Edit', link: `/admin/songs/}` },
+    { label: 'Delete', link: `/admin/songs/}` },
+  ];
+
   return (
     <div className="topbar__account">
-      <img className="topbar__profile-icon" src={AccountImg} alt="Profile icon"/>
-      <p className="topbar__profile-name">
-        {user ? user.base_username : 'Guest'}
-      </p>
+      <div className="flex align-items-center g-8 relative">
+        <img className="topbar__profile-icon" src={AccountImg} alt="Profile icon"/>
+        <p className="topbar__profile-name">
+          {user ? user.base_username : 'Guest'}
+        </p>
+      </div>
       <div className="topbar__separator"></div>
       <i className="icon-notifications"></i>
       <button onClick={handleLogout}>Logout</button>

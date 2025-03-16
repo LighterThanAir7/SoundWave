@@ -3,7 +3,7 @@
 .carousel {
     --items-per-view: 5;
     --carousel-gap: #{size(32)};
-    --item-width: calc(100% / var(--items-per-view) - (var(--carousel-gap) * (var(--items-per-view) - 1)) / var(--items-per-view));
+    --item-width: calc((100% - (var(--carousel-gap) * (var(--items-per-view) - 1))) / var(--items-per-view));
 
     @include d-flex($g: var(--carousel-gap));
     flex-wrap: nowrap;
@@ -14,7 +14,7 @@
     position: relative;
 
     &:has(&__card--vibe) {
-        gap: size(64);
+        --items-per-view: 8;
     }
 
     &::-webkit-scrollbar {
@@ -24,6 +24,7 @@
     &--dragging {
         scroll-snap-type: none;
         scroll-behavior: auto;
+
         .carousel__card {
             cursor: grab;
             user-select: none;
@@ -37,7 +38,8 @@
 
         &--vibe {
             @include d-flex($d: column, $ai: center, $g: size(12));
-            flex: 0 0 auto;
+            flex: 0 0 var(--item-width);
+            max-width: var(--item-width);
 
             &:hover {
                 .vibe__icon {
@@ -70,8 +72,10 @@
             .carousel__img {
                 filter: brightness(0.6);
             }
-            .carousel__p {
-                color: var(--clr-primary-500);
+
+            .carousel__actions {
+                visibility: visible;
+                opacity: 1;
             }
         }
 
@@ -99,7 +103,31 @@
         &-container {
             margin-bottom: size(8);
             position: relative;
-            pointer-events: none;
+        }
+    }
+
+    &__actions {
+        position: absolute;
+        bottom: size(12);
+        left: size(12);
+        z-index: 10;
+        @include d-flex($ai: center, $g: size(8));
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility .3s ease-out, opacity .3s ease-out;
+
+        > i {
+            color: var(--clr-primary-500);
+            font-size: fs(350);
+            padding: size(8);
+            border-radius: 50%;
+            transition: background-color .3s ease-in-out;
+            cursor: pointer;
+            background-color: var(--clr-primary-950);
+
+            &:hover {
+                background-color: var(--clr-primary-900);
+            }
         }
     }
 
@@ -121,6 +149,10 @@
 
         &:has(+ .carousel .carousel__card--vibe) {
             top: size(32);
+        }
+
+        &--hidden {
+            display: none;
         }
     }
 
@@ -167,8 +199,18 @@
         color: var(--clr-neutral-300);
     }
 
+    @include mq(xxxl) {
+        &:has(&__card--vibe) {
+            --items-per-view: 7;
+        }
+    }
+
     @include mq(xxl) {
         --items-per-view: 4;
+
+        &:has(&__card--vibe) {
+            --items-per-view: 6;
+        }
 
         &__p {
             font-size: fs(200);
@@ -193,9 +235,30 @@
 
     @include mq(xl) {
         --items-per-view: 3;
+
+        &:has(&__card--vibe) {
+            --items-per-view: 4;
+        }
     }
 
     @include mq(md) {
         --items-per-view: 2;
+
+        &:has(&__card--vibe) {
+            .vibe__icon {
+                padding: size(24);
+                font-size: fs(500);
+            }
+
+            .vibe__name {
+                font-size: fs(250);
+            }
+        }
+    }
+
+    @include mq(sm) {
+        &:has(&__card--vibe) {
+            --items-per-view: 3;
+        }
     }
 }

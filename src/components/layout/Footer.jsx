@@ -16,17 +16,19 @@ export default function Footer ({ type, footerClass }) {
     switch (type) {
       case "large":
         return (
-          <footer className={`footer-large`}>
-            <div className="footer__links">
-              {footerLinks.map((linksColumn, columnIndex) => (
-                <ul key={columnIndex} className="footer__list">
-                  {linksColumn.map((link, linkIndex) => (
-                    <li className="footer__item" key={linkIndex}>
-                      <Link className="footer__link" to="#">{link}</Link>
-                    </li>
-                  ))}
-                </ul>
-              ))}
+          <footer className={`footer-large ${footerClass || ''}`}>
+            <div className="footer__upper">
+              <div className="footer__links">
+                {footerLinks.map((linksColumn, columnIndex) => (
+                  <ul key={columnIndex} className="footer__list">
+                    {linksColumn.map((link, linkIndex) => (
+                      <li className="footer__item" key={linkIndex}>
+                        <Link className="footer__link" to="#">{link}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
               <div className="footer__quote">
                 <div className="footer__quote-decoration"></div>
                 <p className="footer__quote-text">
@@ -36,8 +38,8 @@ export default function Footer ({ type, footerClass }) {
                 <Link className="btn btn--primary" to="/login">Join Now</Link>
               </div>
             </div>
-            <div className="flex justify-space-between items-center relative mb-32">
-              <p className="footer__terms-of-use">SoundWave Eget senectus volutpat nibh ut vitae ullamcorper. Etiam sit arcu facilisis porta. Pellentesque fringilla gravida urna in adipiscing quam nisl massa. Id donec habitasse aliquet tortor in. Vulputate facilisi aliquet senectus tincidunt</p>
+            <div className="footer__bottom">
+              <p className="footer__terms-of-use">SoundWave Eget senectus volutpat nibh ut vitae ullamcorper. Etiam sit arcu facilisis porta. Pellentesque fringilla gravida urna in adipiscing quam nisl massa.</p>
               <FooterSocials />
             </div>
           </footer>
@@ -46,7 +48,7 @@ export default function Footer ({ type, footerClass }) {
         return (
           <footer className={`footer ${footerClass ? "footer--adjust-for-sidebar" : ""}`}>
             <a className="footer__logo" href="">
-              <i className="icon-logo mr-10"></i>SoundWave © 2024
+              <i className="icon-logo mr-10"></i><span>SoundWave © 2024</span>
             </a>
 
             <nav className="footer__nav">

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 // import VibeItems from "../sections/VibeItems.jsx";
 
@@ -8,6 +8,20 @@ export default function Carousel({ data, cardType }) {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollStartLeft, setStartScrollLeft] = useState(0);
+  const [hasOverflow, setHasOverflow] = useState(false);
+
+  const checkOverflow = () => {
+    if (carouselRef.current) {
+      const hasOverflow = carouselRef.current.scrollWidth > carouselRef.current.clientWidth;
+      setHasOverflow(hasOverflow);
+    }
+  };
+
+  useEffect(() => {
+    checkOverflow();
+    window.addEventListener('resize', checkOverflow);
+    return () => window.removeEventListener('resize', checkOverflow);
+  }, [data]);
 
   const handleCardClick = (clickedSong, index) => {
     console.log("Clicked song:", clickedSong);
@@ -57,9 +71,14 @@ export default function Carousel({ data, cardType }) {
     switch (cardType) {
       case 'text':
         return (
-          <div key={data.id} className="carousel__card" onClick={() => handleCardClick(data, index)}>
+          <div key={index} className="carousel__card" onClick={() => handleCardClick(data, index)}>
             <div className="carousel__img-container">
               <img className="carousel__img" src={getImagePath(data.artwork_path) || data.image_path} alt={data.title}/>
+              <div className="carousel__actions">
+                <i className="icon-play"></i>
+                <i className="icon-heart-o"></i>
+                <i className="icon-dots"></i>
+              </div>
             </div>
             <p className="carousel__p">
               {data.title}{data.artist ? ` - ${data.artist}` : ''}
@@ -67,18 +86,12 @@ export default function Carousel({ data, cardType }) {
           </div>
         );
       case 'vibe':
-        let icons = data.icons;
-        let names = data.names;
         return (
-          <>
-            {icons.map((icon, index) => (
-              <li key={index} className="carousel__card carousel__card--vibe">
-                <i className={`vibe__icon icon-${icon}`}></i>
-                <span className="vibe__name">{names[index]}</span>
-              </li>
-            ))}
-          </>
-        )
+          <li key={data.icon} className="carousel__card carousel__card--vibe">
+            <i className={`vibe__icon icon-${data.icon}`}></i>
+            <span className="vibe__name">{data.name}</span>
+          </li>
+        );
       case 'full-info':
         return (
           <div key={index} className="carousel__card">
@@ -132,7 +145,7 @@ export default function Carousel({ data, cardType }) {
 
   return (
     <>
-      <div className="carousel__arrows">
+      <div className={`carousel__arrows ${hasOverflow ? '' : 'carousel__arrows--hidden'}`}>
         <i className="icon-arrow-left" onClick={handleArrowLeft}></i>
         <i className="icon-arrow-right" onClick={handleArrowRight}></i>
       </div>

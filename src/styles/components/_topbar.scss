@@ -4,7 +4,7 @@
     min-height: 57px;
     @include d-flex($jc: space-between, $ai: center);
     background-color: var(--clr-neutral-900);
-    box-shadow: inset 0 0 3rem var(--clr-primary-900);
+    box-shadow: inset 0 0 4rem var(--clr-primary-900);
     border-bottom: 1px solid var(--clr-primary-700);
     width: calc(100% - $sidebar-width);
     padding: size(8) size(24) size(8) size(40);
@@ -28,7 +28,8 @@
         transition: .3s ease-out;
         padding: size(8) size(16) size(8) size(18);
         border-radius: size(8);
-        width: 40rem;
+        background-color: var(--clr-primary-900) !important;
+        width: clamp(5rem, 36vw, 40rem);
         // line-height: 1.875rem;
 
         &:hover {

@@ -1,6 +1,14 @@
+import {useState} from "react";
+
 export default function FormInput({ label, type, errorMessage, options, ...rest }) {
+  const [isPasswordVisible, setPasswordVisibility] = useState(false);
   const isCheckbox = type === 'checkbox';
   const isRadio = type === 'radio';
+  const isPassword = type === 'password';
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!isPasswordVisible);
+  };
 
   if (isRadio && options) {
     return (
@@ -42,11 +50,30 @@ export default function FormInput({ label, type, errorMessage, options, ...rest 
         ) : (
           <>
             {label}
-            <input
-              className="form__input"
-              type={type}
-              {...rest}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                className="form__input"
+                type={isPassword ? (isPasswordVisible ? 'text' : 'password') : type}
+                {...rest}
+              />
+              {isPassword && (
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <i className={`icon-eye${isPasswordVisible ? '-off' : ''}`}></i>
+                </button>
+              )}
+            </div>
           </>
         )}
       </label>
