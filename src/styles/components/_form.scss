@@ -16,11 +16,25 @@
     @include d-flex($d: column);
     position: relative;
 
+    &-wrapper {
+        @include mq(sm) {
+            width: 90%;
+        }
+    }
+
+    &--admin-login {
+        width: 20rem;
+    }
+
     &--login {
         width: 27rem;
         padding: size(36) size(32) size(28);
         border-radius: size(8);
         background-color: clr(neutral, 900);
+
+        @include mq(sm) {
+            width: 100%;
+        }
 
         &::before,
         &::after {

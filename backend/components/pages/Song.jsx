@@ -105,170 +105,204 @@ export default function Song() {
 
         {!loading && !error && song && (
           <>
-            <div className="admin-song-header">
-              <img className="admin-song-header__img" ref={imageRef} src={`${UPLOADS_URL}/songs/${song.artwork_path}`} alt={song.title} crossOrigin="anonymous" onLoad={handleImageLoad}/>
-              <h1 className="mb-0">{song.title}</h1>
-              <button onClick={() => navigate(-1)} className="btn-back">
-                <i className="icon-arrow-left"></i> Natrag
-              </button>
-            </div>
-            <div className="px-48 z-2 relative">
-              <FormInput
-                id="song_id"
-                name="song_id"
-                label="ID"
-                type="text"
-                value={formData.id}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="title"
-                name="title"
-                label="Title"
-                type="text"
-                value={formData.title}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="artist"
-                name="artist"
-                label="Artist"
-                type="text"
-                value={formData.artist}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="collaborating_artists"
-                name="collaborating_artists"
-                label="Collaborating artists"
-                type="text"
-                value={formData.collaborating_artists}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="album"
-                name="album"
-                label="Album"
-                type="text"
-                value={formData.album}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="track_number"
-                name="track_number"
-                label="Track number"
-                type="text"
-                value={formData.track_number}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="duration"
-                name="duration"
-                label="Duration"
-                type="text"
-                value={Helper.formatReleaseDate(song.released_on)}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="released_on"
-                name="released_on"
-                label="Release Date"
-                type="text"
-                value={Helper.formatSongDuration(song.duration)}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="file_format"
-                name="file_format"
-                label="File format"
-                type="text"
-                value={song.file_format}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="file_size"
-                name="file_size"
-                label="File size"
-                type="text"
-                value={Helper.formatFileSize(song.file_size)}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="file_size"
-                name="file_size"
-                label="File size"
-                type="text"
-                value={song.bitrate ? `${song.bitrate} kbps` : 'Nije dostupno'}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="file_path"
-                name="file_path"
-                label="File path"
-                type="text"
-                value={`${UPLOADS_URL}/songs/${song.file_path}`}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="artwork_path"
-                name="artwork_path"
-                label="Artwork path"
-                type="text"
-                value={`${UPLOADS_URL}/songs/${song.artwork_path}`}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="genres"
-                name="genres"
-                label="Genre"
-                type="text"
-                value={song.genres}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="created_on"
-                name="created_on"
-                label="Date added"
-                type="text"
-                value={Helper.formatCreatedOn(song.created_on)}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id="created_on"
-                name="created_on"
-                label="Last updated"
-                type="text"
-                value={Helper.formatCreatedOn(song.updated_on)}
-                onChange={handleChange}
-              />
-
-              <div className="song-info">
-                <h3>Osnovne informacije</h3>
-                <h3>Tehnički podaci</h3>
-                <h3>Dodatne informacije</h3>
-
-                <div className="song-actions">
-                  <button className="btn btn-primary">Uredi</button>
-                  <button className="btn btn-danger">Izbriši</button>
-                  <button className="btn btn-secondary">Preuzmi</button>
-                </div>
+            <div className="header-single">
+              <div className="header-single__avatar">
+                {song.artwork_path ? (
+                  <img className="header-single__img" ref={imageRef} src={`${UPLOADS_URL}/songs/${song.artwork_path}`} alt={song.artwork_path} crossOrigin="anonymous" onLoad={handleImageLoad}/>
+                ) : (
+                  <i className="icon-users"></i>
+                )}
+              </div>
+              <div className="header-single__info">
+                <h1 className="mb-8">{song.title}</h1>
+                <h3 className="mb-0">Added on: {Helper.formatCreatedOn(song.created_on)}</h3>
+              </div>
+              <div className="header-single__stats | text-italic ">
+                <p className="text-250">Total plays: <span className="clr-primary-500">170 023 times</span></p>
+                <button className="header-single__close icon-arrow-left" type="button" onClick={() => navigate(-1)}></button>
               </div>
             </div>
+
+            <form>
+              <fieldset className="form__group">
+                <legend>Song information</legend>
+                <div className="form__row">
+                  {/*<FormInput
+                    id="song_id"
+                    name="song_id"
+                    label="ID"
+                    type="text"
+                    value={formData.id}
+                    onChange={handleChange}
+                  />*/}
+
+                  <FormInput
+                    id="title"
+                    name="title"
+                    label="Title"
+                    type="text"
+                    value={formData.title}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form__row">
+                  <FormInput
+                    id="artist"
+                    name="artist"
+                    label="Artist"
+                    type="text"
+                    value={formData.artist}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    id="collaborating_artists"
+                    name="collaborating_artists"
+                    label="Collaborating artists"
+                    type="text"
+                    value={formData.collaborating_artists}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form__row">
+                  <FormInput
+                    id="album"
+                    name="album"
+                    label="Album"
+                    type="text"
+                    value={formData.album}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    id="track_number"
+                    name="track_number"
+                    label="Track number"
+                    type="text"
+                    value={formData.track_number}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form__row">
+                  <FormInput
+                    id="genres"
+                    name="genres"
+                    label="Genre's"
+                    type="text"
+                    value={song.genres}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    id="updated_on"
+                    name="updated_on"
+                    label="Last updated"
+                    type="text"
+                    value={Helper.formatCreatedOn(song.updated_on)}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    id="created_on"
+                    name="created_on"
+                    label="Date added"
+                    type="text"
+                    value={Helper.formatCreatedOn(song.created_on)}
+                    onChange={handleChange}
+                  />
+                </div>
+
+              </fieldset>
+              <fieldset className="form__group">
+                <legend>Song metadata</legend>
+                <div className="form__row">
+                  <FormInput
+                    id="duration"
+                    name="duration"
+                    label="Duration"
+                    type="text"
+                    value={Helper.formatReleaseDate(song.released_on)}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    id="released_on"
+                    name="released_on"
+                    label="Release Date"
+                    type="text"
+                    value={Helper.formatSongDuration(song.duration)}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    id="file_format"
+                    name="file_format"
+                    label="File format"
+                    type="text"
+                    value={song.file_format}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form__row">
+                  <FormInput
+                    id="file_size"
+                    name="file_size"
+                    label="File size"
+                    type="text"
+                    value={Helper.formatFileSize(song.file_size)}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    id="file_size"
+                    name="file_size"
+                    label="File size"
+                    type="text"
+                    value={song.bitrate ? `${song.bitrate} kbps` : 'Nije dostupno'}
+                    onChange={handleChange}
+                  />
+
+                  <FormInput
+                    id="file_path"
+                    name="file_path"
+                    label="File path"
+                    type="text"
+                    value={`${UPLOADS_URL}/songs/${song.file_path}`}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="form__row">
+                  <FormInput
+                    id="artwork_path"
+                    name="artwork_path"
+                    label="Artwork path"
+                    type="text"
+                    value={`${UPLOADS_URL}/songs/${song.artwork_path}`}
+                    onChange={handleChange}
+                  />
+                </div>
+              </fieldset>
+              <div className="form__actions">
+                <button
+                  className="btn btn--neutral"
+                  type="button"
+                  /*onClick={handleCancel}*/
+                  /*disabled={!hasChanges || loading}*/
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn btn--primary"
+                  type="submit"
+                  /*disabled={!hasChanges || loading}*/
+                >
+                  {loading ? 'Spremanje...' : 'Save changes'}
+                </button>
+              </div>
+            </form>
           </>
         )}
       </div>

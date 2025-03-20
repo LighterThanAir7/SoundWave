@@ -1,0 +1,20 @@
+@use '../abstract' as *;
+
+.section--quote {
+  padding-top: size(80);
+  text-align: center;
+
+  @include mq(md) {
+    padding-top: size(40);
+    margin-bottom: size(40) !important;
+
+    h4 {
+      font-size: fs(300);
+      line-height: fs(400);
+    }
+
+    .icon-arrow-up {
+      font-size: fs(500);
+    }
+  }
+}

@@ -47,7 +47,8 @@ export const downloadSong = async (req, res) => {
       return res.status(404).json({ message: "Song not found" });
     }
 
-    const filePath = path.join(process.cwd(), '..', '..', 'uploads', 'songs', song.file_path);
+    const filePath = path.join(__dirname, '..', '..', 'uploads', 'songs', song.file_path);
+    console.log(filePath);
 
     res.sendFile(filePath, {
       headers: {

@@ -33,7 +33,7 @@ export default function Sidebar() {
     <aside className={`sidebar ${isCollapsed ? "sidebar--collapsed" : ""} ${isMobile ? "sidebar--mobile" : ""}`}>
       <div className="w-full">
         <SidebarLogo />
-        <SidebarNav toggleCollapse={toggleCollapse} />
+        <SidebarNav toggleCollapse={toggleCollapse} isCollapsed={isCollapsed} />
       </div>
       <Player />
     </aside>

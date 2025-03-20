@@ -108,6 +108,10 @@
   display: block;
 }
 
+.d-inline-block {
+  display: inline-block;
+}
+
 .flex {
   display: flex;
 }
@@ -178,4 +182,8 @@
 
 .w-70 {
   width: 70%;
+}
+
+.scroll-to-top {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }

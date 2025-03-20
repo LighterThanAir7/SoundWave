@@ -1,39 +1,21 @@
-import profileImage from '../../assets/account.png'
+import profileImage from '../../assets/account-big.jpg'
+import { useNavigate } from "react-router-dom";
 
 export default function FavouritesHeader() {
+  const navigate = useNavigate();
   return (
-    <header className="favourites">
-      <div className="favourites__header">
-        <img src={profileImage} alt=""/>
-        <div>
-          <h2>Lighter Than Air</h2>
-          <p>Joined: March 2024</p>
-          <p>214 followers - 320 following</p>
+      <header className="header-single header-single--after-transparent">
+        <div className="header-single__avatar">
+            <img src={profileImage} alt=""/>
         </div>
-      </div>
-      <div className="favourites__highlights-container text-right">
-        <h3 className="favourites__highlights">Highlights</h3>
-        <ul className="favourites__highlights-list">
-          <li className="favourites__highlights-item">
-            <p>Highlights</p>
-          </li>
-          <li className="favourites__highlights-item">
-            <p>Favourite Tracks <span>117</span></p>
-          </li>
-          <li className="favourites__highlights-item">
-            <p>Playlists <span>70</span></p>
-          </li>
-          <li className="favourites__highlights-item">
-            <p>Albums <span>97</span></p>
-          </li>
-          <li className="favourites__highlights-item">
-            <p>Artists <span>82</span></p>
-          </li>
-          <li className="favourites__highlights-item">
-            <p>Podcasts <span>43</span></p>
-          </li>
-        </ul>
-      </div>
-    </header>
+        <div className="header-single__info">
+          <h1 className="mb-8">Lighter Than Air</h1>
+          <h5 className="mb-0">214 followers - 320 following</h5>
+        </div>
+        <div className="header-single__stats | text-italic ">
+          <p className="fw-500">Joined: March 2024</p>
+          <button className="header-single__close icon-arrow-left" type="button" onClick={() => navigate(-1)}></button>
+        </div>
+      </header>
   )
 }

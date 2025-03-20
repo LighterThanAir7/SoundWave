@@ -26,7 +26,7 @@ export default function TopbarAccount() {
       </div>
       <div className="topbar__separator"></div>
       <i className="icon-notifications"></i>
-      <button onClick={handleLogout}>Logout</button>
+      <button className="btn-logout" onClick={handleLogout}>Logout</button>
     </div>
   );
 }

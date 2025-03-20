@@ -1,5 +1,5 @@
 $path: "../fonts/";
-$id: "le5sh1";
+$id: "4fj27f";
 
 @font-face {
   font-family: 'icomoon';
@@ -28,6 +28,12 @@ $id: "le5sh1";
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-collapse-left-line:before {
+  content: "\e94b";
+}
+.icon-expand-right-line:before {
+  content: "\e94c";
+}
 .icon-settings:before {
   content: "\e948";
 }
@@ -63,12 +69,6 @@ $id: "le5sh1";
 }
 .icon-check:before {
   content: "\e93a";
-}
-.icon-heart-o:before {
-  content: "\e942";
-}
-.icon-heart:before {
-  content: "\e943";
 }
 .icon-ri_image-add-line:before {
   content: "\e93e";
@@ -273,4 +273,10 @@ $id: "le5sh1";
 }
 .icon-volume-medium:before {
   content: "\e938";
+}
+.icon-heart-o:before {
+  content: "\e942";
+}
+.icon-heart:before {
+  content: "\e943";
 }

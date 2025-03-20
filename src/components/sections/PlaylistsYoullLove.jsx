@@ -64,11 +64,11 @@ const playlistsData = [
   }
 ];
 
-export default function PlaylistsYoullLove () {
+export default function PlaylistsYoullLove({ title = "Playlists You'll Love" }) {
   return (
     <section className="section">
-      <SectionHeader title="Playlists You'll Love" />
+      <SectionHeader title={title} />
       <Carousel data={playlistsData} cardType="full-info"/>
     </section>
-  )
+  );
 }

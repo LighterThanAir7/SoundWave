@@ -39,7 +39,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="z-1">
+    <div className="z-1 form-wrapper">
       <form className="form form--login" onSubmit={handleSubmit}>
         {error && <div className="form__error">{error}</div>}
 

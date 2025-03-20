@@ -192,6 +192,10 @@
         font-size: fs(350);
         transform-origin: left;
         transition: .3s ease-out;
+
+        @include mq(md) {
+            font-size: fs(300);
+        }
     }
 
     &__fans-number {
@@ -243,6 +247,11 @@
 
     @include mq(md) {
         --items-per-view: 2;
+        --carousel-gap: #{size(20)};
+
+        &__arrows {
+            gap: size(10);
+        }
 
         &:has(&__card--vibe) {
             .vibe__icon {

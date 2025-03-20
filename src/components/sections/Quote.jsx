@@ -1,8 +1,17 @@
+import { animateScroll } from 'react-scroll';
+
 export default function Quote({ mainText, primaryWords, author }) {
   const words = mainText.split(' ');
 
+  const scrollToTop = () => {
+    animateScroll.scrollToTop({
+      duration: 600,
+      smooth: true,
+    });
+  };
+
   return (
-    <section className="section pt-80 text-center">
+    <section className="section section--quote">
       <h4 className="text-italic">
         {words.map((word, index) => (
           <span
@@ -15,7 +24,7 @@ export default function Quote({ mainText, primaryWords, author }) {
         ))} -
         <span className="text-secondary-400"> {author}</span>
       </h4>
-      <i className="arrow-top icon-arrow-up"></i>
+      <i className="arrow-top icon-arrow-up" onClick={scrollToTop}></i>
     </section>
   );
 }

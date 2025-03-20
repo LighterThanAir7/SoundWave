@@ -156,7 +156,11 @@ export default function Carousel({ data, cardType }) {
         onMouseMove={handleDragging}
         onMouseUp={handleDragStop}
       >
-        {data.map((item, index) => renderCard(item, index))}
+        {data.length > 0 ? (
+          data.map((item, index) => renderCard(item, index))
+        ) : (
+          <p>There are currently no test songs available. Import some songs first.</p>
+        )}
       </div>
     </>
   );

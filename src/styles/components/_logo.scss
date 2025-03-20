@@ -16,4 +16,14 @@
   .icon-logo {
     font-size: fs(600);
   }
+
+  @include mq(md) {
+    &__text {
+      display: none;
+    }
+
+    .icon-logo {
+      font-size: fs(450);
+    }
+  }
 }

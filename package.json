@@ -32,6 +32,7 @@
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.25.1",
+    "react-scroll": "^1.9.3",
     "sass": "^1.77.8",
     "tinycolor2": "^1.6.0",
     "uuid": "^11.0.3"

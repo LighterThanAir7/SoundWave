@@ -1,5 +1,6 @@
-import { useRef } from "react";
-import {usePlayer} from "../../context/PlayerContext.jsx";
+import { useRef, useEffect } from "react";
+import { usePlayer } from "../../context/PlayerContext.jsx";
+
 export default function PlayerVolumeBar() {
   const {
     toggleVolumeBar,
@@ -10,6 +11,26 @@ export default function PlayerVolumeBar() {
 
   const volumeBarRef = useRef(null);
   const volumeIconRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        showVolumeBar &&
+        volumeBarRef.current &&
+        !volumeBarRef.current.contains(event.target) &&
+        volumeIconRef.current &&
+        !volumeIconRef.current.contains(event.target)
+      ) {
+        toggleVolumeBar();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showVolumeBar, toggleVolumeBar]);
 
   return (
     <div className="relative">

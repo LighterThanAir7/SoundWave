@@ -80,7 +80,7 @@ export default function SongUpload() {
     <div>
       <form onSubmit={handleSingleUpload}>
         <h3>Single Song Upload</h3>
-        <div>
+        <div className="mb-24">
           <input
             type="file"
             accept=".mp3"
@@ -88,6 +88,7 @@ export default function SongUpload() {
             disabled={uploading}
           />
           <button
+            className="btn btn--primary d-inline-block"
             type="submit"
             disabled={!selectedSingleFile || uploading}
           >
@@ -108,6 +109,7 @@ export default function SongUpload() {
             disabled={uploading}
           />
           <button
+            className="btn btn--primary d-inline-block"
             type="submit"
             disabled={!selectedBatchFiles || uploading}
           >

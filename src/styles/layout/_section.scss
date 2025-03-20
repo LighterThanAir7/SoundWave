@@ -34,4 +34,12 @@
     &__desc {
         color: var(--clr-neutral-200);
     }
+
+    @include mq(md) {
+        margin-bottom: size(48);
+
+        &__header {
+            margin-bottom: size(20);
+        }
+    }
 }

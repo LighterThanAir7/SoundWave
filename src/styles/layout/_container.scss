@@ -1,7 +1,15 @@
 @use "../abstract" as *;
 
 .container {
-  width: 80%;
+  max-width: 1440px;
   padding-inline: size(40);
   margin-inline: auto;
+
+  @include mq(md) {
+    padding-inline: size(20);
+  }
+
+  @include mq(sm) {
+    padding-inline: size(12);
+  }
 }

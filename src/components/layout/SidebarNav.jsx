@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 
-export default function SidebarNav({ toggleCollapse }) {
+export default function SidebarNav({ toggleCollapse, isCollapsed  }) {
   const location = useLocation();
 
   return (
@@ -36,7 +36,8 @@ export default function SidebarNav({ toggleCollapse }) {
         role="button"
         onClick={toggleCollapse}
       >
-        <i className="icon-heart_outline"></i><span>Collapse</span>
+        <i className={isCollapsed ? "icon-expand-right-line" : "icon-collapse-left-line"}></i>
+        <span>{isCollapsed ? "Expand" : "Collapse"}</span>
       </a>
     </nav>
   );

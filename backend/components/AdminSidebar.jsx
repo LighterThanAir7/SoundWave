@@ -37,7 +37,8 @@ export default function AdminSidebar () {
   return (
     <aside className="admin-sidebar">
       <div className="admin-sidebar__logo">
-        <img src={adminLogo} alt=""/>
+        <i className="icon-logo"></i>
+        <span className="admin-sidebar__logo-text">SoundWave</span>
       </div>
       <nav className="admin-sidebar__nav-primary">
         {navItems.map((item) => (

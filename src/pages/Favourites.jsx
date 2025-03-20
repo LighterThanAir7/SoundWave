@@ -14,17 +14,20 @@ export default function Favourites () {
       <Sidebar/>
       <Topbar />
       <div className="content-wrapper">
-        <main className="content-wrapper__inner">
+        <main>
           <SoundwaveContainer/>
           <FavouritesHeader/>
-          <PlaylistsYoullLove/>
-          <Artists/>
-          <YouMightLove/>
-          <Quote
-            mainText="Music is enough for a lifetime but a lifetime is not enough for music"
-            primaryWords={['Music', 'lifetime']}
-            author="Sergei Rachmaninoff"
-          />
+          <div className="content-wrapper__inner z-2 relative">
+            <PlaylistsYoullLove title="Playlists"/>
+            <Artists/>
+            <YouMightLove title="Podcasts"/>
+            <Quote
+              mainText="Music is enough for a lifetime but a lifetime is not enough for music"
+              primaryWords={['Music', 'lifetime']}
+              author="Sergei Rachmaninoff"
+            />
+          </div>
+
           <Footer type="large" />
         </main>
         <Footer type="bottom" footerClass="footer--adjust"/>

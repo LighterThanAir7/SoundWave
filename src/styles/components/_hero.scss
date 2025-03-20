@@ -1,58 +1,116 @@
 @use "../abstract" as *;
 
 .hero {
-  @include d-flex($ai: center, $g: size(96));
-  margin-bottom: size(96);
+    @include d-flex($ai: center, $g: size(96));
+    margin-bottom: size(96);
 
-  &__content {
-    flex-basis: 60%;
-  }
-
-  &__title {
-    text-transform: uppercase;
-    margin-bottom: size(24);
-  }
-
-  &__text {
-    font-size: fs(350);
-    font-weight: $fw-500;
-    margin-bottom: size(40);
-    max-width: 50ch;
-  }
-
-  &__cta {
-    @include d-flex($ai: center, $g: size(16));
-    position: relative;
-
-    &:before {
-      position: absolute;
-      content: "";
-      top: 50%;
-      transform: translateY(-50%);
-      width: 10rem;
-      height: 0.625rem;
-      background: linear-gradient(to right, transparent, var(--clr-primary-300));
-      border-top-right-radius: 1rem;
-      border-bottom-right-radius: 1rem;
-      right: calc(100% + 2rem);
+    &__content {
+        flex-basis: 60%;
     }
 
-    &-text {
-      font-size: fs(350);
-      color: var(--clr-primary-500);
+    &__title {
+        text-transform: uppercase;
+        margin-bottom: size(24);
     }
-  }
 
-  &__images {
-    @include d-flex($ai: center, $g: size(16));
-    flex-basis: 40%;
-  }
-
-  &__image {
-    max-height: 38rem;
-
-    &--secondary {
-      max-height: 30rem;
+    &__text {
+        font-size: fs(350);
+        font-weight: $fw-500;
+        margin-bottom: size(40);
+        max-width: 50ch;
     }
-  }
+
+    &__cta {
+        @include d-flex($ai: center, $g: size(16));
+        position: relative;
+
+        &:before {
+            position: absolute;
+            content: "";
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10rem;
+            height: 0.625rem;
+            background: linear-gradient(to right, transparent, var(--clr-primary-300));
+            border-top-right-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            right: calc(100% + 2rem);
+        }
+
+        &-text {
+            font-size: fs(350);
+            color: var(--clr-primary-500);
+        }
+    }
+
+    &__images {
+        @include d-flex($ai: center, $g: size(16));
+        flex-basis: 40%;
+    }
+
+    &__image {
+        max-height: 38rem;
+        transition: scale 0.5s ease;
+        width: 100%;
+
+        &:hover {
+            scale: 1.05;
+        }
+
+        &--secondary {
+            width: 90%;
+            max-height: 30rem;
+        }
+    }
+
+    @include mq(xl) {
+        gap: size(64)
+    }
+
+    @include mq(lg) {
+        gap: size(40);
+        flex-direction: column;
+        text-align: center;
+        margin-top: size(32);
+
+        &__text {
+            max-width: unset;
+            margin-bottom: size(24);
+        }
+
+        &__cta {
+            justify-content: center;
+            &::before {
+                display: none;
+            }
+
+            &-text {
+                display: none;
+            }
+        }
+
+        &__image {
+            max-height: 25rem;
+
+            &--secondary {
+                width: 100%;
+            }
+        }
+
+        &__images {
+            gap: 0;
+        }
+    }
+
+    @include mq(md) {
+        &__text {
+            font-size: fs(300);
+        }
+    }
+
+    @include mq(sm) {
+        &__image {
+            max-height: 20rem;
+        }
+    }
 }

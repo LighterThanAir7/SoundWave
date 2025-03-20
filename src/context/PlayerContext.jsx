@@ -244,6 +244,7 @@ export function PlayerProvider({ children }) {
   };
 
   const handleDownload = async (song) => {
+    console.log(song)
     if (!song) return;
     const filename = `${song.artist} - ${song.title}.${song.file_format}`;
 
@@ -252,19 +253,39 @@ export function PlayerProvider({ children }) {
         responseType: 'blob'
       });
 
-      const blob = new Blob([response.data], { type: `audio/${song.file_format}` });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      if (response && response.data) {
+        const blob = new Blob([response.data], { type: `audio/${song.file_format}` });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error('Empty response data:', response);
+        // Handle the case where response or response.data is undefined
+      }
     } catch (error) {
       console.error('Error downloading:', error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2XX
+        console.log("Error data:", error.response.data);
+        console.log("Error status:", error.response.status);
+        console.log("Error headers:", error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log("Error request:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error message:', error.message);
+      }
+      console.log(error.config);
     }
   };
+
 
   const showControlMessage = (message) => {
     setControlMessage(message);

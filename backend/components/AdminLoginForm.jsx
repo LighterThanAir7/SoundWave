@@ -56,7 +56,7 @@ export default function AdminLoginForm() {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="form form--admin-login" onSubmit={handleSubmit}>
       {error && <div className="error-message">{error}</div>}
 
       <FormInput

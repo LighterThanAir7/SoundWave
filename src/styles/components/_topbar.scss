@@ -110,6 +110,7 @@
     &__profile-icon {
         border-radius: 50%;
         width: 2.25rem;
+        min-width: 2.25rem;
     }
 
     &__profile-name {
@@ -120,5 +121,31 @@
         height: 1.5rem;
         width: 1px;
         background-color: var(--clr-neutral-400);
+    }
+
+    @include mq(md) {
+        &__search {
+            width: 100%;
+            margin-right: size(16);
+
+            &-menu {
+                left: -80px;
+                width: 90vw;
+            }
+        }
+
+        &__profile-name {
+            display: none;
+        }
+
+        &__form {
+            > .icon-search {
+                display: none;
+            }
+        }
+
+        .btn-logout {
+            display: none;
+        }
     }
 }

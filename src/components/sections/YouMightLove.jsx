@@ -44,10 +44,10 @@ const mightLoveData = [
   }
 ];
 
-export default function YouMightLove () {
+export default function YouMightLove ({ title = "You Might Love" }) {
   return (
     <section className="section">
-      <SectionHeader title="You Might Love" />
+      <SectionHeader title={title} />
       <Carousel data={mightLoveData} cardType="text"/>
     </section>
   )

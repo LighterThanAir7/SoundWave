@@ -17,10 +17,10 @@ $sidebar-collapsed-width: 64px;
 
     &__logo {
         @include d-flex($d: column, $ai: center, $g: size(8));
-        font-size: fs(400);
+        font-size: fs(300);
         font-weight: $fw-600;
         transition: all .3s ease-out;
-        margin-bottom: size(24);
+        margin-bottom: size(16);
 
         &:hover {
             text-shadow: 0 0 4px var(--clr-primary-700);
@@ -28,7 +28,7 @@ $sidebar-collapsed-width: 64px;
         }
 
         .icon-logo {
-            font-size: fs(750);
+            font-size: fs(550);
         }
     }
 
@@ -268,7 +268,11 @@ $sidebar-collapsed-width: 64px;
 
     .topbar {
         width: calc(100% - #{$sidebar-collapsed-width});
-        padding-left: size(28);
+        padding-left: size(16);
+
+        .topbar__search-menu {
+            left: -16px;
+        }
     }
 
     .footer--adjust-for-sidebar {
