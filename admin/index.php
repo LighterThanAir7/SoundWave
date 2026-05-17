@@ -42,9 +42,6 @@ echo '<!DOCTYPE html>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" />
-    
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="css/style.css?v=' .filemtime('css/style.css').'">
 
     <!-- jQuery -->
     <script src="js/jquery-3.6.0.min.js"></script>
@@ -58,31 +55,6 @@ echo '<!DOCTYPE html>
 
     <!-- Font Awesome JS -->
     <script defer src="js/all.min.js"></script>
-
-    <!-- Fullcalendar-scheduler -->
-    <link rel="stylesheet" href="lib/main.css" />
-    <script src="lib/main.js"></script>
-
-    <!-- EditorJS CSS -->
-    <link rel="stylesheet" href="css/editorjs.css?v='.filemtime('css/editorjs.css').'">
-
-    <!-- EditorJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-
-    <!-- EditorJS Plugins CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/attaches@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script>
-
-    <!-- EditorJS Plugins CUSTOM -->
-    <link rel="stylesheet" href="js/editorjs/plugins/spacer/index.css" /> 
-    <script src="js/editorjs/plugins/spacer/index.js"></script>     
 </head>
 
 <body>';
@@ -101,7 +73,4 @@ echo '
     <!-- Custom JS -->
     <script defer src="js/script.js?v='.filemtime("js/script.js").'"></script>   
 </body>
-
 </html>';
-
-?>
