@@ -68,9 +68,9 @@ function GetSectionCarouselWithTitles($folder_path, $title): void
 
 function GetSectionCarousel($folder_path, $title, $multiple_information, $song_name = null, $artist = null, $released = null, $description = null, $play = null, $text_over_img_centered = null, $rounded = null): void
 {
-//	echo '<pre>';
-//	print_r($folder_path);
-//	echo '</pre>';
+	echo '<pre>';
+	print_r($folder_path);
+	echo '</pre>';
 	$files = scandir($folder_path);
 	$files = array_diff($files, array('.', '..'));
 	$files = array_values($files);

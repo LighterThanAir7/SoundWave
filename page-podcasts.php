@@ -38,10 +38,10 @@ echo '
 		$podcasts_categories_data = getCategoryDataFromClass("PodcastCategories");
 		GetCardWtihTextCarousel($podcasts_categories_data, "Categories");
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/podcasts-page/you-might-love";
+		$folderPath = SITE_URL."img/podcasts-page/you-might-love";
 		GetSectionCarouselWithTitles($folderPath, "You Might Love");
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/podcasts-by-duration";
+		$folderPath = SITE_URL."img/podcasts-by-duration";
 		$playlist_categories_names = ["< 10 min>", "≈ 20 min", "≈ 30 min", "≈ 60 min", "> 2 h"];
 
 		GetSectionCarousel($folderPath, "Podcasts by Duration",

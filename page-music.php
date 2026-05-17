@@ -42,7 +42,7 @@ echo '
 			</ul>
 		</section>';
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/made-for-you";
+		$folderPath = SITE_URL."img/made-for-you";
 		$made_for_you = [
 			"Ft. Richard Durand, Dash Berlin, Ciaran McAuley, Sue Mclaren",
 			"Ft. Susana, JES, Roman Messer, Stine Grove",
@@ -58,7 +58,7 @@ echo '
 		];
 		GetSectionCarousel($folderPath,"Made For You", multiple_information: false, description: $made_for_you, play: true);
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/recently-played";
+		$folderPath = SITE_URL."img/recently-played";
 		$recently_played_song_names = ["Yearmix 2020", "Crystalize", "Kad Bi Se Moga Rodit", "Big Mouth Strikes Again", "Kiss Me, Kiss Me, Kiss Me", "Female Vocal Trance Anthems", "Every You Every Me", "Lighter Than Air", "Tuvan", "I Would've Stayed"];
 		$recently_played_artists = ["Aurosonic", "Stargazes & Fenna Day", "Hari Rončević", "The Smiths", "The Cure", "Various Artists", "Placebo", "Marlo, Feenixpawl", "Gaia", "Aurosonic"];
 		$recently_played_released_on = ["25/12/2020", "01/11/2019", "10/04/2011", "06/16/1986", "01/01/1987", "06/29/2015", "10/12/1998", "04/26/2019", "11/02/2009", "07/31/2020"];
@@ -72,7 +72,7 @@ echo '
 
 
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/playlists-you'll-love";
+		$folderPath = SITE_URL."img/playlists-you'll-love";
 		$playlists_you_ll_love_song_names = ["A State Of Trance Year Mix 2015", "Female Vocal Trance 2022", "Behind The Horizon", "Trance Top 1000 Selection, Vol.41", "Best of Uplifting Vocal Trance 2018", "Female Vocal Trance Anthems", "1 Year Suanda", "Progressive Hits, Vol. 1", "Beautiful Vocal Trance - Chapter 4", "A State Of Trance Episode 807"];
 		$playlists_you_ll_love_artists = ["Armin van Buuren", "Various Artists", "Costa", "Various Artists", "Various Artists", "Various Artists", "Various Artists", "Various Artists", "Various Artists", "Armin van Buuren ASOT Radio"];
 		$playlists_you_ll_love_released_on = ["12/18/2015", "03/04/2022", "11/19/2021", "07/15/2016", "09/07/2018", "06/29/2015", "05/05/2014", "03/13/2017", "10/18/2019", "03/30/2017"];
@@ -100,7 +100,7 @@ echo '
 	
 		</section>';
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/new-releases-for-you";
+		$folderPath = SITE_URL."img/new-releases-for-you";
 		$new_releases_for_you_song_names = ["Starts Right Now", "Don’t You Worry", "Supernova", "Life Is Yours", "The Phoenix", "Data Renaissance", "Scoring The End Of The World", "New Mythology", "C’MON YOU KNOW (Deluxe Edition)", "Warm Chris"];
 		$new_releases_for_you_artists = ["Chasner", "The Black Eyed Peas", "Nova Twins", "Foals", "Grey Daze", "The Algorithm", "Motionless In White", "Nick Mulvey", "Liam Gallagher", "Aldous Harding"];
 		$new_releases_for_you_released_on = ["17/06/2022", "19/06/2022", "21/06/2022", "14/06/2022", "17/06/2022", "03/06/2022", "10/06/2022", "10/06/2022", "27/05/2022", "01/01/2021"];
@@ -115,7 +115,7 @@ echo '
 		$podcasts_categories_data = getCategoryDataFromClass("PlaylistCategories");
 		GetCardWtihTextCarousel($podcasts_categories_data, "Playlist Categories");
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/artists";
+		$folderPath = SITE_URL."img/artists";
 		$artists_names = ["Nirvana", "Deep Purple", "ATB", "Paul van Dyk", "Dash Berlin", "Above & Beyond", "Iron Maiden", "ABBA", "Guns N’ Roses", "AC/DC"];
 		$artists_number_of_fans = ["8,512,857", "1,522,146", "285,558", "426,957", "427,999", "282,796", "3,044,857", "2,211,472", "7,122,211", "8,277,607"];
 

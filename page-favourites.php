@@ -119,7 +119,7 @@ echo '
 			</ul>
 		</section>';
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/playlists-you'll-love";
+		$folderPath = SITE_URL."img/playlists-you'll-love";
 		$playlists_you_ll_love_song_names = ["A State Of Trance Year Mix 2015", "Female Vocal Trance 2022", "Behind The Horizon", "Trance Top 1000 Selection, Vol.41", "Best of Uplifting Vocal Trance 2018", "Female Vocal Trance Anthems", "1 Year Suanda", "Progressive Hits, Vol. 1", "Beautiful Vocal Trance - Chapter 4", "A State Of Trance Episode 807"];
 		$playlists_you_ll_love_artists = ["Armin van Buuren", "Various Artists", "Costa", "Various Artists", "Various Artists", "Various Artists", "Various Artists", "Various Artists", "Various Artists", "Armin van Buuren ASOT Radio"];
 		$playlists_you_ll_love_released_on = ["12/18/2015", "03/04/2022", "11/19/2021", "07/15/2016", "09/07/2018", "06/29/2015", "05/05/2014", "03/13/2017", "10/18/2019", "03/30/2017"];
@@ -131,7 +131,7 @@ echo '
 			released: $playlists_you_ll_love_released_on
 		);
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/artists";
+		$folderPath = SITE_URL."img/artists";
 		$artists_names = ["Nirvana", "Deep Purple", "ATB", "Paul van Dyk", "Dash Berlin", "Above & Beyond", "Iron Maiden", "ABBA", "Guns N’ Roses", "AC/DC"];
 		$artists_number_of_fans = ["8,512,857", "1,522,146", "285,558", "426,957", "427,999", "282,796", "3,044,857", "2,211,472", "7,122,211", "8,277,607"];
 
@@ -142,7 +142,7 @@ echo '
 			rounded: "border-circle"
 		);
 
-		$folderPath = $_SERVER['DOCUMENT_ROOT']."/soundwave.loc/public_html/img/podcasts-page/you-might-love";
+		$folderPath = SITE_URL."img/podcasts-page/you-might-love";
 		GetSectionCarouselWithTitles($folderPath, "You Might Love");
 
 		echo '
