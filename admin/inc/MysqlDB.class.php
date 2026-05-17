@@ -12,10 +12,10 @@ class MysqlDB
     static private $instance_MysqlDB = null;
     public $link;
     
-    private $dbhost	     = 'localhost';
-    private $dbuser 	 = 'root';
-    private $dbpassword  = '';
-    private $db 		 = 'soundwave_loc';
+    private $dbhost	     = 'soundwave-v2-db';
+    private $dbuser 	 = 'soundwave';
+    private $dbpassword  = 'soundwave';
+    private $db 		 = 'soundwave_v2';
     private $dbcollation = "utf8"; // latin2
     
     /**************************************************************************/ 

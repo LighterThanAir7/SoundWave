@@ -64,7 +64,7 @@ class Songs {
 			{
 				foreach ($row as $key => $val)
 				{
-					$row[$key] = stripslashes($val);
+                    $row[$key] = stripslashes($val ?? '');
 				}
 			}
 			$id 					= $row["id"];
@@ -182,7 +182,7 @@ class Songs {
 
 				foreach ($genre_array as $genreName) {
 					$insert_vars = array();
-					$genreId = $this->getGenreIdFromName(1, $genreName);
+					$genreId = $this->getGenreIdFromName($genreName);
 					$insert_vars["song_id"] = $songId;
 					$insert_vars["genre_id"] = $genreId;
 					$db->InsertQuery("song_genre", $insert_vars);
@@ -190,7 +190,7 @@ class Songs {
 
 				foreach ($collaborating_artists as $artistName) {
 					$insert_vars = array();
-					$artistId = $this->getArtistIdFromName(1, $artistName);
+					$artistId = $this->getArtistIdFromName($artistName);
 					$insert_vars["song_id"] = $songId;
 					$insert_vars["artist_id"] = $artistId;
 					$db->InsertQuery("collaborating_artists", $insert_vars);
@@ -209,7 +209,7 @@ class Songs {
 	 * @param $genre_name
 	 * @return null
 	 */
-	public function getGenreIdFromName($status = 1, $genre_name) {
+	public function getGenreIdFromName($genre_name, $status = 1) {
 		$db = MysqlDB::getInstance();
 		$query = "SELECT music_genres.id, 
        		music_genres.status,
@@ -234,7 +234,7 @@ class Songs {
 	 * @param $artist_name
 	 * @return null
 	 */
-	public function getArtistIdFromName($status = 1, $artist_name) {
+	public function getArtistIdFromName($artist_name, $status = 1) {
 		$db = MysqlDB::getInstance();
 		$query = "SELECT artists.id, 
        		artists.status,

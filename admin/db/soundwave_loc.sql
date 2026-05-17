@@ -18,11 +18,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `soundwave_loc`
+-- Database: `soundwave_v2`
 --
 
-CREATE DATABASE IF NOT EXISTS `soundwave_loc` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `soundwave_loc`;
+CREATE DATABASE IF NOT EXISTS `soundwave_v2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `soundwave_v2`;
 
 -- --------------------------------------------------------
 
