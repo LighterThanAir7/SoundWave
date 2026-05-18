@@ -1,0 +1,10 @@
+:80 {
+    # Definiramo gdje se nalaze izgrađene statične datoteke unutar kontejnera
+    root * /usr/share/caddy
+
+    # Omogućujemo file server
+    file_server
+
+    # SPA Routing: Ako datoteka ne postoji, Caddy je preusmjerava na index.html
+    try_files {path} /index.html
+}

@@ -1,8 +1,9 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 import pool from "../db/db.js";
 
 import {
+  createSuperAdminModel,
   getAdminByEmail,
   getUserByEmail,
 } from "../models/authModel.js";
@@ -56,64 +57,66 @@ export const createSuperAdmin = async (req, res) => {
 
 export const adminLogin = async (req, res) => {
   try {
+    console.log("--- START LOGIN TEST ---");
     const { email, password, remember_me } = req.body;
 
-    // Validate input
+    console.log("1. Provjera unosa podataka...");
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password are required" });
     }
 
-    // Get JWT secrets
+    console.log("2. Dohvaćam API ključeve i JWT postavke...");
     const { jwtSecret, jwtRefreshSecret } = await validateApiKeys();
     if (!jwtSecret || !jwtRefreshSecret) {
       return res.status(500).json({ message: "Authentication system error" });
     }
 
-    // Get user from database
+    console.log("3. Tražim admina u bazi podataka...");
     const user = await getAdminByEmail(email);
+    console.log("4. Korisnik iz baze pronađen:", !!user);
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Verify password
+    console.log("5. OPASNA ZONA: Pokrećem bcrypt.compare...");
     const validPassword = await bcrypt.compare(password, user.password);
+    console.log("6. Bcrypt uspješan! Rezultat lozinke:", validPassword);
+
     if (!validPassword) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Generate tokens
+    console.log("7. Generiram tokene...");
     const accessToken = jwt.sign(
-      {
-        userId: user.id,
-        email: user.email,
-        role: user.id_type
-      },
-      jwtSecret,
-      { expiresIn: '30m' }
+        { userId: user.id, email: user.email, role: user.id_type },
+        jwtSecret,
+        { expiresIn: '30m' }
     );
 
     const refreshToken = jwt.sign(
-      { userId: user.id },
-      jwtRefreshSecret,
-      { expiresIn: remember_me ? '7d' : '24h' }
+        { userId: user.id },
+        jwtRefreshSecret,
+        { expiresIn: remember_me ? '7d' : '24h' }
     );
 
-    // Set refresh token in HTTP-only cookie
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: remember_me ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000, // 7 days or 24 hours
-      path: '/api/auth/refresh' // Restrict cookie to refresh endpoint
+      maxAge: remember_me ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
+      path: '/api/auth/refresh'
     });
 
-    // Store refresh token hash in database and update last_login
+    console.log("8. Hashing refresh tokena...");
     const refreshTokenHash = await bcrypt.hash(refreshToken, 10);
+
+    console.log("9. Upisujem novi token u bazu...");
     await pool.query(
-      "UPDATE users SET refresh_token = ?, last_login = NOW() WHERE id = ?",
-      [refreshTokenHash, user.id]
+        "UPDATE users SET refresh_token = ?, last_login = NOW() WHERE id = ?",
+        [refreshTokenHash, user.id]
     );
 
+    console.log("10. Sve prošlo super, šaljem odgovor!");
     res.json({
       message: "Login successful",
       accessToken,
@@ -126,7 +129,7 @@ export const adminLogin = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('UHVAĆENA GREŠKA U CATCH BLOKU:', error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

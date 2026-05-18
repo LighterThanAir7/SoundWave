@@ -5,11 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['@hello-pangea/dnd']
+    // Uključujemo oba paketa koja rade probleme s CommonJS uvozom
+    include: ['@hello-pangea/dnd', 'react-helmet-async']
   },
   build: {
     commonjsOptions: {
-      include: [/@hello-pangea\/dnd/]
+      // Regularnim izrazom obuhvaćamo oba paketa unutar node_modules
+      include: [/@hello-pangea\/dnd/, /react-helmet-async/, /node_modules/]
     }
   }
 })

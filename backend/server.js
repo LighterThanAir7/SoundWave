@@ -30,17 +30,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: "http://localhost:5173", // React frontend URL
+  origin: "http://localhost:8084",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  exposedHeaders: ["Content-Length", "X-Foo", "X-Bar"],
-  preflightContinue: false,
-  optionsSuccessStatus: 204
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  optionsSuccessStatus: 200 // Neki preglednici (poput Firefoxa) traže 200 umjesto 204 za preflight zahtjeve
 }));
 
 // Routes
 app.use("/api/auth", authRoutes);
+// Privremena ruta za test mrežne veze
+app.get('/api/ping', (req, res) => {
+  res.json({ message: "Mreža i CORS rade savršeno!" });
+});
 app.use('/api/upload', uploadRoutes);
 app.use('/api', songRoutes);
 app.use('/api', artistRoutes);
@@ -50,7 +52,7 @@ app.use('/api', userRoutes);
 app.use('/api', playlistRoutes);
 app.use('/api', genreRoutes)
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// Expressu prosljeđujemo i port i mrežnu adresu 0.0.0.0
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });
