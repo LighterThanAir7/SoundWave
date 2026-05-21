@@ -137,8 +137,8 @@ export function PlayerProvider({ children }) {
       setNextSong(currentIndex < queue.length - 1 ? queue[currentIndex + 1] : null);
     }
 
-    // Nastavite s reprodukcijom pjesme
-    audioRef.current.src = `/uploads/songs/${song.file_path}`;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+    audioRef.current.src = `${baseUrl}/uploads/songs/${song.file_path}`;
     audioRef.current.play();
     setCurrentSong(song);
     setIsPlaying(true);

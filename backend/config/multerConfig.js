@@ -8,12 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 // Get absolute path to project root (ES6 version)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const projectRoot = path.join(__dirname, '../../');
+const backendRoot = path.resolve(__dirname, '../');
+
+export const UPLOAD_BASE_DIR = path.join(backendRoot, 'uploads');
 
 const getUploadDir = (filename) => {
   // Get first letter of filename and create path
   const firstLetter = filename.charAt(0).toLowerCase();
-  const baseDir = path.join(projectRoot, 'uploads/songs', firstLetter);
+  const baseDir = path.join(UPLOAD_BASE_DIR, 'songs', firstLetter);
 
   // Create letter directory if it doesn't exist
   if (!fs.existsSync(baseDir)) {
@@ -83,7 +85,7 @@ export const uploadSong = multer({
 // Add playlist image storage configuration
 const playlistStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = path.join(projectRoot, 'uploads/playlists');
+    const uploadDir = path.join(UPLOAD_BASE_DIR, 'playlists');
 
     // Create directory if it doesn't exist
     if (!fs.existsSync(uploadDir)) {

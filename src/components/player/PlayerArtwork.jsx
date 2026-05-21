@@ -14,7 +14,8 @@ export default function PlayerArtwork() {
     if (imagePath.startsWith('/src/assets')) {
       return imagePath;
     }
-    return `/uploads/songs/${imagePath}`;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+    return `${baseUrl}/uploads/songs/${imagePath}`;
   };
 
   return (

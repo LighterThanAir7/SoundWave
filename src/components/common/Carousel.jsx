@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
+
 // import VibeItems from "../sections/VibeItems.jsx";
 
 export default function Carousel({ data, cardType }) {
@@ -64,7 +65,10 @@ export default function Carousel({ data, cardType }) {
     if (imagePath.startsWith('/src/assets')) {
       return imagePath;
     }
-    return `/uploads/songs/${imagePath}`;
+
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
+    return `${baseUrl}/uploads/songs/${imagePath}`;
   };
 
   const renderCard = (data, index) => {

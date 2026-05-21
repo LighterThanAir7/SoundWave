@@ -29,8 +29,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+const allowedOrigins = ["http://localhost:8084", "http://localhost:5173"];
+
 app.use(cors({
-  origin: "http://localhost:8084",
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, or server-to-server)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
@@ -39,10 +50,6 @@ app.use(cors({
 
 // Routes
 app.use("/api/auth", authRoutes);
-// Privremena ruta za test mrežne veze
-app.get('/api/ping', (req, res) => {
-  res.json({ message: "Mreža i CORS rade savršeno!" });
-});
 app.use('/api/upload', uploadRoutes);
 app.use('/api', songRoutes);
 app.use('/api', artistRoutes);
@@ -51,6 +58,9 @@ app.use('/api/favorites', favouritesRoutes);
 app.use('/api', userRoutes);
 app.use('/api', playlistRoutes);
 app.use('/api', genreRoutes)
+
+// Static routes
+app.use('/uploads', express.static('uploads'));
 
 // Expressu prosljeđujemo i port i mrežnu adresu 0.0.0.0
 app.listen(PORT, "0.0.0.0", () => {

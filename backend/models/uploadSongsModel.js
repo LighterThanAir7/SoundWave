@@ -2,6 +2,7 @@ import pool from "../db/db.js";
 import path from "path";
 import fs from 'fs';
 import fsPromises from "fs/promises";
+import { UPLOAD_BASE_DIR } from '../config/multerConfig.js';
 
 export const insertSongMetadata = async (metadata) => {
   const connection = await pool.getConnection();
@@ -248,59 +249,51 @@ const insertSynchronisedLyrics = async (connection, songId, syncLyrics) => {
 };
 
 const saveArtwork = async (songPath, songId, imageData) => {
-  if (!imageData || !imageData.imageBuffer) return null;
+    if (!imageData || !imageData.imageBuffer) return null;
 
-  const mimeToExt = {
+    const mimeToExt = {
     'image/jpeg': '.jpg',
     'image/png': '.png',
     'image/gif': '.gif',
     'image/webp': '.webp'
-  };
-
-  try {
-    const extension = mimeToExt[imageData.mime] || '.jpg';
-
-    // Dobivanje apsolutne putanje do uploads/songs direktorija
-    const projectRoot = path.join(process.cwd(), '../');
-
-    // Koristimo isti princip kao u multerConfig za određivanje putanje
-    const firstLetter = path.basename(songPath).charAt(0).toLowerCase();
-    const baseDir = path.join(projectRoot, 'uploads/songs', firstLetter);
-
-    // Osiguraj da direktorij postoji
-    if (!fs.existsSync(baseDir)) {
-      await fsPromises.mkdir(baseDir, { recursive: true });
-    }
-
-    // Određivanje subdirektorija (isto kao u multerConfig)
-    const files = fs.readdirSync(baseDir);
-    const subDirIndex = Math.floor(files.length / 1000);
-    const subDir = path.join(baseDir, subDirIndex.toString());
-
-    // Osiguraj da subdirektorij postoji
-    if (!fs.existsSync(subDir)) {
-      await fsPromises.mkdir(subDir, { recursive: true });
-    }
-
-    // Kreiraj punu putanju za artwork
-    const artworkFileName = `${path.basename(songPath, path.extname(songPath))}-${songId}${extension}`;
-    const artworkPath = path.join(subDir, artworkFileName);
-
-    // Zapiši buffer u datoteku
-    await fsPromises.writeFile(artworkPath, imageData.imageBuffer);
-
-    // Vrati relativnu putanju za spremanje u bazu
-    const relativePath = path.join(firstLetter, subDirIndex.toString(), artworkFileName)
-      .replace(/\\/g, '/');
-
-    return {
-      path: relativePath,
-      mime: imageData.mime,
-      artwork_type_id: imageData.type?.id || null,
-      description: imageData.description || null
     };
-  } catch (error) {
-    console.error('Error saving artwork:', error);
-    return null;
-  }
+
+    try {
+        const extension = mimeToExt[imageData.mime] || '.jpg';
+        const songNameWithoutExt = path.basename(songPath, path.extname(songPath));
+        const firstLetter = songNameWithoutExt.charAt(0).toLowerCase();
+        const baseDir = path.join(UPLOAD_BASE_DIR, 'songs', firstLetter);
+
+        // Budući da se slike spremaju u isti numerički podfolder kao i pjesma,
+        // izbrojat ćemo samo .mp3 datoteke u tom slovnom folderu kako bismo dobili ispravan podfolder indeks
+        const files = fs.existsSync(baseDir) ? fs.readdirSync(baseDir) : [];
+        const mp3Files = files.filter(file => file.endsWith('.mp3'));
+
+        // Računanje indeksa podfoldera (0 za prvih 1000 mp3-ica, 1 za sljedećih 1000, itd.)
+        const subDirIndex = Math.floor(mp3Files.length / 1000).toString();
+        const subDir = path.join(baseDir, subDirIndex);
+
+        if (!fs.existsSync(subDir)) {
+            await fsPromises.mkdir(subDir, { recursive: true });
+        }
+
+        const artworkFileName = `${songNameWithoutExt}-${songId}${extension}`;
+        const artworkPath = path.join(subDir, artworkFileName);
+
+        await fsPromises.writeFile(artworkPath, imageData.imageBuffer);
+
+        // Vrati relativnu putanju za spremanje u bazu (npr. m/0/ime-slike.jpg)
+        const relativePath = path.join(firstLetter, subDirIndex, artworkFileName)
+            .replace(/\\/g, '/');
+
+        return {
+            path: relativePath,
+            mime: imageData.mime,
+            artwork_type_id: imageData.type?.id || null,
+            description: imageData.description || null
+        };
+    } catch (error) {
+        console.error('Error saving artwork:', error);
+        return null;
+    }
 };
